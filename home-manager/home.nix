@@ -22,9 +22,11 @@
   home.packages = with pkgs; [
     alacritty     # Emulador de terminal
     fuzzel        # Lanzador de aplicaciones por defecto
+    zed		  # IDE
     brave 	  # Navegador
     nautilus      # El gestor de archivos (GNOME Files)
     file-roller   # Para extraer zips/rars desde Nautilus
+    htop   	  # Ver procesos
     tree	  # Mostrar el contenido de un directorio
     localsend     # Enviar archivos locales
     pokeget-rs    # Pokemones en terminal
