@@ -29,6 +29,8 @@
     brave 	  # Navegador
     nautilus      # El gestor de archivos (GNOME Files)
     file-roller   # Para extraer zips/rars desde Nautilus
+    mpv           # Video
+    imv           # Reemplazo de feh
     htop   	  # Ver procesos
     tree	  # Mostrar el contenido de un directorio
     localsend     # Enviar archivos locales
@@ -88,9 +90,12 @@
   # ... en home.nix ...
 
   # 1. ESTO ARREGLA BRAVE Y LE DICE AL SISTEMA QUE ES "DARK MODE"
+  # Esto es lo que le dice a Virt-Manager (GTK3) qué tema usar
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
+      gtk-theme = "catppuccin-mocha-mauve-standard+rimless"; # Nombre exacto del tema
+      icon-theme = "Papirus-Dark";
     };
   };
 
@@ -99,7 +104,7 @@
     enable = true;
 
     theme = {
-      name = "catppuccin-mocha-mauve-standard+default";
+      name = "catppuccin-mocha-mauve-standard+rimless";
       package = pkgs.catppuccin-gtk.override {
         accents = [ "mauve" ];
         size = "standard";
@@ -169,6 +174,27 @@
         selection-text = "cdd6f4ff";
         border = "cba6f7ff";     # Mauve
       };
+    };
+  };
+  #---------------------------------------------------------------------------------------
+  # apps por defecto
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      # Imágenes -> imv
+      "image/jpeg" = [ "imv.desktop" ];
+      "image/png"  = [ "imv.desktop" ];
+      "image/gif"  = [ "imv.desktop" ];
+      "image/webp" = [ "imv.desktop" ];
+      
+      # Videos -> mpv
+      "video/mp4" = [ "mpv.desktop" ];
+      "video/x-matroska" = [ "mpv.desktop" ]; # Archivos .mkv
+      "video/webm" = [ "mpv.desktop" ];
+      
+      # Opcional: Navegador y PDF
+      #"text/html" = [ "brave-browser.desktop" ];
+      #"application/pdf" = [ "brave-browser.desktop" ]; # O tu visor favorito
     };
   };
   #----------------------------------------------------------------------------------------
