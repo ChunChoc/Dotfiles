@@ -79,7 +79,64 @@
     
     # Opcional pero recomendado: Fuerza apps QT a usar Wayland también
     QT_QPA_PLATFORM = "wayland";
+    
+    # Quitarle la barra a LocalSend a la fuerza
+    GTK_CSD = "0";
   };
+ #-----------------------------------------------------------------
+  # ... en home.nix ...
+
+  # 1. ESTO ARREGLA BRAVE Y LE DICE AL SISTEMA QUE ES "DARK MODE"
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+  };
+
+  # 2. Configuración GTK mejorada
+  gtk = {
+    enable = true;
+
+    theme = {
+      name = "catppuccin-mocha-mauve-standard+default";
+      package = pkgs.catppuccin-gtk.override {
+        accents = [ "mauve" ];
+        size = "standard";
+        tweaks = [ "rimless" ];
+        variant = "mocha";
+      };
+    };
+
+    # ÍCONOS: Usamos la versión de Catppuccin para tener carpetas VIOLETAS (Mauve)
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.catppuccin-papirus-folders.override {
+        flavor = "mocha";
+        accent = "mauve";
+      };
+    };
+
+    font = {
+      name = "JetBrainsMono Nerd Font";
+      size = 11;
+    };
+
+    # Esto fuerza a Brave y apps rebeldes a usar modo oscuro
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+  };
+
+  # 3. Mantenemos el truco de Nautilus (GTK4) que ya tenías
+  xdg.configFile = {
+    "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
+    "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
+    "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
+  };
+  #-----------------------------------------------------------------------------------------------------------------------------
 
   programs.home-manager.enable = true;
   home.stateVersion = "25.11"; # O 25.05/25.11 según te diga el warning, no importa mucho en unstable
