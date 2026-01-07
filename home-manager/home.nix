@@ -22,6 +22,8 @@
   home.packages = with pkgs; [
     alacritty     # Emulador de terminal
     fuzzel        # Lanzador de aplicaciones por defecto
+    xwayland-satellite          
+    vscodium      # vscode open source
     zed-editor	  # Editor de texto
     brave 	  # Navegador
     nautilus      # El gestor de archivos (GNOME Files)
@@ -37,7 +39,7 @@
   fonts.fontconfig.enable = true;
 
   #------------------ZSH-------------------------------------------
- # 1. Habilitar starship
+  # 1. Habilitar starship
   programs.starship.enable = true;
 
   # 2. Configuración de Zsh (Reemplaza tu .zshrc)
@@ -71,6 +73,13 @@
     '';
   };
  #----------------------------------------------------------------
+  home.sessionVariables = {
+    # Fuerza a las apps GTK/Flutter (como LocalSend) a usar Wayland
+    GDK_BACKEND = "wayland";
+    
+    # Opcional pero recomendado: Fuerza apps QT a usar Wayland también
+    QT_QPA_PLATFORM = "wayland";
+  };
 
   programs.home-manager.enable = true;
   home.stateVersion = "25.11"; # O 25.05/25.11 según te diga el warning, no importa mucho en unstable
