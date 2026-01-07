@@ -11,7 +11,10 @@
     ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    configurationLimit = 3;
+  };
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
@@ -133,6 +136,14 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  # Limpiar el DISCO (Garbage Collection automática)
+  # Esto borra los archivos del sistema antiguo que ya no están en el menú
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
