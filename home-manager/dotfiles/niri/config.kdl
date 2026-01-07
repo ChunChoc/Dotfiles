@@ -336,6 +336,12 @@ window-rule {
     // Alto: 80% de la pantalla
     default-window-height { proportion 0.4; }
 }
+// Apps maximizadas
+window-rule {
+    // Asegúrate de que el app-id sea correcto (suele ser brave-browser)
+    match app-id=r#"brave-browser"#
+    open-maximized true
+}
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
