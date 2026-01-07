@@ -321,7 +321,7 @@ window-rule {
 
 // Open apps floating by default.
 window-rule {
-    match app-id=r#"localsend_app$|org\.gnome\.Nautilus"#
+    match app-id=r#"localsend_app$|org\.gnome\.Nautilus|org.quickshell"#
     open-floating true
 }
 

@@ -10,6 +10,7 @@
   xdg.configFile."niri/config.kdl".source = ./dotfiles/niri/config.kdl;
   xdg.configFile."alacritty/alacritty.toml".source = ./dotfiles/alacritty/alacritty.toml;
   xdg.configFile."starship.toml".source = ./dotfiles/starship/starship.toml;
+  xdg.configFile."DankMaterialShell/settings.json".source = ./dotfiles/DankMaterialShell/settings.json;
 
   # Gestionar dictorios automáticos (Downloads, Pictures, ...)
   xdg.userDirs = {
