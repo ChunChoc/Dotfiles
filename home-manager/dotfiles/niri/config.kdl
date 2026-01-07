@@ -325,6 +325,18 @@ window-rule {
     open-floating true
 }
 
+//virt manager flotante y pequeño
+window-rule {
+    match app-id=r#".virt-manager-wrapped"#
+    open-floating true
+
+    // Ancho: 80% de la pantalla
+    default-column-width { proportion 0.2; }
+
+    // Alto: 80% de la pantalla
+    default-window-height { proportion 0.4; }
+}
+
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
 /-window-rule {
