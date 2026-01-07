@@ -68,15 +68,19 @@
   # Habilitar DMS
   programs.dms-shell.enable = true;
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
+  # Virtualización (KVM/QEMU)
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true; # Para emular TPM (Windows 11)
+      # La sección ovmf se elimina porque ya es automática
+    };
+  }; 
 
-
-  
-
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
+  # Instala Virt-Manager y configura sus permisos
+  programs.virt-manager.enable = true;
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -95,7 +99,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.chunchoc= {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
     packages = with pkgs; [
     ];
