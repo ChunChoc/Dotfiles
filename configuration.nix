@@ -51,11 +51,13 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Habilitar entorno gráfico
-
   services.displayManager.sddm = {
     enable = true;
-    wayland.enable = true;
+    wayland.enable = true;           # Tu configuración actual (Esencial para Niri)
+    package = pkgs.kdePackages.sddm; # La versión moderna (Qt6) que pide el tema
+    theme = "catppuccin-mocha-mauve";      # El nombre debe coincidir con el "flavor" del paquete
   };
+
 
   # Hablitar zsh
   programs.zsh.enable = true;
@@ -104,11 +106,20 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
     wget
     git
-    wget
     curl
+    
+    # Tema SDDM Catppuccin
+    (catppuccin-sddm.override {
+      flavor = "mocha";
+      accent = "mauve";
+      font  = "Noto Sans";
+      fontSize = "9";
+      #background = "${./wallpaper.png}";
+      loginBackground = true;
+    })
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -142,7 +153,7 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 7d";
+    options = "--delete-older-than 3d";
   };
 
   # Copy the NixOS configuration file and link it from the resulting system
