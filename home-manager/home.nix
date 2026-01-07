@@ -139,6 +139,39 @@
   };
   #-----------------------------------------------------------------------------------------------------------------------------
 
+  #----------------------------------------fuzzel------------------------------------------
+  programs.fuzzel = {
+    enable = true;
+    settings = {
+      main = {
+        terminal = "${pkgs.alacritty}/bin/alacritty"; # La magia de Nix
+        layer = "overlay";
+        width = 30;
+        font = "JetBrainsMono Nerd Font:size=10";
+        icon-theme = "Papirus-Dark";
+        lines = 10;
+        horizontal-pad = 20;
+        vertical-pad = 20;
+        inner-pad = 10;
+      };
+      
+      border = {
+        width = 2;
+        radius = 10;
+      };
+
+      # ESTO ES LA TRADUCCIÓN EXACTA DE "fuzzel.ini" (Catppuccin Mocha)
+      colors = {
+        background = "1e1e2eff";
+        text = "cdd6f4ff";
+        match = "cba6f7ff";      # Mauve
+        selection = "585b70ff";  # Surface 2
+        selection-text = "cdd6f4ff";
+        border = "cba6f7ff";     # Mauve
+      };
+    };
+  };
+  #----------------------------------------------------------------------------------------
   programs.home-manager.enable = true;
   home.stateVersion = "25.11"; # O 25.05/25.11 según te diga el warning, no importa mucho en unstable
 }
