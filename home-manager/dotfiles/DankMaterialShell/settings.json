@@ -18,7 +18,7 @@
   "wallpaperFillMode": "Fill",
   "blurredWallpaperLayer": false,
   "blurWallpaperOnOverview": false,
-  "showLauncherButton": true,
+  "showLauncherButton": false,
   "showWorkspaceSwitcher": true,
   "showFocusedWindow": true,
   "showWeather": true,
@@ -131,8 +131,8 @@
   "launcherLogoBrightness": 0.5,
   "launcherLogoContrast": 1,
   "launcherLogoSizeOffset": 0,
-  "fontFamily": "Inter Variable",
-  "monoFontFamily": "JetBrainsMono Nerd Font",
+  "fontFamily": "JetBrainsMono Nerd Font",
+  "monoFontFamily": "JetBrainsMono Nerd Font Mono",
   "fontWeight": 400,
   "fontScale": 1,
   "notepadUseMonospace": true,
@@ -241,7 +241,6 @@
       ],
       "showOnLastDisplay": true,
       "leftWidgets": [
-        "launcherButton",
         "workspaceSwitcher",
         "focusedWindow"
       ],
