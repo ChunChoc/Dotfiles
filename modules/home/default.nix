@@ -36,11 +36,11 @@
   home.packages = with pkgs; [
     # GUI Utils
     alacritty fuzzel nautilus vscodium brave
-    mpv imv file-roller
+    mpv imv file-roller localsend 
     
     # CLI Utils
     git wget curl tree htop 
-    localsend pokeget-rs
+    pokeget-rs python3
     
     # System Utils
     xwayland-satellite
