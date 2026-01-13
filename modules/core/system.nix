@@ -24,4 +24,7 @@
     dates = "weekly";
     options = "--delete-older-than 3d";
   };
+
+  # DNS de AdGuard (Public Default)
+  networking.nameservers = [ "94.140.14.14" "94.140.15.15" "1.1.1.1" ];
 }
