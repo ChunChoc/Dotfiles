@@ -27,4 +27,7 @@
 
   # DNS de AdGuard (Public Default)
   networking.nameservers = [ "94.140.14.14" "94.140.15.15" "1.1.1.1" ];
+
+  # Gestor de autorización a nivel de sistema (Para run0)
+  security.polkit.enable = true;
 }

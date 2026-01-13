@@ -116,6 +116,7 @@
     # Alias o variables de entorno
     shellAliases = {
       ll = "ls -l";
+      sudo = "run0";
       update = "sudo nixos-rebuild switch --flake ~/Dotfiles#nixos-vm";
     };
 
