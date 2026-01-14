@@ -22,8 +22,10 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 3d";
+    options = "--delete-older-than 7d";
   };
+  # Desduplicador automático
+  nix.settings.auto-optimise-store = true;
 
   # DNS de Cloudflare y AdGuard (Public Default)
   networking.nameservers = [ "1.1.1.1" "94.140.14.14" ];
