@@ -25,8 +25,8 @@
     options = "--delete-older-than 3d";
   };
 
-  # DNS de AdGuard (Public Default)
-  networking.nameservers = [ "94.140.14.14" "94.140.15.15" "1.1.1.1" ];
+  # DNS de Cloudflare y AdGuard (Public Default)
+  networking.nameservers = [ "1.1.1.1" "94.140.14.14" ];
 
   # Gestor de autorización a nivel de sistema (Para run0)
   security.polkit.enable = true;

@@ -117,7 +117,7 @@
     shellAliases = {
       ll = "ls -l";
       sudo = "run0";
-      update = "sudo nixos-rebuild switch --flake ~/Dotfiles#nixos-vm";
+      update = "run0 nixos-rebuild switch --flake ~/Dotfiles#nixos-vm";
     };
 
     # Comandos sueltos
