@@ -116,8 +116,10 @@
     # Alias o variables de entorno
     shellAliases = {
       ll = "ls -l";
-      sudo = "run0";
-      update = "run0 nixos-rebuild switch --flake ~/Dotfiles#nixos-vm";
+      sudo = "run0 --background=";
+      #Alias para ganar shell de root directo (equivalente a sudo -i)
+      root = "run0 --background=";
+      update = "run0 --background= nixos-rebuild switch --flake ~/Dotfiles#nixos-vm";
     };
 
     # Comandos sueltos
