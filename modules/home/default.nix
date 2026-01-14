@@ -119,7 +119,10 @@
       sudo = "run0 --background=";
       #Alias para ganar shell de root directo (equivalente a sudo -i)
       root = "run0 --background=";
+      #Actualiza configuraciones del sistema
       update = "run0 --background= nixos-rebuild switch --flake ~/Dotfiles#nixos-vm";
+      #Actualiza y aplica los paquetes y el sistema
+      upgrade = "cd ~/Dotfiles && nix flake update && git add flake.lock && run0 --background= nixos-rebuild switch --flake .#nixos-vm";
     };
 
     # Comandos sueltos
