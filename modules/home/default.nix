@@ -2,7 +2,11 @@
 
 {
   imports = [
-      ./theme.nix
+    ./theme.nix
+    ./packages.nix
+    ./programs/fuzzel.nix
+    ./programs/zsh.nix
+    ./mime.nix
   ];
 
   home.username = "chunchoc";
@@ -31,128 +35,11 @@
   };
 
   # --------------------------------------------------------
-  # PAQUETES DE USUARIO
+  # Directorios XDG
   # --------------------------------------------------------
-  home.packages = with pkgs; [
-    # GUI Utils
-    alacritty fuzzel nautilus vscodium brave
-    mpv imv file-roller localsend 
-    
-    # CLI Utils
-    git wget curl tree htop 
-    pokeget-rs python3
-    
-    # System Utils
-    xwayland-satellite
-
-    # Fuente
-    nerd-fonts.jetbrains-mono
-  ];
-
-  # Habilitar fuentes
-  fonts.fontconfig.enable = true;
-
-  # --------------------------------------------------------
-  # PROGRAMAS CONFIGURADOS EN NIX
-  # --------------------------------------------------------
-  
-  # Directorios XDG (Descargas, Música, etc)
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
-  };
-
-  # Fuzzel (Lanzador)
-  programs.fuzzel = {
-    enable = true;
-    # ... (Aquí puedes dejar tu config de fuzzel o moverla a otro archivo luego)
-    settings = {
-      main = {
-        terminal = "${pkgs.alacritty}/bin/alacritty"; # La magia de Nix
-        layer = "overlay";
-        width = 30;
-        font = "JetBrainsMono Nerd Font:size=10";
-        icon-theme = "Papirus-Dark";
-        lines = 10;
-        horizontal-pad = 20;
-        vertical-pad = 20;
-        inner-pad = 10;
-      };
-      
-      border = {
-        width = 2;
-        radius = 10;
-      };
-
-      # ESTO ES LA TRADUCCIÓN EXACTA DE "fuzzel.ini" (Catppuccin Mocha)
-      colors = {
-        background = "1e1e2eff";
-        text = "cdd6f4ff";
-        match = "cba6f7ff";      # Mauve
-        selection = "585b70ff";  # Surface 2
-        selection-text = "cdd6f4ff";
-        border = "cba6f7ff";     # Mauve
-      };
-    };
-  };
-
-  # ZSH & Starship
-  programs.starship.enable = true;
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-
-    # Historial
-    history = {
-      size = 10000;
-      path = "${config.xdg.dataHome}/zsh/history";
-      ignoreDups = true;     # No guardar duplicados
-      share = true;          # Compartir historia entre terminales
-    };
-
-    # Alias o variables de entorno
-    shellAliases = {
-      ll = "ls -l";
-      sudo = "run0 --background=";
-      #Alias para ganar shell de root directo (equivalente a sudo -i)
-      root = "run0 --background=";
-      #Actualiza configuraciones del sistema
-      update = "run0 --background= nixos-rebuild switch --flake ~/Dotfiles#nixos-vm";
-      #Actualiza y aplica los paquetes y el sistema
-      upgrade = "cd ~/Dotfiles && nix flake update && git add flake.lock && run0 --background= nixos-rebuild switch --flake .#nixos-vm";
-    };
-
-    # Comandos sueltos
-    initContent = ''
-      export EDITOR=vim
-      pokeget random --hide-name
-    '';
-  };
-
-  # --------------------------------------------------------
-  # PROGRAMAS POR DEFECTO
-  # --------------------------------------------------------
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      # Imágenes -> imv
-      "image/jpeg" = [ "imv.desktop" ];
-      "image/png"  = [ "imv.desktop" ];
-      "image/gif"  = [ "imv.desktop" ];
-      "image/webp" = [ "imv.desktop" ];
-      
-      # Videos -> mpv
-      "video/mp4" = [ "mpv.desktop" ];
-      "video/x-matroska" = [ "mpv.desktop" ]; # Archivos .mkv
-      "video/webm" = [ "mpv.desktop" ];
-      
-      # Opcional: Navegador y PDF
-      #"text/html" = [ "brave-browser.desktop" ];
-      #"application/pdf" = [ "brave-browser.desktop" ]; # O tu visor favorito
-    };
   };
 
   # --------------------------------------------------------
