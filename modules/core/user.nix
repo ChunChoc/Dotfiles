@@ -1,20 +1,17 @@
 { pkgs, ... }:
 {
-  # Habilitar ZSH
-  programs.zsh.enable = true;
+  # Habilitar Fish
+  programs.fish.enable = true;
 
   # Mi usuario con sus propiedades
   users.users.chunchoc = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   # Paquetes esenciales para cualquier terminal
   environment.systemPackages = with pkgs; [
     vim
-    wget
-    git
-    curl
   ];
 }

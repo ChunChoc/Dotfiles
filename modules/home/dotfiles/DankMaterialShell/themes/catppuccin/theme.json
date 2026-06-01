@@ -1,0 +1,84 @@
+{
+  "id": "catppuccin",
+  "name": "Catppuccin",
+  "version": "1.0.0",
+  "author": "Avenge Media",
+  "description": "Soothing pastel theme for the high-spirited",
+  "dark": {},
+  "light": {},
+  "variants": {
+    "type": "multi",
+    "defaults": {
+      "dark": {
+        "accent": "mauve",
+        "flavor": "mocha"
+      },
+      "light": {
+        "accent": "mauve",
+        "flavor": "latte"
+      }
+    },
+    "flavors": [
+      {
+        "id": "mocha",
+        "name": "Mocha",
+        "dark": {
+          "surface": "#181825",
+          "surfaceText": "#cdd6f4",
+          "surfaceVariant": "#1e1e2e",
+          "surfaceVariantText": "#a6adc8",
+          "background": "#1e1e2e",
+          "backgroundText": "#cdd6f4",
+          "outline": "#6c7086",
+          "surfaceContainer": "#1e1e2e",
+          "surfaceContainerHigh": "#313244",
+          "surfaceContainerHighest": "#45475a",
+          "error": "#f38ba8",
+          "warning": "#fab387",
+          "info": "#89b4fa"
+        },
+        "light": {}
+      },
+      {
+        "id": "latte",
+        "name": "Latte",
+        "dark": {},
+        "light": {
+          "surface": "#e6e9ef",
+          "surfaceText": "#4c4f69",
+          "surfaceVariant": "#eff1f5",
+          "surfaceVariantText": "#6c6f85",
+          "background": "#eff1f5",
+          "backgroundText": "#4c4f69",
+          "outline": "#9ca0b0",
+          "surfaceContainer": "#e6e9ef",
+          "surfaceContainerHigh": "#ccd0da",
+          "surfaceContainerHighest": "#bcc0cc",
+          "error": "#d20f39",
+          "warning": "#fe640b",
+          "info": "#1e66f5"
+        }
+      }
+    ],
+    "accents": [
+      {
+        "id": "mauve",
+        "name": "Mauve",
+        "mocha": {
+          "primary": "#cba6f7",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#55307f",
+          "secondary": "#b4befe",
+          "surfaceTint": "#33293f"
+        },
+        "latte": {
+          "primary": "#8839ef",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#eadcff",
+          "secondary": "#7287fd",
+          "surfaceTint": "#eadcff"
+        }
+      }
+    ]
+  }
+}

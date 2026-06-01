@@ -4,9 +4,9 @@
   imports = [
     ./theme.nix
     ./packages.nix
-    ./programs/fuzzel.nix
-    ./programs/zsh.nix
+    ./programs/fish.nix
     ./mime.nix
+    ./dotfiles/niri/dms.nix
   ];
 
   home.username = "chunchoc";
@@ -20,6 +20,7 @@
     "alacritty/alacritty.toml".source = ./dotfiles/alacritty/alacritty.toml;
     "starship.toml".source = ./dotfiles/starship/starship.toml;
     "DankMaterialShell/settings.json".source = ./dotfiles/DankMaterialShell/settings.json;
+    "DankMaterialShell/themes/catppuccin/theme.json".source = ./dotfiles/DankMaterialShell/themes/catppuccin/theme.json;
     "niri/config.kdl".source = ./dotfiles/niri/config.kdl;
 
     # Archivos dinámicos (text + variables)

@@ -21,6 +21,12 @@
     pulse.enable = true;
   };
 
+  # Impresión. También registra cups-pk-helper en D-Bus/Polkit para DMS.
+  services.printing.enable = true;
+
+  # Estado de batería para DMS y otras shells/servicios de escritorio.
+  services.upower.enable = true;
+
   # Paquetes exclusivos del entorno gráfico SDDM Catppuccin
   environment.systemPackages = with pkgs; [
     (catppuccin-sddm.override {

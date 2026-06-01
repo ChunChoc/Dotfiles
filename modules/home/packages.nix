@@ -4,12 +4,13 @@
   # Paquetes de usuario
   home.packages = with pkgs; [
     # GUI Utils
-    alacritty fuzzel nautilus vscodium brave
+    alacritty nautilus brave
     mpv imv file-roller localsend
 
     # CLI Utils
     git wget curl tree htop
-    pokeget-rs python3
+    eza bat fzf fd
+    pokeget-rs
 
     # System Utils
     xwayland-satellite

@@ -24,8 +24,14 @@
   # Nombre del hostname
   networking.hostName = "thinkpad";
 
+  # T480 Synaptics touchpads can fail IRQ setup on the RMI/SMBus path.
+  boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
+
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
+
+  # Start ssh-agent for this host.
+  programs.ssh.startAgent = true;
 
   # Firewall base
   networking.firewall.enable = true;
