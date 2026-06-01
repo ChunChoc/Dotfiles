@@ -30,8 +30,8 @@
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
 
-  # Start ssh-agent for this host.
-  programs.ssh.startAgent = true;
+  # Use the desktop-provided SSH agent for this host.
+  services.gnome.gcr-ssh-agent.enable = true;
 
   # Firewall base
   networking.firewall.enable = true;
