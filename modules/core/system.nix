@@ -1,5 +1,8 @@
 { pkgs, ... }:
 {
+  # Permitir paquetes con licencia unfree.
+  nixpkgs.config.allowUnfree = true;
+
   # Zona horaria y Locale
   time.timeZone = "America/Guatemala";
   i18n.defaultLocale = "en_US.UTF-8";

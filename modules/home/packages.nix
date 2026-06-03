@@ -6,6 +6,7 @@
     # GUI Utils
     alacritty nautilus brave
     mpv imv file-roller localsend
+    obsidian
 
     # CLI Utils
     git wget curl tree htop

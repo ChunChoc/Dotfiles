@@ -2,10 +2,6 @@
 
 {
   config = lib.mkIf config.myFeatures.development {
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "claude-code"
-    ];
-
     # Paquetes de desarrollo a nivel sistema (si los hay)
     # Por ahora los paquetes de usuario se manejan en home/packages.nix
 
