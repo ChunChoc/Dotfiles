@@ -4,13 +4,6 @@
   imports =
     [
       ./hardware-configuration.nix
-      ../../lib/options.nix
-      ../../modules/core/bootloader.nix
-      ../../modules/core/system.nix
-      ../../modules/core/user.nix
-      ../../modules/desktop.nix
-      ../../modules/features/development.nix
-      ../../modules/features/localsend.nix
     ];
 
   # --- ACTIVAR FEATURES ---

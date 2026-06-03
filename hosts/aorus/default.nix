@@ -3,15 +3,7 @@
 {
   imports =
     [
-      ./hardware-configuration.nix
-      ../../lib/options.nix
-      ../../modules/core/bootloader.nix
-      ../../modules/core/system.nix
-      ../../modules/core/user.nix
-      ../../modules/desktop.nix
-      ../../modules/features/development.nix
-      ../../modules/features/gaming.nix
-      ../../modules/features/localsend.nix
+      # ./hardware-configuration.nix  # Generar con `nixos-generate-config` al instalar NixOS en esta máquina
     ];
 
   # --- ACTIVAR FEATURES ---

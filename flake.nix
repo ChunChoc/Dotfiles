@@ -17,6 +17,13 @@
 
       modules = [
         ./hosts/${hostname}/default.nix
+
+        # Módulos comunes a todos los hosts
+        ./lib/options.nix
+        ./modules/core
+        ./modules/features
+        ./modules/desktop.nix
+
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
