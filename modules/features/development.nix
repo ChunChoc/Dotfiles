@@ -19,5 +19,8 @@
       opencode
       claude-code
     ];
+
+    home-manager.users.chunchoc.xdg.configFile."opencode/opencode.json".source =
+      ../home/dotfiles/opencode/opencode.json;
   };
 }

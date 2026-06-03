@@ -105,7 +105,7 @@ El usuario `chunchoc` se crea por la configuracion declarativa, pero este repo n
 nixos-enter --root /mnt -c 'passwd chunchoc'
 ```
 
-Este paso evita quedar bloqueado en SDDM sin poder iniciar sesion.
+Este paso evita quedar bloqueado en la TTY sin poder iniciar sesion.
 
 ### 7. Reiniciar
 
@@ -178,7 +178,7 @@ Dotfiles/
 │   └── aorus/             # Host para laptop/PC Aorus
 └── modules/
     ├── core/              # Sistema base: bootloader, usuario, Nix, locale
-    ├── desktop.nix        # Niri, DMS, SDDM, PipeWire, Catppuccin
+    ├── desktop.nix        # Niri, DMS, PipeWire, keyring y PAM
     ├── features/          # Features activables por host
     └── home/              # Home Manager, paquetes, temas y dotfiles de usuario
 ```
@@ -200,7 +200,7 @@ myFeatures = {
 
 - Compositor: Niri
 - Shell/bar: DankMaterialShell
-- Display Manager: SDDM
+- Login: TTY con arranque automatico de Niri en tty1
 - Tema: Catppuccin Mocha Mauve
 - Terminal: Alacritty
 - Lanzador: Fuzzel

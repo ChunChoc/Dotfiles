@@ -34,6 +34,15 @@
     interactiveShellInit = ''
       set -g fish_greeting
       set -gx EDITOR vim
+
+      if test -f ~/Dotfiles/.secrets/secrets.env
+        source ~/Dotfiles/.secrets/secrets.env
+      end
+
+      if test (tty) = /dev/tty1; and not set -q WAYLAND_DISPLAY; and not set -q DISPLAY; and not set -q NIRI_SOCKET
+        exec niri-session
+      end
+
       pokeget random --hide-name
     '';
   };

@@ -1,16 +1,12 @@
-{ pkgs, ... }:
+{ ... }:
 {
   # Niri y DMS
   programs.niri.enable = true;
   programs.dms-shell.enable = true;
 
-  # SDDM con Catppuccin
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-    package = pkgs.kdePackages.sddm;
-    theme = "catppuccin-mocha-mauve";
-  };
+  # Unlock the GNOME keyring with the password entered on the TTY login prompt.
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
 
   # Audio (Pipewire)
   security.rtkit.enable = true;
@@ -26,15 +22,4 @@
 
   # Estado de batería para DMS y otras shells/servicios de escritorio.
   services.upower.enable = true;
-
-  # Paquetes exclusivos del entorno gráfico SDDM Catppuccin
-  environment.systemPackages = with pkgs; [
-    (catppuccin-sddm.override {
-      flavor = "mocha";
-      accent = "mauve";
-      font  = "Noto Sans";
-      fontSize = "9";
-      loginBackground = true;
-    })
-  ];
 }
