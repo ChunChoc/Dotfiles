@@ -17,6 +17,37 @@
     ];
 
     home-manager.users.chunchoc.xdg.configFile."opencode/opencode.json".source =
-      ../home/dotfiles/opencode/opencode.json;
+      ../home/dotfiles/ai/opencode/opencode.json;
+
+    home-manager.users.chunchoc.home.file = {
+      ".agents/.skill-lock.json" = {
+        source = ../home/dotfiles/ai/.skill-lock.json;
+        force = true;
+      };
+
+      ".agents/skills/django-expert" = {
+        source = ../home/dotfiles/ai/skills/django-expert;
+        recursive = true;
+        force = true;
+      };
+
+      ".agents/skills/frontend-design" = {
+        source = ../home/dotfiles/ai/skills/frontend-design;
+        recursive = true;
+        force = true;
+      };
+
+      ".claude/skills/django-expert" = {
+        source = ../home/dotfiles/ai/skills/django-expert;
+        recursive = true;
+        force = true;
+      };
+
+      ".claude/skills/frontend-design" = {
+        source = ../home/dotfiles/ai/skills/frontend-design;
+        recursive = true;
+        force = true;
+      };
+    };
   };
 }

@@ -5,6 +5,7 @@
     ./theme.nix
     ./packages.nix
     ./programs/fish.nix
+    ./programs/claude.nix
     ./mime.nix
     ./dotfiles/niri/dms.nix
   ];
