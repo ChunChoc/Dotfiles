@@ -36,4 +36,14 @@
 
     ${pkgs.coreutils}/bin/mv "$tmp_file" "$claude_json"
   '';
+
+  home.activation.claudeSuperpowersPlugin = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    claude_bin="${pkgs.claude-code}/bin/claude"
+
+    if "$claude_bin" plugin list 2>/dev/null | ${pkgs.gnugrep}/bin/grep -q "superpowers@claude-plugins-official"; then
+      "$claude_bin" plugin enable --scope user superpowers@claude-plugins-official >/dev/null 2>&1 || true
+    else
+      "$claude_bin" plugin install --scope user superpowers@claude-plugins-official
+    fi
+  '';
 }
