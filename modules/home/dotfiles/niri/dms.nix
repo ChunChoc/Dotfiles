@@ -137,10 +137,10 @@
           Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
 
           // === Workspace Navigation ===
-          Mod+Page_Down      { focus-workspace-down; }
-          Mod+Page_Up        { focus-workspace-up; }
-          Mod+U              { focus-workspace-down; }
-          Mod+I              { focus-workspace-up; }
+          Mod+J      { focus-workspace-down; }
+          Mod+K       { focus-workspace-up; }
+          Mod+U       { focus-workspace-down; }
+          Mod+I       { focus-workspace-up; }
           Mod+Ctrl+Down { move-column-to-workspace-down; }
           Mod+Ctrl+Up   { move-column-to-workspace-up; }
           Mod+Ctrl+U         { move-column-to-workspace-down; }
