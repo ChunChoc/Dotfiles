@@ -96,8 +96,8 @@
           Mod+Up    { focus-window-up; }
           Mod+Right { focus-column-right; }
           Mod+H     { focus-column-left; }
-          Mod+J     { focus-window-down; }
-          Mod+K     { focus-window-up; }
+          //Mod+J     { focus-window-down; }
+          //Mod+K     { focus-window-up; }
           Mod+L     { focus-column-right; }
 
           // === Window Movement ===
@@ -137,7 +137,7 @@
           Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
 
           // === Workspace Navigation ===
-          Mod+J      { focus-workspace-down; }
+          Mod+J       { focus-workspace-down; }
           Mod+K       { focus-workspace-up; }
           Mod+U       { focus-workspace-down; }
           Mod+I       { focus-workspace-up; }
