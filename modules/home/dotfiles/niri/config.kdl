@@ -318,7 +318,13 @@ window-rule {
 
 // Open apps floating by default.
 window-rule {
-    match app-id=r#"localsend_app$|org\.gnome\.Nautilus|org.quickshell"#
+    match app-id=r#"localsend_app$"#
+    open-floating true
+    min-height 560
+}
+
+window-rule {
+    match app-id=r#"org\.gnome\.Nautilus|org.quickshell"#
     open-floating true
 }
 
