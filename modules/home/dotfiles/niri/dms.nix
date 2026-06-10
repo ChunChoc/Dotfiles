@@ -228,7 +228,14 @@
       }
     '';
     "niri/dms/cursor.kdl".text = "";
-    "niri/dms/outputs.kdl".text = "";
+    "niri/dms/outputs.kdl".text = ''
+      output "HDMI-A-2" {
+          mode "1920x1080@120"
+          scale 1
+          transform "normal"
+          position x=1366 y=0
+      }
+    '';
     "niri/dms/windowrules.kdl".text = "";
 
     "niri/dms/alttab.kdl".text = ''
