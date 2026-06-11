@@ -10,6 +10,7 @@
   myFeatures = {
     development = true;
     communication = true;
+    office = true;
     virtualization = false;
     localsend = true;
     gaming = true;

@@ -9,6 +9,7 @@
     ./development.nix
     ./gaming.nix
     ./localsend.nix
+    ./office.nix
     ./virtualization.nix
   ];
 }
