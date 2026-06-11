@@ -9,6 +9,7 @@
   # --- ACTIVAR FEATURES ---
   myFeatures = {
     development = true;
+    communication = true;
     virtualization = false;
     localsend = true;
     gaming = true;
