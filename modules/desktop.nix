@@ -4,6 +4,9 @@
   programs.niri.enable = true;
   programs.dms-shell.enable = true;
 
+  # Force Electron/Ozone apps from Nixpkgs to use native Wayland when available.
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   # Unlock the GNOME keyring with the password entered on the TTY login prompt.
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
