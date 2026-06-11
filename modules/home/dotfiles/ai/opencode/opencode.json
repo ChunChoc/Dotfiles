@@ -8,6 +8,11 @@
       "type": "local",
       "command": ["/home/chunchoc/.local/bin/context7-mcp"],
       "enabled": true
+    },
+    "magic": {
+      "type": "local",
+      "command": ["/home/chunchoc/.local/bin/magic-mcp"],
+      "enabled": true
     }
   }
 }
