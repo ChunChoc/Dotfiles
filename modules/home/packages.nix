@@ -4,7 +4,7 @@
   # Paquetes de usuario
   home.packages = with pkgs; [
     # GUI Utils
-    alacritty nautilus brave
+    alacritty nautilus brave mullvad-browser
     mpv imv zathura file-roller localsend
     obsidian tauon
 
