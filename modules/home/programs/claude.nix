@@ -38,6 +38,19 @@
     '';
   };
 
+  home.file.".local/bin/chrome-devtools-mcp" = {
+    executable = true;
+    text = ''
+      #!${pkgs.fish}/bin/fish
+
+      exec ${pkgs.nodejs}/bin/npx -y chrome-devtools-mcp@latest \
+        --executablePath=${pkgs.brave}/bin/brave \
+        --isolated \
+        --no-usage-statistics \
+        --no-performance-crux
+    '';
+  };
+
   home.activation.claudeContext7Mcp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     claude_json="$HOME/.claude.json"
     tmp_file="$(${pkgs.coreutils}/bin/mktemp "''${TMPDIR:-/tmp}/claude-json.XXXXXX")"
@@ -66,6 +79,24 @@
 
     ${pkgs.jq}/bin/jq --arg command "$HOME/.local/bin/magic-mcp" '
       .mcpServers.magic = {
+        "command": $command,
+        "args": []
+      }
+    ' "$claude_json" > "$tmp_file"
+
+    ${pkgs.coreutils}/bin/mv "$tmp_file" "$claude_json"
+  '';
+
+  home.activation.claudeChromeDevToolsMcp = lib.hm.dag.entryAfter [ "claudeMagicMcp" ] ''
+    claude_json="$HOME/.claude.json"
+    tmp_file="$(${pkgs.coreutils}/bin/mktemp "''${TMPDIR:-/tmp}/claude-json.XXXXXX")"
+
+    if ! test -f "$claude_json"; then
+      printf '{}\n' > "$claude_json"
+    fi
+
+    ${pkgs.jq}/bin/jq --arg command "$HOME/.local/bin/chrome-devtools-mcp" '
+      .mcpServers["chrome-devtools"] = {
         "command": $command,
         "args": []
       }

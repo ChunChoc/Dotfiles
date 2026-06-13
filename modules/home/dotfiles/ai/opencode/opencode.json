@@ -13,6 +13,11 @@
       "type": "local",
       "command": ["/home/chunchoc/.local/bin/magic-mcp"],
       "enabled": true
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["/home/chunchoc/.local/bin/chrome-devtools-mcp"],
+      "enabled": true
     }
   }
 }
