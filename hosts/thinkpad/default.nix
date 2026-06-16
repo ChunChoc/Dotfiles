@@ -25,6 +25,12 @@
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
 
+  # Enable BlueZ for the built-in Bluetooth adapter.
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = false;
+  };
+
   # Use the desktop-provided SSH agent for this host.
   services.gnome.gcr-ssh-agent.enable = true;
 
