@@ -15,11 +15,5 @@
 
     # System Utils
     xwayland-satellite
-
-    # Fuente
-    nerd-fonts.jetbrains-mono
   ];
-
-  # Habilitar fuentes
-  fonts.fontconfig.enable = true;
 }
