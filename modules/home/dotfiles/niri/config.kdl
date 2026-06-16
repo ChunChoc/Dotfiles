@@ -342,7 +342,7 @@ window-rule {
 // Apps maximizadas
 window-rule {
     // Asegúrate de que el app-id sea correcto (suele ser brave-browser)
-    match app-id=r#"brave-browser|codium|dev.zed.Zed|obsidian|Mullvad Browser"#
+    match app-id=r#"brave-browser|codium|dev.zed.Zed|obsidian|Mullvad Browser|ONLYOFFICE"#
     open-maximized true
 }
 
@@ -370,6 +370,12 @@ window-rule {
 layer-rule {
     match namespace="dms:blurwallpaper"
     place-within-backdrop true
+}
+
+gestures {
+    hot-corners {
+        off
+    }
 }
 
 include "./dms/binds.kdl"
