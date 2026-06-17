@@ -1,30 +1,21 @@
 { config, lib, pkgs, ... }:
 
 let
+  # OnlyOffice corre en un sandbox FHS (bubblewrap) y descubre fuentes escaneando
+  # únicamente /usr/share/fonts dentro del sandbox. buildFHSEnv puebla esa ruta
+  # fusionando el share/fonts de cada paquete listado en targetPkgs (así llega
+  # noto-fonts-cjk-sans en el paquete original). Por eso las fuentes se añaden aquí
+  # y no parcheando share/desktopeditors/fonts, que OnlyOffice no escanea.
   onlyofficeWithFonts = pkgs.onlyoffice-desktopeditors.override {
     buildFHSEnv = args:
       pkgs.buildFHSEnv (args // {
         targetPkgs = pkgs':
-          map (pkg:
-            if (pkg.pname or null) == "onlyoffice-desktopeditors" then
-              pkg.overrideAttrs (old: {
-                postInstall = (old.postInstall or "") + ''
-                  mkdir -p $out/share/desktopeditors/fonts/extra
-
-                  for font in \
-                    ${pkgs.corefonts}/share/fonts/truetype/* \
-                    ${pkgs.vista-fonts}/share/fonts/truetype/* \
-                    ${pkgs.liberation_ttf}/share/fonts/truetype/* \
-                    ${pkgs.liberation-sans-narrow}/share/fonts/truetype/*; do
-                    case "$font" in
-                      *.ttf|*.ttc) ln -sf "$font" "$out/share/desktopeditors/fonts/extra/$(basename "$font")" ;;
-                    esac
-                  done
-                '';
-              })
-            else
-              pkg
-          ) (args.targetPkgs pkgs');
+          (args.targetPkgs pkgs') ++ (with pkgs; [
+            corefonts            # Arial, Times New Roman, Courier New, Verdana, Georgia, ...
+            vista-fonts          # Calibri, Cambria, Candara, Consolas, Constantia, Corbel
+            liberation_ttf       # Liberation Sans/Serif/Mono (métricas de Arial/Times/Courier)
+            liberation-sans-narrow
+          ]);
       });
   };
 in
