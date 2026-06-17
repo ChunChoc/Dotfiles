@@ -1,29 +1,33 @@
 { config, lib, pkgs, ... }:
 
 let
-  onlyofficeFonts = pkgs': with pkgs'; [
-    corefonts
-    vista-fonts
-    liberation_ttf
-    liberation-sans-narrow
-    nerd-fonts.jetbrains-mono
-  ];
+  onlyofficeFontsDir = pkgs.runCommand "onlyoffice-fonts" { } ''
+    mkdir -p $out
 
-  onlyofficeWithFonts = pkgs.onlyoffice-desktopeditors.override {
-    buildFHSEnv = args:
-      pkgs.buildFHSEnv (args // {
-        targetPkgs = pkgs': (args.targetPkgs pkgs') ++ (onlyofficeFonts pkgs');
-      });
-  };
+    for font in \
+      ${pkgs.corefonts}/share/fonts/truetype/* \
+      ${pkgs.vista-fonts}/share/fonts/truetype/* \
+      ${pkgs.liberation_ttf}/share/fonts/truetype/* \
+      ${pkgs.liberation-sans-narrow}/share/fonts/truetype/*; do
+      ln -s "$font" "$out/$(basename "$font")"
+    done
+  '';
 in
 {
   config = lib.mkIf config.myFeatures.office {
     home-manager.users.chunchoc = { lib, ... }: {
       home.packages = [
-        onlyofficeWithFonts
+        pkgs.onlyoffice-desktopeditors
       ];
 
-      home.activation.refreshOnlyOfficeFonts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      xdg.dataFile."fonts/onlyoffice" = {
+        source = onlyofficeFontsDir;
+        recursive = true;
+      };
+
+      home.activation.refreshOnlyOfficeFonts = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+        ${pkgs.fontconfig}/bin/fc-cache -f /home/chunchoc/.local/share/fonts
+
         fonts_dir="/home/chunchoc/.local/share/onlyoffice/desktopeditors/data/fonts"
         all_fonts="$fonts_dir/AllFonts.js"
 
