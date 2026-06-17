@@ -1,33 +1,41 @@
 { config, lib, pkgs, ... }:
 
 let
-  onlyofficeFontsDir = pkgs.runCommand "onlyoffice-fonts" { } ''
-    mkdir -p $out
+  onlyofficeWithFonts = pkgs.onlyoffice-desktopeditors.override {
+    buildFHSEnv = args:
+      pkgs.buildFHSEnv (args // {
+        targetPkgs = pkgs':
+          map (pkg:
+            if (pkg.pname or null) == "onlyoffice-desktopeditors" then
+              pkg.overrideAttrs (old: {
+                postInstall = (old.postInstall or "") + ''
+                  mkdir -p $out/share/desktopeditors/fonts/extra
 
-    for font in \
-      ${pkgs.corefonts}/share/fonts/truetype/* \
-      ${pkgs.vista-fonts}/share/fonts/truetype/* \
-      ${pkgs.liberation_ttf}/share/fonts/truetype/* \
-      ${pkgs.liberation-sans-narrow}/share/fonts/truetype/*; do
-      ln -s "$font" "$out/$(basename "$font")"
-    done
-  '';
+                  for font in \
+                    ${pkgs.corefonts}/share/fonts/truetype/* \
+                    ${pkgs.vista-fonts}/share/fonts/truetype/* \
+                    ${pkgs.liberation_ttf}/share/fonts/truetype/* \
+                    ${pkgs.liberation-sans-narrow}/share/fonts/truetype/*; do
+                    case "$font" in
+                      *.ttf|*.ttc) ln -sf "$font" "$out/share/desktopeditors/fonts/extra/$(basename "$font")" ;;
+                    esac
+                  done
+                '';
+              })
+            else
+              pkg
+          ) (args.targetPkgs pkgs');
+      });
+  };
 in
 {
   config = lib.mkIf config.myFeatures.office {
     home-manager.users.chunchoc = { lib, ... }: {
       home.packages = [
-        pkgs.onlyoffice-desktopeditors
+        onlyofficeWithFonts
       ];
 
-      xdg.dataFile."fonts/onlyoffice" = {
-        source = onlyofficeFontsDir;
-        recursive = true;
-      };
-
       home.activation.refreshOnlyOfficeFonts = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-        ${pkgs.fontconfig}/bin/fc-cache -f /home/chunchoc/.local/share/fonts
-
         fonts_dir="/home/chunchoc/.local/share/onlyoffice/desktopeditors/data/fonts"
         all_fonts="$fonts_dir/AllFonts.js"
 
