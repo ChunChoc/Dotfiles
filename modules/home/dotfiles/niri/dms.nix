@@ -219,6 +219,7 @@
           Ctrl+XF86Launch1 { screenshot-screen; }
           Alt+XF86Launch1 { screenshot-window; }
           Print { screenshot; }
+          Mod+Print { spawn "sh" "-c" "mkdir -p \"$HOME/Pictures/Screenshots\" && niri msg action screenshot --path \"$HOME/Pictures/Screenshots/Screenshot from $(date '+%Y-%m-%d %H-%M-%S').png\""; }
           Ctrl+Print { screenshot-screen; }
           Alt+Print { screenshot-window; }
 

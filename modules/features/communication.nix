@@ -6,6 +6,7 @@
       #vesktop alternativa de discord que sí funciona en teoría.
       discord # temporal: para depurar screen share; ver plan
       signal-desktop
+      telegram-desktop
     ];
   };
 }
