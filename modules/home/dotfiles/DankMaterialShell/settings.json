@@ -119,8 +119,6 @@
   "appLauncherGridColumns": 4,
   "spotlightCloseNiriOverview": true,
   "niriOverviewOverlayEnabled": true,
-  "weatherLocation": "Cobán, Alta Verapaz",
-  "weatherCoordinates": "15.4702001,-90.3735065",
   "useAutoLocation": false,
   "weatherEnabled": true,
   "networkPreference": "auto",
@@ -288,5 +286,5 @@
       "maximizeDetection": true
     }
   ],
-  "configVersion": 2
+  "configVersion": 5
 }
