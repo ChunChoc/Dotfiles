@@ -12,6 +12,7 @@
     #   gnumake
       vscodium
       zed-editor
+      nil
       opencode
       claude-code
     ];
