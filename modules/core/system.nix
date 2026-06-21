@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   # Permitir paquetes con licencia unfree.
   nixpkgs.config.allowUnfree = true;

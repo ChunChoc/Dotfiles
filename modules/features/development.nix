@@ -13,6 +13,7 @@
       vscodium
       zed-editor
       nil
+      nixd
       opencode
       claude-code
     ];
