@@ -11,6 +11,16 @@
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
 
+  # Removable drive integration for Nautilus in the minimal Niri session.
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    exfatprogs
+    ntfs3g
+    usbutils
+  ];
+
   # Audio (Pipewire)
   security.rtkit.enable = true;
   services.pipewire = {
