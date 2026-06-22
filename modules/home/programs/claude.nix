@@ -1,5 +1,70 @@
 { lib, pkgs, ... }:
 
+let
+  claudePermissionDenyRules = [
+    "Bash(rm -rf /)"
+    "Bash(rm -rf /*)"
+    "Bash(rm -fr /)"
+    "Bash(rm -fr /*)"
+    "Bash(sudo rm -rf /)"
+    "Bash(sudo rm -rf /*)"
+    "Bash(sudo rm -fr /)"
+    "Bash(sudo rm -fr /*)"
+    "Bash(rm -rf ~)"
+    "Bash(rm -rf ~/)"
+    "Bash(rm -rf ~/*)"
+    "Bash(rm -fr ~)"
+    "Bash(rm -fr ~/)"
+    "Bash(rm -fr ~/*)"
+    "Bash(sudo rm -rf ~)"
+    "Bash(sudo rm -rf ~/)"
+    "Bash(sudo rm -rf ~/*)"
+    "Bash(sudo rm -fr ~)"
+    "Bash(sudo rm -fr ~/)"
+    "Bash(sudo rm -fr ~/*)"
+    "Bash(rm -rf $HOME)"
+    "Bash(rm -rf $HOME/)"
+    "Bash(rm -rf $HOME/*)"
+    "Bash(rm -fr $HOME)"
+    "Bash(rm -fr $HOME/)"
+    "Bash(rm -fr $HOME/*)"
+    "Bash(sudo rm -rf $HOME)"
+    "Bash(sudo rm -rf $HOME/)"
+    "Bash(sudo rm -rf $HOME/*)"
+    "Bash(sudo rm -fr $HOME)"
+    "Bash(sudo rm -fr $HOME/)"
+    "Bash(sudo rm -fr $HOME/*)"
+    "Read(.env)"
+    "Read(.env.*)"
+    "Read(**/.env)"
+    "Read(**/.env.*)"
+    "Edit(.env)"
+    "Edit(.env.*)"
+    "Edit(**/.env)"
+    "Edit(**/.env.*)"
+    "Read(**/secrets/**)"
+    "Edit(**/secrets/**)"
+    "Read(~/Dotfiles/.secrets/**)"
+    "Edit(~/Dotfiles/.secrets/**)"
+    "Read(~/.ssh/**)"
+    "Edit(~/.ssh/**)"
+    "Read(~/.aws/credentials)"
+    "Edit(~/.aws/credentials)"
+    "Read(~/.config/gh/hosts.yml)"
+    "Edit(~/.config/gh/hosts.yml)"
+    "Read(**/*.pem)"
+    "Edit(**/*.pem)"
+    "Read(**/*.key)"
+    "Edit(**/*.key)"
+    "Read(~/.gnupg/**)"
+    "Edit(~/.gnupg/**)"
+    "Read(~/.pki/**)"
+    "Edit(~/.pki/**)"
+    "Read(~/.local/share/keyrings/**)"
+    "Edit(~/.local/share/keyrings/**)"
+  ];
+in
+
 {
   home.file.".local/bin/context7-mcp" = {
     executable = true;
@@ -103,6 +168,25 @@
     ' "$claude_json" > "$tmp_file"
 
     ${pkgs.coreutils}/bin/mv "$tmp_file" "$claude_json"
+  '';
+
+  home.activation.claudeDangerousPermissionDenies = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    settings_dir="$HOME/.claude"
+    settings_json="$settings_dir/settings.json"
+    tmp_file="$(${pkgs.coreutils}/bin/mktemp "''${TMPDIR:-/tmp}/claude-settings.XXXXXX")"
+
+    ${pkgs.coreutils}/bin/mkdir -p "$settings_dir"
+
+    if ! test -f "$settings_json"; then
+      printf '{}\n' > "$settings_json"
+    fi
+
+    ${pkgs.jq}/bin/jq --argjson denyRules '${builtins.toJSON claudePermissionDenyRules}' '
+      .permissions = ((.permissions // {}) | if type == "object" then . else {} end)
+      | .permissions.deny = (((.permissions.deny // []) + $denyRules) | unique)
+    ' "$settings_json" > "$tmp_file"
+
+    ${pkgs.coreutils}/bin/mv "$tmp_file" "$settings_json"
   '';
 
   home.activation.claudeSuperpowersPlugin = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
