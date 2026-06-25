@@ -40,11 +40,11 @@
     settings = {
       listen_addresses = [ "127.0.0.1:53" "[::1]:53" ];
 
-      # Servidores con filtrado de malware/ads (consistente)
+      # Resolvers DNSCrypt con filtrado de malware (Quad9).
+      # Anonymized DNS SOLO funciona con DNSCrypt, no con DoH.
       server_names = [
         "quad9-dnscrypt-ip4-filter-pri"
-        "adguard-dns"
-        "cloudflare-security"
+        "quad9-dnscrypt-ip4-filter-alt"
       ];
 
       require_dnssec = false;   # subir a true tras verificar
@@ -53,15 +53,48 @@
 
       ipv6_servers = false;
       dnscrypt_servers = true;
-      doh_servers = true;
+      doh_servers = false;      # desactivado: incompatible con relays
 
       # Cache local de respuestas
       cache = true;
 
-      # Bootstrap resiliente para arrancar la lista de servers
+      # Bootstrap resiliente para arrancar las listas
       # incluso en redes que rompen el puerto 53.
       bootstrap_resolvers = [ "9.9.9.9:53" "1.1.1.1:53" ];
       ignore_system_dns = true;
+
+      # --- Anonymized DNS: el relay oculta tu IP al resolver ---
+      # Cada consulta sale por un relay (operadores distintos a Quad9).
+      # Verifica nombres válidos con:  dnscrypt-proxy -list-all-relays
+      anonymized_dns = {
+        routes = [
+          {
+            server_name = "*";
+            via = [ "anon-cs-fr" "anon-cs-nl" "anon-scaleway-ams" ];
+          }
+        ];
+        skip_incompatible = true;
+      };
+
+      # Fuentes de listas firmadas (resolvers + relays)
+      sources = {
+        public-resolvers = {
+          urls = [
+            "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
+            "https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md"
+          ];
+          cache_file = "public-resolvers.md";
+          minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+        };
+        relays = {
+          urls = [
+            "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/relays.md"
+            "https://download.dnscrypt.info/resolvers-list/v3/relays.md"
+          ];
+          cache_file = "relays.md";
+          minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+        };
+      };
     };
   };
 
