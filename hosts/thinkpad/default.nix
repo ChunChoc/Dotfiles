@@ -14,6 +14,7 @@
     virtualization = false;
     localsend = true;
     gaming = false;
+    batteryChargeLimit = 90;
   };
 
   # Nombre del hostname
