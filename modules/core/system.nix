@@ -70,7 +70,7 @@
         routes = [
           {
             server_name = "*";
-            via = [ "anon-cs-fr" "anon-cs-nl" "anon-scaleway-ams" ];
+            via = [ "anon-cs-fr" "anon-cs-nl" ];
           }
         ];
         skip_incompatible = true;
