@@ -3,7 +3,7 @@
 let
   defaultWallpaperName = "nix-magenta-blue-1920x1080.png";
   defaultWallpaperPath = "%h/Pictures/Wallpapers/${defaultWallpaperName}";
-  setDefaultWallpaper = pkgs.writeShellScript "dms-default-wallpaper" ''
+  applyDmsDefaults = pkgs.writeShellScript "dms-session-defaults" ''
     set -eu
 
     default_wallpaper="$1"
@@ -21,6 +21,8 @@ let
     if [ -z "$current_wallpaper" ] || [ ! -f "$current_wallpaper" ]; then
       "$dms" ipc wallpaper set "$default_wallpaper"
     fi
+
+    "$dms" ipc theme dark >/dev/null 2>&1 || true
   '';
 in
 
@@ -28,9 +30,9 @@ in
   home.file."Pictures/Wallpapers/${defaultWallpaperName}".source =
     ../../wallpaper/nix-magenta-blue-1920x1080.png;
 
-  systemd.user.services.dms-default-wallpaper = {
+  systemd.user.services.dms-session-defaults = {
     Unit = {
-      Description = "Set DMS default wallpaper when the current wallpaper is missing";
+      Description = "Apply DMS session defaults";
       After = [ "graphical-session.target" "dms.service" ];
       Wants = [ "dms.service" ];
       PartOf = [ "graphical-session.target" ];
@@ -38,7 +40,7 @@ in
 
     Service = {
       Type = "oneshot";
-      ExecStart = "${setDefaultWallpaper} ${defaultWallpaperPath}";
+      ExecStart = "${applyDmsDefaults} ${defaultWallpaperPath}";
     };
 
     Install.WantedBy = [ "graphical-session.target" ];
