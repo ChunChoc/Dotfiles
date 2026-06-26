@@ -7,6 +7,7 @@
     ./programs/fish.nix
     ./programs/claude.nix
     ./mime.nix
+    ./wallpaper.nix
     ./dotfiles/niri/dms.nix
   ];
 
