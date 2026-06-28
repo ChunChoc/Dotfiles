@@ -38,7 +38,7 @@ window-rule {
 // Apps maximizadas
 window-rule {
     // Asegúrate de que el app-id sea correcto (suele ser brave-browser)
-    match app-id=r#"brave-browser|codium|dev.zed.Zed|obsidian|Mullvad Browser|ONLYOFFICE|libreoffice-startcenter"#
+    match app-id=r#"brave-browser|codium|dev.zed.Zed|obsidian|Mullvad Browser|libreoffice-writer|libreoffice-calc|libreoffice-startcenter"#
     open-maximized true
 }
 
