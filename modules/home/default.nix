@@ -8,7 +8,6 @@
     ./programs/claude.nix
     ./mime.nix
     ./wallpaper.nix
-    ./dotfiles/niri/dms.nix
   ];
 
   home.username = "chunchoc";
@@ -24,6 +23,13 @@
     "DankMaterialShell/settings.json".source = ./dotfiles/DankMaterialShell/settings.json;
     "DankMaterialShell/themes/catppuccin/theme.json".source = ./dotfiles/DankMaterialShell/themes/catppuccin/theme.json;
     "niri/config.kdl".source = ./dotfiles/niri/config.kdl;
+    "niri/dms/alttab.kdl".source = ./dotfiles/niri/dms/alttab.kdl;
+    "niri/dms/binds.kdl".source = ./dotfiles/niri/dms/binds.kdl;
+    "niri/dms/colors.kdl".source = ./dotfiles/niri/dms/colors.kdl;
+    "niri/dms/cursor.kdl".source = ./dotfiles/niri/dms/cursor.kdl;
+    "niri/dms/layout.kdl".source = ./dotfiles/niri/dms/layout.kdl;
+    "niri/dms/windowrules.kdl".source = ./dotfiles/niri/dms/windowrules.kdl;
+    "niri/dms/wpblur.kdl".source = ./dotfiles/niri/dms/wpblur.kdl;
 
     # Archivos dinámicos (text + variables)
     "niri/monitors.kdl".text = ''
@@ -33,6 +39,14 @@
           scale ${toString monitorSettings.scale}
           transform "normal"
           position x=0 y=0
+      }
+    '';
+    "niri/dms/outputs.kdl".text = ''
+      output "HDMI-A-2" {
+          mode "1920x1080@120"
+          scale 1
+          transform "normal"
+          position x=1366 y=0
       }
     '';
   };
