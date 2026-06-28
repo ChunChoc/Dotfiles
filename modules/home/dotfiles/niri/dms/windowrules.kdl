@@ -1,0 +1,64 @@
+// Window rules let you adjust behavior for individual windows.
+// Find more information on the wiki:
+// https://yalter.github.io/niri/Configuration:-Window-Rules
+
+// Work around WezTerm's initial configure bug
+// by setting an empty default-column-width.
+window-rule {
+    // This regular expression is intentionally made as specific as possible,
+    // since this is the default config, and we want no false positives.
+    // You can get away with just app-id="wezterm" if you want.
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+// Open apps floating by default.
+window-rule {
+    match app-id=r#"localsend_app$"#
+    open-floating true
+    min-height 560
+}
+
+window-rule {
+    match app-id=r#"org\.gnome\.Nautilus|org.quickshell"#
+    open-floating true
+}
+
+//virt manager flotante y pequeño
+window-rule {
+    match app-id=r#".virt-manager-wrapped"#
+    open-floating true
+
+    // Ancho: 80% de la pantalla
+    default-column-width { proportion 0.2; }
+
+    // Alto: 80% de la pantalla
+    default-window-height { proportion 0.4; }
+}
+// Apps maximizadas
+window-rule {
+    // Asegúrate de que el app-id sea correcto (suele ser brave-browser)
+    match app-id=r#"brave-browser|codium|dev.zed.Zed|obsidian|Mullvad Browser|ONLYOFFICE|libreoffice-startcenter"#
+    open-maximized true
+}
+
+// Example: block out two password managers from screen capture.
+// (This example rule is commented out with a "/-" in front.)
+/-window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+
+    block-out-from "screen-capture"
+
+    // Use this instead if you want them visible on third-party screenshot tools.
+    // block-out-from "screencast"
+}
+
+// Example: enable rounded corners for all windows.
+// (This example rule is commented out with a "/-" in front.)
+window-rule {
+    geometry-corner-radius 12
+    clip-to-geometry true
+    tiled-state true
+    draw-border-with-background false
+}

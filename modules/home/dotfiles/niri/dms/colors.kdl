@@ -1,36 +1,7 @@
-layout {
-    background-color "transparent"
-
-    focus-ring {
-        active-color   "#cba6f7"
-        inactive-color "#8c9199"
-        urgent-color   "#f2b8b5"
-    }
-
-    border {
-        active-color   "#cba6f7"
-        inactive-color "#8c9199"
-        urgent-color   "#f2b8b5"
-    }
-
-    shadow {
-        color "#00000070"
-    }
-
-    tab-indicator {
-        active-color   "#cba6f7"
-        inactive-color "#8c9199"
-        urgent-color   "#f2b8b5"
-    }
-
-    insert-hint {
-        color "#cba6f780"
-    }
-}
-
-recent-windows {
-    highlight {
-        active-color   "#0d47a1"
-        urgent-color   "#f2b8b5"
-    }
-}
+// Palette notes for the active niri modules.
+//
+// niri accepts only one top-level `layout {}` node, so these color values must
+// live inside their owning modules instead of being included as a second layout.
+// Current active color values are in:
+// - dms/layout.kdl: layout background, focus ring, border, shadow, tab indicator, insert hint
+// - dms/alttab.kdl: recent window highlight
