@@ -5,3 +5,19 @@ window-rule {
         blur true
     }
 }
+
+layer-rule {
+    match namespace="dms:bar"
+
+    background-effect {
+        blur true
+    }
+}
+
+layer-rule {
+    match namespace="quickshell"
+
+    background-effect {
+        blur true
+    }
+}
