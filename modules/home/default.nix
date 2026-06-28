@@ -27,6 +27,7 @@
     "niri/dms/binds.kdl".source = ./dotfiles/niri/dms/binds.kdl;
     "niri/dms/colors.kdl".source = ./dotfiles/niri/dms/colors.kdl;
     "niri/dms/cursor.kdl".source = ./dotfiles/niri/dms/cursor.kdl;
+    "niri/dms/effects.kdl".source = ./dotfiles/niri/dms/effects.kdl;
     "niri/dms/layout.kdl".source = ./dotfiles/niri/dms/layout.kdl;
     "niri/dms/windowrules.kdl".source = ./dotfiles/niri/dms/windowrules.kdl;
     "niri/dms/wpblur.kdl".source = ./dotfiles/niri/dms/wpblur.kdl;

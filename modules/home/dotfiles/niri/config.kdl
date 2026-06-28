@@ -9,6 +9,7 @@
 
 include "./monitors.kdl"
 include "./dms/outputs.kdl"
+include "./dms/effects.kdl"
 
 prefer-no-csd
 
