@@ -13,3 +13,11 @@ layer-rule {
         blur true
     }
 }
+
+layer-rule {
+    match namespace=r#"^dms:(bar|control-center|notification-center-popout|dash|popout|app-launcher|settings|spotlight|clipboard|notification-popup|osd|toast|tooltip)$"#
+
+    background-effect {
+        xray false
+    }
+}
