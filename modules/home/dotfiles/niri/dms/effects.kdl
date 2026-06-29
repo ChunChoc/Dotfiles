@@ -15,7 +15,7 @@ layer-rule {
 }
 
 layer-rule {
-    match namespace=r#"^dms:(bar|control-center|notification-center-popout|dash|popout|app-launcher|settings|spotlight|clipboard|notification-popup|osd|toast|tooltip)$"#
+    match namespace=r#"^dms:(bar|control-center|notification-center-popout|notification-center-modal|dash|popout|app-launcher|settings|spotlight|clipboard|clipboard-popout|notification-popup|osd|toast|tooltip|battery|process-list-popout|vpn|layout|network-info|network-info-wired|power-menu|bluetooth-pairing|keybinds|color-picker|mux|slideout|input-modal|modal|confirm-modal|system-update|niri-overview-spotlight|workspace-overview|control-center-widget-library|dock|dock-context-menu|plugins:.*|desktop-widget:.*|desktop-widget-preview|desktop-widget-grid|desktop-widget-helper|fade-to-lock|fade-to-dpms|notepad-context-menu|tray-overflow-menu|tray-menu-window|clipboard-context-menu|filebrowser)(:background|:clickcatcher)?$"#
 
     background-effect {
         xray false
