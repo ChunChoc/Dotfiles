@@ -67,6 +67,7 @@ in
     interactiveShellInit = ''
       set -g fish_greeting
       set -gx EDITOR vim
+      fish_config theme choose catppuccin-mocha --color-theme=dark
 
       if test -f ~/Dotfiles/.secrets/secrets.env
         source ~/Dotfiles/.secrets/secrets.env
