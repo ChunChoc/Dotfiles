@@ -1,6 +1,36 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
+  greeterCursorTheme = "Bibata-Modern-Classic";
+  greeterCursorSize = "24";
+  greeterCursorPath = "${pkgs.bibata-cursors}/share/icons";
+
+  dmsGreeterCfg = config.services.displayManager.dms-greeter;
+  dmsGreeterCompositorConfig = pkgs.writeText "dmsgreeter-compositor-config" dmsGreeterCfg.compositor.customConfig;
+  dmsGreeterStart = pkgs.writeShellScriptBin "dms-greeter-start-with-cursor" ''
+    export PATH="$PATH:${
+      lib.makeBinPath [
+        dmsGreeterCfg.quickshell.package
+        config.programs.${dmsGreeterCfg.compositor.name}.package
+      ]
+    }"
+
+    exec ${pkgs.coreutils}/bin/env \
+      XCURSOR_PATH=${greeterCursorPath} \
+      XCURSOR_THEME=${greeterCursorTheme} \
+      XCURSOR_SIZE=${greeterCursorSize} \
+      ${pkgs.bash}/bin/sh ${dmsGreeterCfg.package}/share/quickshell/dms/Modules/Greetd/assets/dms-greeter \
+      --cache-dir /var/lib/dms-greeter \
+      --command ${dmsGreeterCfg.compositor.name} \
+      -p ${dmsGreeterCfg.package}/share/quickshell/dms \
+      -C ${dmsGreeterCompositorConfig}
+  '';
+
   niriDmsSession = pkgs.writeShellScriptBin "niri-dms-session" ''
     if systemctl --user -q is-active niri.service; then
       echo 'A niri session is already running.'
@@ -89,10 +119,12 @@ in
     sessionPackages = [ niriDmsSessionPackage ];
   };
 
+  services.greetd.settings.default_session.command = lib.mkForce "${dmsGreeterStart}/bin/dms-greeter-start-with-cursor";
+
   systemd.services.greetd.environment = {
-    XCURSOR_PATH = "${pkgs.bibata-cursors}/share/icons";
-    XCURSOR_THEME = "Bibata-Modern-Classic";
-    XCURSOR_SIZE = "24";
+    XCURSOR_PATH = greeterCursorPath;
+    XCURSOR_THEME = greeterCursorTheme;
+    XCURSOR_SIZE = greeterCursorSize;
   };
 
   # Force Electron/Ozone apps from Nixpkgs to use native Wayland when available.
