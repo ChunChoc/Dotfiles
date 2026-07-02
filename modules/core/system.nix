@@ -41,7 +41,7 @@
     "::1"
   ];
 
-  services.dnscrypt-proxy2 = {
+  services.dnscrypt-proxy = {
     enable = true;
     settings = {
       listen_addresses = [
