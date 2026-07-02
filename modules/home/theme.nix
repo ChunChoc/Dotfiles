@@ -60,4 +60,19 @@
     "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
     "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
   };
+
+  xdg.dataFile."applications/LocalSend.desktop".text = ''
+    [Desktop Entry]
+    Categories=GTK;FileTransfer;Utility
+    Exec=env GTK_CSD=0 localsend_app %U
+    GenericName=An open source cross-platform alternative to AirDrop
+    Icon=localsend
+    Keywords=Sharing;LAN;Files
+    Name=LocalSend
+    StartupNotify=true
+    StartupWMClass=localsend_app
+    Terminal=false
+    Type=Application
+    Version=1.5
+  '';
 }
