@@ -20,6 +20,14 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"^localsend_app$"# title=r#"^Open File$"#
+    open-floating true
+    default-window-height { fixed 514; }
+    min-height 514
+    max-height 514
+}
+
+window-rule {
     match app-id=r#"org\.gnome\.Nautilus|org.quickshell"#
     open-floating true
 }
@@ -46,7 +54,10 @@ window-rule {
 window-rule {
     match app-id=r#"^Mullvad Browser$"# title=r#"^Save Image$"#
     open-floating true
-    default-window-height { proportion 0.5; }
+    open-maximized false
+    default-window-height { fixed 514; }
+    min-height 514
+    max-height 514
 }
 
 // Example: block out two password managers from screen capture.
