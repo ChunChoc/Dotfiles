@@ -1,5 +1,5 @@
 layout {
-    background-color "#000000"
+    background-color "transparent"
 
     // Set gaps around windows in logical pixels.
     gaps 4
