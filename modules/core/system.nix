@@ -58,9 +58,13 @@
         "quad9-dnscrypt-ip4-filter-ecs-alt"
       ];
 
-      require_dnssec = false; # subir a true tras verificar
+      require_dnssec = true; # solo resolvers que validan DNSSEC
       require_nolog = true;
       require_nofilter = false; # permitir servidores que filtran
+
+      # Evita fugas de nombres locales/inventados a internet:
+      block_unqualified = true; # nombres de una sola etiqueta (p.ej. "foo")
+      block_undelegated = true; # TLDs no delegados (.lan, .home, .internal)
 
       ipv6_servers = false;
       dnscrypt_servers = true;

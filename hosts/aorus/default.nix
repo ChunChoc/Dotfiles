@@ -21,6 +21,8 @@
 
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
+  # MAC WiFi aleatoria por conexión: evita rastreo entre redes.
+  networking.networkmanager.wifi.macAddress = "random";
 
   # Firewall base
   networking.firewall.enable = true;
