@@ -42,6 +42,13 @@ window-rule {
     open-maximized true
 }
 
+// Keep Mullvad's save dialog from taking nearly the full screen height.
+window-rule {
+    match app-id=r#"^Mullvad Browser$"# title=r#"^Save Image$"#
+    open-floating true
+    default-window-height { proportion 0.5; }
+}
+
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
 /-window-rule {
