@@ -81,8 +81,10 @@ let
 
     while kill -0 "$swaybg_pid" 2>/dev/null; do
       if dms_wallpaper_ready; then
-        # Let DMS paint its first frame before removing the temporary layer.
-        sleep 0.5
+        # Let DMS finish its wallpaper fade-in before removing the temporary
+        # layer. swaybg sits underneath in the same backdrop slot, so
+        # over-waiting is invisible; under-waiting is what would flicker.
+        sleep 1
         exit 0
       fi
       sleep 0.1

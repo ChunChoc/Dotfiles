@@ -26,7 +26,7 @@
   "notificationCustomAnimationDuration": 400,
   "enableRippleEffects": true,
   "wallpaperFillMode": "Fill",
-  "blurredWallpaperLayer": true,
+  "blurredWallpaperLayer": false,
   "blurWallpaperOnOverview": false,
   "showLauncherButton": false,
   "showWorkspaceSwitcher": true,

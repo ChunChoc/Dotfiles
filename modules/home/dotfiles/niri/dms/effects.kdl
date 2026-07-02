@@ -8,6 +8,7 @@ window-rule {
 
 layer-rule {
     match namespace="quickshell"
+    exclude layer="background"
 
     background-effect {
         blur true

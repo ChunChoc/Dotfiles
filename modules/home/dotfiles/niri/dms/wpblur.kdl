@@ -9,9 +9,3 @@ layer-rule {
     match layer="background"
     place-within-backdrop true
 }
-
-layer-rule {
-    match namespace="dms:blurwallpaper"
-    match layer="background"
-    place-within-backdrop true
-}
