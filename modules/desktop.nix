@@ -6,7 +6,15 @@
 
   services.displayManager.dms-greeter = {
     enable = true;
-    compositor.name = "niri";
+    compositor = {
+      name = "niri";
+      customConfig = ''
+        environment {
+          XCURSOR_THEME "Bibata-Modern-Classic"
+          XCURSOR_SIZE "24"
+        }
+      '';
+    };
     configHome = "/home/chunchoc";
   };
 
@@ -22,6 +30,7 @@
   services.gvfs.enable = true;
 
   environment.systemPackages = with pkgs; [
+    bibata-cursors
     exfatprogs
     ntfs3g
     usbutils
