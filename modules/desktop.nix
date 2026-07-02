@@ -4,6 +4,12 @@
   programs.niri.enable = true;
   programs.dms-shell.enable = true;
 
+  services.displayManager.dms-greeter = {
+    enable = true;
+    compositor.name = "niri";
+    configHome = "/home/chunchoc";
+  };
+
   # Force Electron/Ozone apps from Nixpkgs to use native Wayland when available.
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
