@@ -23,8 +23,8 @@ EOF
       systemctl --user import-environment $env_vars
     fi
 
-    if command -v dbus-update-activation-environment >/dev/null 2>&1; then
-      dbus-update-activation-environment --all
+    if [ -n "$env_vars" ] && command -v dbus-update-activation-environment >/dev/null 2>&1; then
+      dbus-update-activation-environment $env_vars
     fi
 
     systemctl --user --wait start niri.service
