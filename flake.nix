@@ -17,11 +17,11 @@
     let
       # Función helper para crear configuraciones de host
       mkHost =
-        { hostname, monitorSettings }:
+        { hostname, monitorSettings, externalOutputs ? [ ] }:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
 
-          specialArgs = { inherit inputs monitorSettings; };
+          specialArgs = { inherit inputs monitorSettings externalOutputs; };
 
           modules = [
             ./hosts/${hostname}/default.nix
@@ -37,7 +37,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
-              home-manager.extraSpecialArgs = { inherit inputs monitorSettings; };
+              home-manager.extraSpecialArgs = { inherit inputs monitorSettings externalOutputs; };
               home-manager.users.chunchoc = import ./modules/home/default.nix;
             }
           ];
@@ -68,6 +68,13 @@
             refreshRate = 60;
             scale = 1.2;
           };
+          externalOutputs = [
+            {
+              name = "PNP(AOC) 24G50F 2S7R9HA004013";
+              mode = "1920x1080@120";
+              scale = 1;
+            }
+          ];
         };
 
         # Aorus - gaming y desarrollo ocasional

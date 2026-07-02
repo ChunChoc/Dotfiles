@@ -1,4 +1,16 @@
-{ monitorSettings, ... }:
+{ externalOutputs, monitorSettings, ... }:
+
+let
+  primaryLogicalWidth = builtins.ceil (monitorSettings.width / monitorSettings.scale);
+  renderExternalOutput = output: ''
+    output "${output.name}" {
+        ${if output ? mode then ''mode "${output.mode}"'' else ""}
+        scale ${toString (output.scale or 1)}
+        transform "${output.transform or "normal"}"
+        position x=${toString (output.positionX or primaryLogicalWidth)} y=${toString (output.positionY or 0)}
+    }
+  '';
+in
 
 {
   imports = [
@@ -42,14 +54,7 @@
           position x=0 y=0
       }
     '';
-    "niri/dms/outputs.kdl".text = ''
-      output "HDMI-A-2" {
-          mode "1920x1080@120"
-          scale 1
-          transform "normal"
-          position x=1366 y=0
-      }
-    '';
+    "niri/dms/outputs.kdl".text = builtins.concatStringsSep "\n" (map renderExternalOutput externalOutputs);
   };
 
   # --------------------------------------------------------
