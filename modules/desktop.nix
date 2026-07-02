@@ -100,6 +100,11 @@ in
           XCURSOR_SIZE "24"
         }
 
+        cursor {
+          xcursor-theme "Bibata-Modern-Classic"
+          xcursor-size 24
+        }
+
         gestures {
           hot-corners {
             off
