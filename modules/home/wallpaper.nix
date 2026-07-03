@@ -24,6 +24,40 @@ let
 
     "$dms" ipc theme dark >/dev/null 2>&1 || true
   '';
+  applyDmsNightModeDefaults = pkgs.writeShellScript "dms-night-mode-defaults" ''
+    set -eu
+
+    session_json="''${XDG_STATE_HOME:-$HOME/.local/state}/DankMaterialShell/session.json"
+    tmp="$(mktemp)"
+    cleanup() {
+      rm -f "$tmp" "$tmp.input"
+    }
+    trap cleanup EXIT INT TERM
+
+    mkdir -p "$(dirname "$session_json")"
+
+    if [ -s "$session_json" ] && ${pkgs.jq}/bin/jq -e 'type == "object"' "$session_json" >/dev/null 2>&1; then
+      input="$session_json"
+    else
+      printf '{}' > "$tmp.input"
+      input="$tmp.input"
+    fi
+
+    ${pkgs.jq}/bin/jq '
+      .nightModeEnabled = true
+      | .nightModeTemperature = 3700
+      | .nightModeHighTemperature = 6500
+      | .nightModeAutoEnabled = true
+      | .nightModeAutoMode = "time"
+      | .nightModeStartHour = 18
+      | .nightModeStartMinute = 0
+      | .nightModeEndHour = 6
+      | .nightModeEndMinute = 0
+      | .nightModeUseIPLocation = false
+    ' "$input" > "$tmp"
+
+    install -m 0644 "$tmp" "$session_json"
+  '';
   niriStartupWallpaper = pkgs.writeShellScript "niri-startup-wallpaper" ''
     set -eu
 
@@ -95,6 +129,21 @@ in
 {
   home.file."Pictures/Wallpapers/${defaultWallpaperName}".source =
     ../../wallpaper/nix-magenta-blue-1920x1080.png;
+
+  systemd.user.services.dms-night-mode-defaults = {
+    Unit = {
+      Description = "Apply DMS night mode defaults";
+      Before = [ "dms.service" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${applyDmsNightModeDefaults}";
+    };
+
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
 
   systemd.user.services.dms-session-defaults = {
     Unit = {
