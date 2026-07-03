@@ -39,6 +39,11 @@ in
     enableFishIntegration = true;
   };
 
+  programs.zoxide = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
   programs.fish = {
     enable = true;
 
@@ -46,12 +51,30 @@ in
       ls = "eza --icons --group-directories-first";
       ll = "eza -l --icons --group-directories-first";
       cat = "bat";
-      ff = "fd --hidden --exclude .git | fzf";
       sudo = "run0 --background=";
       root = "run0 --background=";
     };
 
     functions = {
+      ff = ''
+        fd --hidden --exclude .git | fzf
+      '';
+
+      vf = ''
+        set file (ff)
+        test -n "$file"; and vim "$file"
+      '';
+
+      bf = ''
+        set file (ff)
+        test -n "$file"; and bat "$file"
+      '';
+
+      cf = ''
+        set file (ff)
+        test -n "$file"; and cd (dirname "$file")
+      '';
+
       update = ''
         run0 --background= nixos-rebuild switch --flake ~/Dotfiles#(hostname)
       '';
