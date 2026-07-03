@@ -51,11 +51,18 @@ in
       ls = "eza --icons --group-directories-first";
       ll = "eza -l --icons --group-directories-first";
       cat = "bat";
-      sudo = "run0 --background=";
       root = "run0 --background=";
     };
 
     functions = {
+      sudo = ''
+        run0 --background= $argv
+      '';
+
+      sudoreal = ''
+        command sudo $argv
+      '';
+
       ff = ''
         fd --hidden --exclude .git | fzf
       '';
