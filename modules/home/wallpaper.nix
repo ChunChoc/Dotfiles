@@ -44,7 +44,9 @@ let
     fi
 
     ${pkgs.jq}/bin/jq '
-      .nightModeEnabled = true
+      .wallpaperTransition = "disc"
+      | .includedTransitions = ["disc"]
+      | .nightModeEnabled = true
       | .nightModeTemperature = 3700
       | .nightModeHighTemperature = 6500
       | .nightModeAutoEnabled = true
