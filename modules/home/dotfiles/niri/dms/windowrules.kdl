@@ -43,10 +43,21 @@ window-rule {
     // Alto: 80% de la pantalla
     default-window-height { proportion 0.4; }
 }
+
+// Zed settings uses the same app-id as the main editor; match by title.
+window-rule {
+    match app-id=r#"^dev\.zed\.Zed$"# title=r#"^Zed.*Settings$"#
+    open-floating true
+    open-maximized false
+    default-column-width { proportion 0.6; }
+    default-window-height { proportion 0.75; }
+}
+
 // Apps maximizadas
 window-rule {
     // Asegúrate de que el app-id sea correcto (suele ser brave-browser)
     match app-id=r#"brave-browser|codium|dev.zed.Zed|obsidian|Mullvad Browser|libreoffice-writer|libreoffice-calc|libreoffice-startcenter"#
+    exclude app-id=r#"^dev\.zed\.Zed$"# title=r#"^Zed.*Settings$"#
     open-maximized true
 }
 
