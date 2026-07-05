@@ -82,8 +82,8 @@ binds {
     Mod+Shift+F { fullscreen-window; }
     Mod+Shift+T { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
-    Mod+W { toggle-column-tabbed-display; }
-    Mod+Shift+W hotkey-overlay-title="Create window rule" { spawn "dms" "ipc" "call" "window-rules" "toggle"; }
+    Mod+W hotkey-overlay-title="Next Wallpaper" { spawn "dms" "ipc" "wallpaper" "next"; }
+    Mod+Shift+W hotkey-overlay-title="Previous Wallpaper" { spawn "dms" "ipc" "wallpaper" "prev"; }
 
     // === Focus Navigation ===
     Mod+Left  { focus-column-left; }
