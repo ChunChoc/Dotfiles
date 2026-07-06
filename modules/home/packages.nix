@@ -27,7 +27,6 @@
     fzf
     fd
     pokeget-rs
-    tmux
 
     # System Utils
     xwayland-satellite

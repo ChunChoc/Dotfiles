@@ -19,6 +19,7 @@ in
     ./programs/fish.nix
     ./programs/claude.nix
     ./programs/zed.nix
+    ./programs/tmux.nix
     ./mime.nix
     ./wallpaper.nix
   ];
