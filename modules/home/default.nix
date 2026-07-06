@@ -18,6 +18,7 @@ in
     ./packages.nix
     ./programs/fish.nix
     ./programs/claude.nix
+    ./programs/zed.nix
     ./mime.nix
     ./wallpaper.nix
   ];
