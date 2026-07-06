@@ -19,6 +19,16 @@
       "pluginName": "example-skills",
       "installedAt": "2026-06-05T16:08:04.291Z",
       "updatedAt": "2026-06-05T16:08:04.291Z"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
+      "version": "v2.10.1",
+      "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "nixHash": "sha256-1yaqqxnoImD23kb9xHItd9F967QDIj4R+WrXL/FxWGY=",
+      "installedAt": "2026-07-05T00:00:00.000Z",
+      "updatedAt": "2026-07-05T00:00:00.000Z"
     }
   },
   "dismissed": {
