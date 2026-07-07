@@ -1,84 +1,121 @@
+# Tema DEV — layout oficial de catppuccin/starship (su starship.toml de ejemplo),
+# copiado verbatim, con paleta mocha y tres ajustes para combinar con tmux:
+#   - [directory] disabled = true  -> no repetir la ruta (tmux ya la muestra abajo).
+#   - [line_break] disabled = true -> el caret (❯) va en la misma línea que la info.
+#   - (el pokémon se suprime desde fish.nix cuando IN_NIX_SHELL está definido).
+# Se activa SOLO dentro de devShells de Nix (fish.nix -> STARSHIP_CONFIG).
+# Fuente: https://github.com/catppuccin/starship
+
+# Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# Tema DEV — pensado para COMBINAR con la statusline de tmux (catppuccin mocha,
-# estilo "rounded", acento mauve; ver programs/tmux.nix), que es justo la barra que
-# usas al levantar servidores dentro del devShell.
-#
-# Principios (aprendidos de las iteraciones):
-#   - NO repetir la ruta: tmux ya la muestra abajo. Aquí NO va $directory.
-#   - Pastillas redondeadas (   ) mocha, lideradas por mauve, como los pills de tmux.
-#   - Cada pastilla se CIERRA sola (no depende de otro módulo) -> nunca hay cabos
-#     sueltos aunque un módulo esté oculto (p. ej. git_status en repo limpio).
-#   - El estado de git (?↑…) es una pastilla-insignia que solo aparece si hay cambios.
-#   - El ❯ va en la MISMA línea, con una línea en blanco arriba, para que respire y
-#     no quede aplastado contra la barra de tmux.
-# Se activa SOLO dentro de devShells de Nix (fish.nix -> STARSHIP_CONFIG).
+# Sets user-defined palette
+# Palettes must be defined _after_ this line
+palette = "catppuccin_mocha"
 
-format = """
-$git_branch\
-$git_status\
-$c$nodejs$bun$python$rust$golang\
-$cmd_duration\
-$character"""
+# Ajuste: no mostrar la ruta aquí (tmux ya la muestra en su statusline).
+[directory]
+disabled = true
 
-palette = 'catppuccin_mocha'
-add_newline = true
+# Ajuste: caret en la misma línea que la info (sin salto de línea).
+[line_break]
+disabled = true
 
-# --- Git: rama (pastilla mauve, siempre en repo) ----------------------------
-[git_branch]
-symbol = ""
-style = "fg:crust bg:mauve"
-format = '[](fg:mauve)[  $branch ]($style)[](fg:mauve) '
-
-# --- Git: estado como insignia peach (solo si hay cambios) -------------------
-[git_status]
-style = "fg:crust bg:peach"
-format = '[](fg:peach)[ $all_status$ahead_behind ]($style)[](fg:peach) '
-
-# --- Lenguajes (una pastilla por runtime; solo una aparece por directorio) ---
-[c]
-symbol = " "
-style = "fg:crust bg:blue"
-format = '[](fg:blue)[ $symbol $version ]($style)[](fg:blue) '
-
-[nodejs]
-symbol = ""
-style = "fg:crust bg:green"
-format = '[](fg:green)[ $symbol $version ]($style)[](fg:green) '
-
-[bun]
-symbol = ""
-style = "fg:crust bg:pink"
-format = '[](fg:pink)[ $symbol bun $version ]($style)[](fg:pink) '
-
-[python]
-symbol = ""
-style = "fg:crust bg:yellow"
-format = '[](fg:yellow)[ $symbol $version ]($style)[](fg:yellow) '
-
-[rust]
-symbol = ""
-style = "fg:crust bg:maroon"
-format = '[](fg:maroon)[ $symbol $version ]($style)[](fg:maroon) '
-
-[golang]
-symbol = ""
-style = "fg:crust bg:sapphire"
-format = '[](fg:sapphire)[ $symbol $version ]($style)[](fg:sapphire) '
-
-# --- Duración: pastilla sutil (surface0), solo si tardó algo -----------------
-[cmd_duration]
-min_time = 2000
-style = "fg:text bg:surface0"
-format = '[](fg:surface0)[  $duration ]($style)[](fg:surface0) '
-
-# --- Símbolo: mauve, el acento de tmux. En su línea NO; inline para que respire.
+# Starship modules
 [character]
-success_symbol = '[❯](bold mauve)'
-error_symbol = '[❯](bold red)'
-vimcmd_symbol = '[❮](bold mauve)'
+# Note the use of Catppuccin color 'peach'
+success_symbol = "[[󰄛](green) ❯](peach)"
+error_symbol = "[[󰄛](red) ❯](peach)"
+vimcmd_symbol = "[󰄛 ❮](subtext1)" # For use with zsh-vi-mode
 
-# Paleta catppuccin mocha oficial (github.com/catppuccin/starship).
+[git_branch]
+style = "bold mauve"
+
+# Palette definitions
+[palettes.catppuccin_latte]
+rosewater = "#dc8a78"
+flamingo = "#dd7878"
+pink = "#ea76cb"
+mauve = "#8839ef"
+red = "#d20f39"
+maroon = "#e64553"
+peach = "#fe640b"
+yellow = "#df8e1d"
+green = "#40a02b"
+teal = "#179299"
+sky = "#04a5e5"
+sapphire = "#209fb5"
+blue = "#1e66f5"
+lavender = "#7287fd"
+text = "#4c4f69"
+subtext1 = "#5c5f77"
+subtext0 = "#6c6f85"
+overlay2 = "#7c7f93"
+overlay1 = "#8c8fa1"
+overlay0 = "#9ca0b0"
+surface2 = "#acb0be"
+surface1 = "#bcc0cc"
+surface0 = "#ccd0da"
+base = "#eff1f5"
+mantle = "#e6e9ef"
+crust = "#dce0e8"
+
+[palettes.catppuccin_frappe]
+rosewater = "#f2d5cf"
+flamingo = "#eebebe"
+pink = "#f4b8e4"
+mauve = "#ca9ee6"
+red = "#e78284"
+maroon = "#ea999c"
+peach = "#ef9f76"
+yellow = "#e5c890"
+green = "#a6d189"
+teal = "#81c8be"
+sky = "#99d1db"
+sapphire = "#85c1dc"
+blue = "#8caaee"
+lavender = "#babbf1"
+text = "#c6d0f5"
+subtext1 = "#b5bfe2"
+subtext0 = "#a5adce"
+overlay2 = "#949cbb"
+overlay1 = "#838ba7"
+overlay0 = "#737994"
+surface2 = "#626880"
+surface1 = "#51576d"
+surface0 = "#414559"
+base = "#303446"
+mantle = "#292c3c"
+crust = "#232634"
+
+[palettes.catppuccin_macchiato]
+rosewater = "#f4dbd6"
+flamingo = "#f0c6c6"
+pink = "#f5bde6"
+mauve = "#c6a0f6"
+red = "#ed8796"
+maroon = "#ee99a0"
+peach = "#f5a97f"
+yellow = "#eed49f"
+green = "#a6da95"
+teal = "#8bd5ca"
+sky = "#91d7e3"
+sapphire = "#7dc4e4"
+blue = "#8aadf4"
+lavender = "#b7bdf8"
+text = "#cad3f5"
+subtext1 = "#b8c0e0"
+subtext0 = "#a5adcb"
+overlay2 = "#939ab7"
+overlay1 = "#8087a2"
+overlay0 = "#6e738d"
+surface2 = "#5b6078"
+surface1 = "#494d64"
+surface0 = "#363a4f"
+base = "#24273a"
+mantle = "#1e2030"
+crust = "#181926"
+
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
 flamingo = "#f2cdcd"

@@ -115,7 +115,11 @@ in
         exec ${niriSessionTTY}
       end
 
-      pokeget random --hide-name
+      # El pokémon solo en terminales normales; dentro de un devShell de Nix
+      # (donde ya cambia el prompt a starship-dev.toml) no lo mostramos.
+      if not set -q IN_NIX_SHELL
+        pokeget random --hide-name
+      end
     '';
   };
 }
