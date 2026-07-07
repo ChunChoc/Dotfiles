@@ -1,10 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   # --- ACTIVAR FEATURES ---
   myFeatures = {
@@ -21,7 +20,12 @@
   networking.hostName = "thinkpad";
 
   # T480 Synaptics touchpads can fail IRQ setup on the RMI/SMBus path.
-  boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
+  # Intel eDP PSR (Panel Self Refresh) muestra un frame obsoleto (destello
+  # rojo vino) al reencender la salida eDP tras abrir la tapa. Desactivarlo.
+  boot.kernelParams = [
+    "psmouse.synaptics_intertouch=0"
+    "i915.enable_psr=0"
+  ];
 
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
