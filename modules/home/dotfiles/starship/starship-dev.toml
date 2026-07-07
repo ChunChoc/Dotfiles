@@ -1,81 +1,78 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # Tema DEV — pensado para COMBINAR con la statusline de tmux (catppuccin mocha,
-# estilo "rounded", acento mauve; ver programs/tmux.nix). Mismo lenguaje visual:
-# pastillas redondeadas (semicírculos    ), iconos por módulo y mauve como color
-# protagónico. Se activa SOLO dentro de devShells de Nix (fish.nix -> STARSHIP_CONFIG),
-# que es justo cuando usas tmux para levantar los servidores.
+# estilo "rounded", acento mauve; ver programs/tmux.nix), que es justo la barra que
+# usas al levantar servidores dentro del devShell.
+#
+# Principios (aprendidos de las iteraciones):
+#   - NO repetir la ruta: tmux ya la muestra abajo. Aquí NO va $directory.
+#   - Pastillas redondeadas (   ) mocha, lideradas por mauve, como los pills de tmux.
+#   - Cada pastilla se CIERRA sola (no depende de otro módulo) -> nunca hay cabos
+#     sueltos aunque un módulo esté oculto (p. ej. git_status en repo limpio).
+#   - El estado de git (?↑…) es una pastilla-insignia que solo aparece si hay cambios.
+#   - El ❯ va en la MISMA línea, con una línea en blanco arriba, para que respire y
+#     no quede aplastado contra la barra de tmux.
+# Se activa SOLO dentro de devShells de Nix (fish.nix -> STARSHIP_CONFIG).
 
 format = """
-$directory\
 $git_branch\
 $git_status\
 $c$nodejs$bun$python$rust$golang\
 $cmd_duration\
-$line_break\
 $character"""
 
 palette = 'catppuccin_mocha'
 add_newline = true
 
-# --- Directorio: pastilla mauve (mismo acento que tmux) ---------------------
-[directory]
-style = "fg:crust bg:mauve"
-format = '[](fg:mauve)[ 󰉋 $path ]($style)[](fg:mauve) '
-truncation_length = 3
-truncation_symbol = "…/"
-
-# --- Git --------------------------------------------------------------------
+# --- Git: rama (pastilla mauve, siempre en repo) ----------------------------
 [git_branch]
 symbol = ""
-style = "fg:crust bg:lavender"
-format = '[](fg:lavender)[ $symbol $branch ]($style)[](fg:lavender) '
+style = "fg:crust bg:mauve"
+format = '[](fg:mauve)[  $branch ]($style)[](fg:mauve) '
 
+# --- Git: estado como insignia peach (solo si hay cambios) -------------------
 [git_status]
 style = "fg:crust bg:peach"
-format = '([](fg:peach)[ $all_status$ahead_behind ]($style)[](fg:peach) )'
+format = '[](fg:peach)[ $all_status$ahead_behind ]($style)[](fg:peach) '
 
-# --- Lenguajes (una pastilla por runtime, colores mocha) --------------------
+# --- Lenguajes (una pastilla por runtime; solo una aparece por directorio) ---
 [c]
 symbol = " "
 style = "fg:crust bg:blue"
-format = '([](fg:blue)[ $symbol $version ]($style)[](fg:blue) )'
+format = '[](fg:blue)[ $symbol $version ]($style)[](fg:blue) '
 
 [nodejs]
 symbol = ""
 style = "fg:crust bg:green"
-format = '([](fg:green)[ $symbol $version ]($style)[](fg:green) )'
+format = '[](fg:green)[ $symbol $version ]($style)[](fg:green) '
 
 [bun]
 symbol = ""
 style = "fg:crust bg:pink"
-format = '([](fg:pink)[ $symbol bun $version ]($style)[](fg:pink) )'
+format = '[](fg:pink)[ $symbol bun $version ]($style)[](fg:pink) '
 
 [python]
 symbol = ""
 style = "fg:crust bg:yellow"
-format = '([](fg:yellow)[ $symbol $version ]($style)[](fg:yellow) )'
+format = '[](fg:yellow)[ $symbol $version ]($style)[](fg:yellow) '
 
 [rust]
 symbol = ""
 style = "fg:crust bg:maroon"
-format = '([](fg:maroon)[ $symbol $version ]($style)[](fg:maroon) )'
+format = '[](fg:maroon)[ $symbol $version ]($style)[](fg:maroon) '
 
 [golang]
 symbol = ""
 style = "fg:crust bg:sapphire"
-format = '([](fg:sapphire)[ $symbol $version ]($style)[](fg:sapphire) )'
+format = '[](fg:sapphire)[ $symbol $version ]($style)[](fg:sapphire) '
 
-# --- Duración: pastilla sutil (surface0) ------------------------------------
+# --- Duración: pastilla sutil (surface0), solo si tardó algo -----------------
 [cmd_duration]
-min_time = 500
+min_time = 2000
 style = "fg:text bg:surface0"
-format = '([](fg:surface0)[  $duration ]($style)[](fg:surface0) )'
+format = '[](fg:surface0)[  $duration ]($style)[](fg:surface0) '
 
-[line_break]
-disabled = false
-
-# --- Símbolo: mauve, como el acento de tmux ---------------------------------
+# --- Símbolo: mauve, el acento de tmux. En su línea NO; inline para que respire.
 [character]
 success_symbol = '[❯](bold mauve)'
 error_symbol = '[❯](bold red)'
