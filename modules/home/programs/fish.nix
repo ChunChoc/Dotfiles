@@ -52,6 +52,7 @@ in
       ll = "eza -l --icons --group-directories-first";
       cat = "bat";
       root = "run0 --background=";
+      nd = "nix develop --command fish";
     };
 
     functions = {
@@ -101,6 +102,13 @@ in
 
       if test -f ~/Dotfiles/.secrets/secrets.env
         source ~/Dotfiles/.secrets/secrets.env
+      end
+
+      # Dentro de un devShell de Nix: usar un starship distinto (catppuccin mocha
+      # minimal) para diferenciar visualmente el entorno de proyecto. Fuera de un
+      # devShell, STARSHIP_CONFIG queda sin definir y se usa ~/.config/starship.toml.
+      if set -q IN_NIX_SHELL
+        set -gx STARSHIP_CONFIG "$HOME/.config/starship-dev.toml"
       end
 
       if test (tty) = /dev/tty1; and not set -q WAYLAND_DISPLAY; and not set -q DISPLAY; and not set -q NIRI_SOCKET
