@@ -56,6 +56,7 @@
       {
         bindings = {
           alt-h = "agent::FocusAgent";
+          alt-j = "terminal_panel::ToggleFocus";
         };
       }
     ];
