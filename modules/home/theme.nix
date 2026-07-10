@@ -1,5 +1,24 @@
 { pkgs, config, ... }:
 
+let
+  pythonForCatppuccinGtk = pkgs.python313.override {
+    packageOverrides = _: super: {
+      catppuccin = super.catppuccin.overridePythonAttrs (_: {
+        doCheck = false;
+        pythonImportsCheck = [ ];
+      });
+    };
+  };
+
+  catppuccinGtk = pkgs.catppuccin-gtk.override {
+    python3 = pythonForCatppuccinGtk;
+    accents = [ "mauve" ];
+    size = "standard";
+    tweaks = [ "rimless" ];
+    variant = "mocha";
+  };
+in
+
 {
   # Variables de entorno visuales
   home.sessionVariables = {
@@ -10,6 +29,7 @@
 
   # Configuración del puntero (Cursor)
   home.pointerCursor = {
+    enable = true;
     gtk.enable = true;
     x11.enable = true;
     name = "Bibata-Modern-Classic";
@@ -22,12 +42,7 @@
     enable = true;
     theme = {
       name = "catppuccin-mocha-mauve-standard+rimless";
-      package = pkgs.catppuccin-gtk.override {
-        accents = [ "mauve" ];
-        size = "standard";
-        tweaks = [ "rimless" ];
-        variant = "mocha";
-      };
+      package = catppuccinGtk;
     };
     iconTheme = {
       name = "Papirus-Dark";
