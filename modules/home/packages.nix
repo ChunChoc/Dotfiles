@@ -26,6 +26,7 @@
     bat
     fzf
     fd
+    herdr
     pokeget-rs
 
     # System Utils

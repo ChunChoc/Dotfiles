@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 
 {
   config = lib.mkIf config.myFeatures.gaming {
@@ -13,11 +13,11 @@
     hardware.graphics.enable32Bit = true;
 
     # Paquetes adicionales para gaming
-    environment.systemPackages = with pkgs; [
-      # wine
-      # winetricks
-      # lutris
-      # heroic
-    ];
+    #environment.systemPackages = with pkgs; [
+    # wine
+    # winetricks
+    # lutris
+    # heroic
+    #];
   };
 }
