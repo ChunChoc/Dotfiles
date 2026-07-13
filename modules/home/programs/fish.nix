@@ -48,6 +48,7 @@ in
     enable = true;
 
     shellAbbrs = {
+      cd = "z";
       ls = "eza --icons --group-directories-first";
       ll = "eza -l --icons --group-directories-first";
       cat = "bat";
