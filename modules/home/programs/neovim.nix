@@ -26,7 +26,7 @@
     # se editan fuera de un devshell (estos dotfiles, notas de Obsidian):
     # con Mason desactivado deben venir del PATH
     statix
-    nixfmt-rfc-style
+    nixfmt
     markdownlint-cli2
     markdown-toc
     prettier
