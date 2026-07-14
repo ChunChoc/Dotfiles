@@ -1,0 +1,2 @@
+-- Atajos extra sobre los defaults de LazyVim
+-- https://www.lazyvim.org/configuration/general#keymaps

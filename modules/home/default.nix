@@ -20,6 +20,7 @@ in
     ./programs/claude.nix
     ./programs/zed.nix
     ./programs/tmux.nix
+    ./programs/neovim.nix
     ./mime.nix
     ./wallpaper.nix
   ];
