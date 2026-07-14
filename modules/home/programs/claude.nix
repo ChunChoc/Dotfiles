@@ -80,6 +80,7 @@ in
         exit 1
       end
 
+      set -lx PATH ${pkgs.nodejs}/bin $PATH
       exec ${pkgs.nodejs}/bin/npx -y @upstash/context7-mcp --api-key "$CONTEXT7_API_KEY"
     '';
   };
@@ -108,6 +109,7 @@ in
     text = ''
       #!${pkgs.fish}/bin/fish
 
+      set -lx PATH ${pkgs.nodejs}/bin $PATH
       exec ${pkgs.nodejs}/bin/npx -y chrome-devtools-mcp@latest \
         --executablePath=${pkgs.brave}/bin/brave \
         --isolated \
