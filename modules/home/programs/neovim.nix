@@ -17,8 +17,10 @@
     lazygit
 
     # Treesitter compila sus parsers en runtime y necesita un compilador C
-    # en el PATH incluso fuera de un devshell (p. ej. editando estos dotfiles)
+    # y el CLI de tree-sitter en el PATH incluso fuera de un devshell
+    # (p. ej. editando estos dotfiles)
     gcc
+    tree-sitter
   ];
 
   # direnv + nix-direnv: al entrar al directorio de un proyecto, cualquier
