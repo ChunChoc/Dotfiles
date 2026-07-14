@@ -69,9 +69,9 @@ in
         fd --hidden --exclude .git | fzf
       '';
 
-      vf = ''
-        set file (ff)
-        test -n "$file"; and vim "$file"
+       vf = ''
+         set file (ff)
+        test -n "$file"; and nvim "$file"
       '';
 
       bf = ''
@@ -97,9 +97,8 @@ in
     };
 
     interactiveShellInit = ''
-      set -g fish_greeting
-      set -gx EDITOR vim
-      fish_config theme choose catppuccin-mocha --color-theme=dark
+       set -g fish_greeting
+       fish_config theme choose catppuccin-mocha --color-theme=dark
 
       if test -f ~/Dotfiles/.secrets/secrets.env
         source ~/Dotfiles/.secrets/secrets.env

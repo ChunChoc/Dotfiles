@@ -10,8 +10,10 @@
     shell = pkgs.fish;
   };
 
-  # Paquetes esenciales para cualquier terminal
-  environment.systemPackages = with pkgs; [
-    vim
-  ];
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+  };
 }

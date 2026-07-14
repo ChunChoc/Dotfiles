@@ -31,7 +31,7 @@
   "showLauncherButton": false,
   "showWorkspaceSwitcher": true,
   "showFocusedWindow": true,
-  "showWeather": true,
+  "showWeather": false,
   "showMusic": true,
   "showClipboard": true,
   "showCpuUsage": true,
@@ -128,7 +128,7 @@
   "spotlightCloseNiriOverview": true,
   "niriOverviewOverlayEnabled": true,
   "useAutoLocation": false,
-  "weatherEnabled": true,
+  "weatherEnabled": false,
   "networkPreference": "auto",
   "vpnLastConnected": "",
   "iconTheme": "System Default",
@@ -259,8 +259,7 @@
       ],
       "centerWidgets": [
         "music",
-        "clock",
-        "weather"
+        "clock"
       ],
       "rightWidgets": [
         "systemTray",
