@@ -21,6 +21,15 @@
     # (p. ej. editando estos dotfiles)
     gcc
     tree-sitter
+
+    # Linters/formatters que piden los extras de LazyVim para archivos que
+    # se editan fuera de un devshell (estos dotfiles, notas de Obsidian):
+    # con Mason desactivado deben venir del PATH
+    statix
+    nixfmt-rfc-style
+    markdownlint-cli2
+    markdown-toc
+    prettier
   ];
 
   # direnv + nix-direnv: al entrar al directorio de un proyecto, cualquier
