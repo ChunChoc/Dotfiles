@@ -28,7 +28,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"org\.gnome\.Nautilus|org.quickshell"#
+    match app-id=r#"org\.gnome\.Nautilus|com\.danklinux\.dms"#
     open-floating true
 }
 

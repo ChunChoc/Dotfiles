@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   uiUxProMaxSkill = pkgs.fetchFromGitHub {
@@ -35,7 +40,6 @@ in
       nixd
       opencode
       claude-code
-      python3
     ];
 
     home-manager.users.chunchoc.xdg.configFile."opencode/opencode.json".source =

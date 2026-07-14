@@ -85,7 +85,7 @@ in
   programs.niri.enable = true;
   programs.dms-shell = {
     enable = true;
-    enableCalendarEvents = false;
+    enableCalendarEvents = true;
   };
 
   services.displayManager.dms-greeter = {
