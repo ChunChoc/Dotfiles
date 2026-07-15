@@ -23,7 +23,6 @@
     tree
     htop
     eza
-    bat
     fd
     herdr
     pokeget-rs
