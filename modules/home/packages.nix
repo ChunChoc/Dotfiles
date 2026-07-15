@@ -24,7 +24,6 @@
     htop
     eza
     bat
-    fzf
     fd
     herdr
     pokeget-rs

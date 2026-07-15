@@ -63,12 +63,32 @@ let
     "Read(~/.local/share/keyrings/**)"
     "Edit(~/.local/share/keyrings/**)"
   ];
+
+  # Tema Catppuccin Mocha (acento mauve) para la TUI de Claude Code.
+  # Tokens según code.claude.com/docs/en/terminal-config#create-a-custom-theme
+  claudeCatppuccinTheme = {
+    name = "Catppuccin Mocha";
+    base = "dark";
+    overrides = {
+      claude = "#cba6f7";
+      text = "#cdd6f4";
+      error = "#f38ba8";
+      success = "#a6e3a1";
+      warning = "#f9e2af";
+      promptBorder = "#cba6f7";
+      diffAdded = "#2e3a30";
+      diffRemoved = "#3c2a37";
+      userMessageBackground = "#313244";
+    };
+  };
 in
 
 {
   # Toda la config de Claude Code (MCP, denies, plugin) se aplica solo si el
   # feature development está activo, igual que el binario que la usa.
   config = lib.mkIf osConfig.myFeatures.development {
+
+  home.file.".claude/themes/catppuccin-mocha.json".text = builtins.toJSON claudeCatppuccinTheme;
 
   home.file.".local/bin/context7-mcp" = {
     executable = true;
@@ -191,6 +211,21 @@ in
       .permissions = ((.permissions // {}) | if type == "object" then . else {} end)
       | .permissions.deny = (((.permissions.deny // []) + $denyRules) | unique)
     ' "$settings_json" > "$tmp_file"
+
+    ${pkgs.coreutils}/bin/mv "$tmp_file" "$settings_json"
+  '';
+
+  # El settings.json es mutable (Claude Code escribe en él), así que el tema
+  # se fija con jq igual que las deny rules, sin pisar el resto del archivo.
+  home.activation.claudeCatppuccinTheme = lib.hm.dag.entryAfter [ "claudeDangerousPermissionDenies" ] ''
+    settings_json="$HOME/.claude/settings.json"
+    tmp_file="$(${pkgs.coreutils}/bin/mktemp "''${TMPDIR:-/tmp}/claude-settings.XXXXXX")"
+
+    if ! test -f "$settings_json"; then
+      printf '{}\n' > "$settings_json"
+    fi
+
+    ${pkgs.jq}/bin/jq '.theme = "custom:catppuccin-mocha"' "$settings_json" > "$tmp_file"
 
     ${pkgs.coreutils}/bin/mv "$tmp_file" "$settings_json"
   '';

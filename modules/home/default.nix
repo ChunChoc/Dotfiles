@@ -20,6 +20,7 @@ in
     ./packages.nix
     ./localsend.nix
     ./programs/fish.nix
+    ./programs/fzf.nix
     ./programs/niri-session.nix
     ./programs/ai.nix
     ./programs/claude.nix
