@@ -6,18 +6,16 @@ Configuracion modular de NixOS con soporte multi-host, Home Manager y entorno gr
 
 | Flake target | Carpeta | Uso | Features |
 |--------------|---------|-----|----------|
-| `thinkpad` | `hosts/thinkpad` | Trabajo y programacion | development, localsend |
-| `aorus` | `hosts/aorus` | Gaming y desarrollo ocasional | development, gaming, localsend |
-| `nixos-vm` | `hosts/vm` | Desarrollo/testing en VM | development, virtualization, localsend |
+| `thinkpad` | `hosts/thinkpad` | Trabajo y programacion | development, communication, office, localsend, batteryChargeLimit 90 |
 
-> Nota: la VM usa la carpeta `hosts/vm`, pero el target del flake y el hostname son `nixos-vm`.
+Los hosts se definen con la funcion `mkHost` en `flake.nix`; agregar una maquina nueva es declarar su carpeta en `hosts/` y su entrada `mkHost` con sus monitores.
 
 ## Antes de Formatear
 
 Verifica esto antes de instalar en hardware real:
 
 - Tener una copia externa de archivos importantes.
-- Saber que target vas a instalar: `thinkpad` o `aorus`.
+- Saber que target vas a instalar (actualmente solo `thinkpad`).
 - Tener internet disponible desde la ISO minimal.
 - Tener este repositorio accesible por Git o en una USB.
 - Recordar que `hardware-configuration.nix` se genera en cada maquina y no viene incluido en este repo.
@@ -46,16 +44,8 @@ Reemplaza `TU_USUARIO` por el usuario real del repositorio.
 
 ### 3. Copiar hardware-configuration.nix al host correcto
 
-Para ThinkPad:
-
 ```bash
 cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/Dotfiles/hosts/thinkpad/hardware-configuration.nix
-```
-
-Para Aorus:
-
-```bash
-cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/Dotfiles/hosts/aorus/hardware-configuration.nix
 ```
 
 El archivo debe quedar en la misma carpeta que el `default.nix` del host que vas a instalar.
@@ -85,16 +75,8 @@ niri msg outputs
 
 ### 5. Instalar usando el flake
 
-Para ThinkPad:
-
 ```bash
 nixos-install --flake /mnt/etc/nixos/Dotfiles#thinkpad
-```
-
-Para Aorus:
-
-```bash
-nixos-install --flake /mnt/etc/nixos/Dotfiles#aorus
 ```
 
 ### 6. Asignar password al usuario
@@ -140,8 +122,6 @@ Aplicar cambios para un host especifico:
 
 ```bash
 sudo nixos-rebuild switch --flake ~/Dotfiles#thinkpad
-sudo nixos-rebuild switch --flake ~/Dotfiles#aorus
-sudo nixos-rebuild switch --flake ~/Dotfiles#nixos-vm
 ```
 
 Actualizar `flake.lock` y aplicar:
@@ -154,15 +134,18 @@ sudo nixos-rebuild switch --flake .#$(hostname)
 
 ## Aliases Disponibles
 
-Estos aliases estan configurados en Zsh y usan el hostname actual automaticamente:
+Estas funciones y abreviaturas estan configuradas en Fish (`modules/home/programs/fish.nix`) y usan el hostname actual automaticamente:
 
 | Alias | Descripcion |
 |-------|-------------|
 | `update` | Aplica la configuracion actual con `nixos-rebuild switch` |
 | `upgrade` | Ejecuta `nix flake update`, agrega `flake.lock` a Git y aplica la configuracion |
-| `ll` | Listado largo con `ls -l` |
+| `ls` / `ll` | Listados con `eza` (iconos, directorios primero) |
+| `cat` | `bat` con resaltado |
+| `cd` | `z` (zoxide) |
+| `nd` | `nix develop --command fish` |
 | `root` | Obtiene shell de root usando `run0 --background=` |
-| `sudo` | Alias de `run0 --background=` |
+| `sudo` | Funcion que envuelve `run0 --background=` |
 
 ## Estructura
 
@@ -173,9 +156,7 @@ Dotfiles/
 ├── lib/
 │   └── options.nix        # Opciones custom myFeatures
 ├── hosts/
-│   ├── vm/                # Host usado por el target nixos-vm
-│   ├── thinkpad/          # Host para laptop ThinkPad
-│   └── aorus/             # Host para laptop/PC Aorus
+│   └── thinkpad/          # Host para laptop ThinkPad
 └── modules/
     ├── core/              # Sistema base: bootloader, usuario, Nix, locale
     ├── desktop.nix        # Niri, DMS, PipeWire, keyring y PAM
@@ -189,10 +170,13 @@ Edita `hosts/TU_HOST/default.nix`:
 
 ```nix
 myFeatures = {
-  development = true;    # Herramientas de desarrollo
+  development = true;    # Editores, LSP de Nix y agentes AI (con su config de usuario)
+  communication = true;  # Discord, Signal
+  office = true;         # LibreOffice
   gaming = false;        # Steam + soporte 32-bit
-  virtualization = true; # KVM/QEMU + virt-manager
-  localsend = true;      # Abre puertos para LocalSend
+  virtualization = false; # KVM/QEMU + virt-manager
+  localsend = true;      # App LocalSend + sus puertos de firewall
+  batteryChargeLimit = 90; # Limite de carga de bateria (1-100)
 };
 ```
 
@@ -200,11 +184,11 @@ myFeatures = {
 
 - Compositor: Niri
 - Shell/bar: DankMaterialShell
-- Login: TTY con arranque automatico de Niri en tty1
+- Login: greetd + dms-greeter (sesion `niri-dms`)
 - Tema: Catppuccin Mocha Mauve
 - Terminal: Alacritty
-- Lanzador: Fuzzel
-- Shell: Zsh + Starship
+- Editor: Neovim (LazyVim) + Zed
+- Shell: Fish + Starship
 - Audio: PipeWire
 
 ## Problemas Comunes
@@ -226,19 +210,3 @@ nixos-generate-config --root /mnt
 ```
 
 Luego copialo al host correcto dentro de `hosts/`.
-
-### El target vm no existe
-
-El target correcto para la VM es `nixos-vm`, no `vm`:
-
-```bash
-nixos-rebuild switch --flake ~/Dotfiles#nixos-vm
-```
-
-### Quiero probar antes de instalar en hardware real
-
-Usa la VM primero:
-
-```bash
-nixos-install --flake /mnt/etc/nixos/Dotfiles#nixos-vm
-```

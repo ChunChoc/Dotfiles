@@ -46,18 +46,6 @@
     {
       nixosConfigurations = {
 
-        # VM de desarrollo
-        nixos-vm = mkHost {
-          hostname = "vm";
-          monitorSettings = {
-            name = "Virtual-1";
-            width = 1920;
-            height = 1080;
-            refreshRate = 60;
-            scale = 1.0;
-          };
-        };
-
         # Thinkpad - trabajo y programación
         thinkpad = mkHost {
           hostname = "thinkpad";
@@ -75,18 +63,6 @@
               scale = 1;
             }
           ];
-        };
-
-        # Aorus - gaming y desarrollo ocasional
-        aorus = mkHost {
-          hostname = "aorus";
-          monitorSettings = {
-            name = "eDP-1"; # Cambiar según tu monitor
-            width = 1920;
-            height = 1080;
-            refreshRate = 144; # 144Hz probablemente
-            scale = 1.0;
-          };
         };
 
       };

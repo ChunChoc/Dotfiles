@@ -1,3 +1,24 @@
 # Local secrets
 .secrets/
+
+# Planes y specs locales de agentes
 docs/
+
+# Artefactos de nix build
+result
+result-*
+
+# Backups de Home Manager (backupFileExtension = "backup")
+*.backup
+
+# Entornos de direnv
+.direnv/
+
+# Swap files de Vim/Neovim
+*.swp
+*.swo
+
+# Capturas de pantalla sueltas en la raíz (los assets van en wallpaper/)
+/*.png
+/*.jpg
+/*.jpeg

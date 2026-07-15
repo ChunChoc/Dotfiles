@@ -22,11 +22,6 @@
   # T480 Synaptics touchpads can fail IRQ setup on the RMI/SMBus path.
   boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
 
-  # Configure network connections interactively with nmcli or nmtui.
-  networking.networkmanager.enable = true;
-  # MAC WiFi aleatoria por conexión: evita rastreo entre redes.
-  networking.networkmanager.wifi.macAddress = "random";
-
   # Enable BlueZ for the built-in Bluetooth adapter.
   hardware.bluetooth = {
     enable = true;
@@ -35,11 +30,4 @@
 
   # Use the desktop-provided SSH agent for this host.
   services.gnome.gcr-ssh-agent.enable = true;
-
-  # Firewall base
-  networking.firewall.enable = true;
-
-  # Estado del sistema
-  system.stateVersion = "25.11";
-
 }

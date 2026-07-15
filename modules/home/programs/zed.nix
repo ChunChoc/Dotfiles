@@ -1,7 +1,8 @@
-{ ... }:
+{ lib, osConfig, ... }:
 
 {
-  programs.zed-editor = {
+  # Gated con el mismo flag que instala el binario (feature development).
+  programs.zed-editor = lib.mkIf osConfig.myFeatures.development {
     enable = true;
 
     # Zed itself is installed by the development feature. This module owns only

@@ -6,7 +6,8 @@
   # Mi usuario con sus propiedades
   users.users.chunchoc = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
+    # "libvirtd" lo añade el feature virtualization solo cuando está activo.
+    extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.fish;
   };
 

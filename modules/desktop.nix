@@ -119,7 +119,7 @@ in
         }
       '';
     };
-    configHome = "/home/chunchoc";
+    configHome = config.users.users.chunchoc.home;
   };
 
   services.displayManager = {

@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, osConfig, ... }:
 
 let
   claudePermissionDenyRules = [
@@ -66,6 +66,10 @@ let
 in
 
 {
+  # Toda la config de Claude Code (MCP, denies, plugin) se aplica solo si el
+  # feature development está activo, igual que el binario que la usa.
+  config = lib.mkIf osConfig.myFeatures.development {
+
   home.file.".local/bin/context7-mcp" = {
     executable = true;
     text = ''
@@ -200,4 +204,6 @@ in
       "$claude_bin" plugin install --scope user superpowers@claude-plugins-official
     fi
   '';
+
+  };
 }

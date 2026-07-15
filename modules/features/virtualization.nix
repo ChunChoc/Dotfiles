@@ -7,7 +7,7 @@
       enable = true;
       qemu = {
         package = pkgs.qemu_kvm;
-        runAsRoot = true;
+        runAsRoot = false;
         swtpm.enable = true; # Para emular TPM (Windows 11)
       };
     };

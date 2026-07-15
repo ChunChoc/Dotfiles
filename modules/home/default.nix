@@ -16,7 +16,10 @@ in
   imports = [
     ./theme.nix
     ./packages.nix
+    ./localsend.nix
     ./programs/fish.nix
+    ./programs/niri-session.nix
+    ./programs/ai.nix
     ./programs/claude.nix
     ./programs/zed.nix
     ./programs/tmux.nix
