@@ -12,9 +12,8 @@
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Dotfiles/modules/home/dotfiles/nvim";
 
   home.packages = with pkgs; [
-    # LazyVim los usa para pickers, grep y Git UI
+    # LazyVim lo usa para pickers y grep (lazygit viene de programs/lazygit.nix)
     ripgrep
-    lazygit
 
     # Treesitter compila sus parsers en runtime y necesita un compilador C
     # y el CLI de tree-sitter en el PATH incluso fuera de un devshell

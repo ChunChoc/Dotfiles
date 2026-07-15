@@ -24,6 +24,7 @@ in
     ./programs/zed.nix
     ./programs/tmux.nix
     ./programs/neovim.nix
+    ./programs/lazygit.nix
     ./mime.nix
     ./wallpaper.nix
   ];
