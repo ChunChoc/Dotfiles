@@ -7,7 +7,9 @@ let
         ${if output ? mode then ''mode "${output.mode}"'' else ""}
         scale ${toString (output.scale or 1)}
         transform "${output.transform or "normal"}"
-        position x=${toString (output.positionX or primaryLogicalWidth)} y=${toString (output.positionY or 0)}
+        position x=${toString (output.positionX or primaryLogicalWidth)} y=${
+          toString (output.positionY or 0)
+        }
     }
   '';
 in
@@ -22,7 +24,6 @@ in
     ./programs/ai.nix
     ./programs/claude.nix
     ./programs/zed.nix
-    ./programs/tmux.nix
     ./programs/neovim.nix
     ./programs/lazygit.nix
     ./mime.nix
@@ -41,7 +42,8 @@ in
     "starship.toml".source = ./dotfiles/starship/starship.toml;
     "starship-dev.toml".source = ./dotfiles/starship/starship-dev.toml;
     "DankMaterialShell/settings.json".source = ./dotfiles/DankMaterialShell/settings.json;
-    "DankMaterialShell/themes/catppuccin/theme.json".source = ./dotfiles/DankMaterialShell/themes/catppuccin/theme.json;
+    "DankMaterialShell/themes/catppuccin/theme.json".source =
+      ./dotfiles/DankMaterialShell/themes/catppuccin/theme.json;
     "niri/config.kdl".source = ./dotfiles/niri/config.kdl;
     "niri/dms/alttab.kdl".source = ./dotfiles/niri/dms/alttab.kdl;
     "niri/dms/binds.kdl".source = ./dotfiles/niri/dms/binds.kdl;
@@ -62,7 +64,9 @@ in
           position x=0 y=0
       }
     '';
-    "niri/dms/outputs.kdl".text = builtins.concatStringsSep "\n" (map renderExternalOutput externalOutputs);
+    "niri/dms/outputs.kdl".text = builtins.concatStringsSep "\n" (
+      map renderExternalOutput externalOutputs
+    );
   };
 
   # --------------------------------------------------------

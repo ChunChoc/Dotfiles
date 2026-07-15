@@ -21,7 +21,6 @@
     # de usuario (Zed, Claude, OpenCode, skills) vive en modules/home/programs
     # gated con el mismo flag vía osConfig.
     environment.systemPackages = with pkgs; [
-      vscodium
       zed-editor
       nil
       nixd
