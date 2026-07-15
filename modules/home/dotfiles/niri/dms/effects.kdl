@@ -1,11 +1,3 @@
-window-rule {
-    match app-id="Alacritty"
-
-    background-effect {
-        blur true
-    }
-}
-
 layer-rule {
     match namespace="quickshell"
     exclude layer="background"
