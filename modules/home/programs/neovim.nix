@@ -29,7 +29,18 @@
     markdownlint-cli2
     markdown-toc
     prettier
+
+    # El extra lang.astro necesita el binario astro-ls en el PATH; el
+    # ts-plugin que lo acompaña se enlaza abajo en la ruta de Mason.
+    astro-language-server
   ];
+
+  # El extra lang.astro de LazyVim busca @astrojs/ts-plugin dentro del árbol
+  # de paquetes de Mason (LazyVim.get_pkg_path) y avisa con un warning al
+  # abrir cualquier proyecto si no existe. Con Mason desactivado, se enlaza
+  # ahí el plugin real que trae astro-language-server de nixpkgs.
+  home.file.".local/share/nvim/mason/packages/astro-language-server/node_modules/@astrojs/ts-plugin".source =
+    "${pkgs.astro-language-server}/lib/node_modules/astro-language-server/packages/language-tools/ts-plugin";
 
   # direnv + nix-direnv: al entrar al directorio de un proyecto, cualquier
   # proceso (incluido nvim en su propio tab de Herdr) hereda el devshell del
