@@ -26,6 +26,9 @@
       nixd
       opencode
       claude-code
+      # Entornos de desarrollo por proyecto (devenv.nix): paquetes, servicios
+      # (Postgres, Mailpit...) y procesos con `devenv up`, integrado con direnv.
+      devenv
     ];
   };
 }
