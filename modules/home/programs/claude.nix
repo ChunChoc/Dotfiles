@@ -105,9 +105,21 @@ in
       end
 
       set -lx PATH ${pkgs.nodejs}/bin $PATH
+      # Mitigación de cadena de suministro: npm resuelve la última versión
+      # que existía hace 3 días, nunca una recién publicada.
+      set -lx npm_config_before (${pkgs.coreutils}/bin/date -d '3 days ago' -Iseconds)
       exec ${pkgs.nodejs}/bin/npx -y @upstash/context7-mcp --api-key "$CONTEXT7_API_KEY"
     '';
   };
+
+  # bunfig global: cualquier bun/bunx del usuario (incluido el wrapper de
+  # magic-mcp) solo instala versiones con ≥3 días de publicadas — mitigación
+  # de ataques de cadena de suministro en npm. Los proyectos pueden tener su
+  # propio bunfig.toml que complementa a este.
+  home.file.".bunfig.toml".text = ''
+    [install]
+    minimumReleaseAge = 259200
+  '';
 
   home.file.".local/bin/magic-mcp" = {
     executable = true;
@@ -134,6 +146,9 @@ in
       #!${pkgs.fish}/bin/fish
 
       set -lx PATH ${pkgs.nodejs}/bin $PATH
+      # Mitigación de cadena de suministro: npm resuelve la última versión
+      # que existía hace 3 días, nunca una recién publicada.
+      set -lx npm_config_before (${pkgs.coreutils}/bin/date -d '3 days ago' -Iseconds)
       exec ${pkgs.nodejs}/bin/npx -y chrome-devtools-mcp@latest \
         --executablePath=${pkgs.brave}/bin/brave \
         --isolated \
