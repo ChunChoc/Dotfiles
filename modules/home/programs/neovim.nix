@@ -38,5 +38,9 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+    # Sin las líneas "direnv: loading/export..." en cada cd. Ojo: también
+    # silencia el aviso de ".envrc is blocked"; en un proyecto nuevo hay que
+    # acordarse de correr `direnv allow` a mano.
+    silent = true;
   };
 }
