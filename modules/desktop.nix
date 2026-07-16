@@ -168,7 +168,7 @@ in
   # Estado de batería para DMS y otras shells/servicios de escritorio.
   services.upower.enable = true;
 
-  # Bloquea al cerrar la tapa y suspende 5 minutos despues si sigue cerrada
+  # Bloquea al cerrar la tapa y suspende 1 minuto despues si sigue cerrada
   # (suspend-then-hibernate: si sigue suspendida 1 h, hiberna al swap cifrado).
   services.logind.settings.Login = {
     HandleLidSwitch = "ignore";
@@ -194,7 +194,7 @@ in
 
       if lid_is_closed; then
         ${pkgs.systemd}/bin/loginctl lock-sessions
-        ${pkgs.systemd}/bin/systemd-run --quiet --unit="$delayed_unit" --on-active=5m --collect ${pkgs.runtimeShell} -c '
+        ${pkgs.systemd}/bin/systemd-run --quiet --unit="$delayed_unit" --on-active=1m --collect ${pkgs.runtimeShell} -c '
           for lid_state in /proc/acpi/button/lid/*/state; do
             if ${pkgs.gnugrep}/bin/grep -q closed "$lid_state"; then
               ${pkgs.systemd}/bin/systemctl suspend-then-hibernate
