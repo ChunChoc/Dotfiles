@@ -42,7 +42,6 @@ in
     # Archivos estáticos (source)
     "alacritty/alacritty.toml".source = ./dotfiles/alacritty/alacritty.toml;
     "starship.toml".source = ./dotfiles/starship/starship.toml;
-    "starship-dev.toml".source = ./dotfiles/starship/starship-dev.toml;
     "DankMaterialShell/settings.json".source = ./dotfiles/DankMaterialShell/settings.json;
     "DankMaterialShell/themes/catppuccin/theme.json".source =
       ./dotfiles/DankMaterialShell/themes/catppuccin/theme.json;

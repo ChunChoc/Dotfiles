@@ -20,7 +20,6 @@
       ll = "eza -l --icons --group-directories-first";
       cat = "bat";
       root = "run0 --background=";
-      nd = "nix develop --command fish";
     };
 
     functions = {
@@ -71,18 +70,7 @@
         source ~/Dotfiles/.secrets/secrets.env
       end
 
-      # Dentro de un devShell de Nix: usar un starship distinto (catppuccin mocha
-      # minimal) para diferenciar visualmente el entorno de proyecto. Fuera de un
-      # devShell, STARSHIP_CONFIG queda sin definir y se usa ~/.config/starship.toml.
-      if set -q IN_NIX_SHELL
-        set -gx STARSHIP_CONFIG "$HOME/.config/starship-dev.toml"
-      end
-
-      # El pokémon solo en terminales normales; dentro de un devShell de Nix
-      # (donde ya cambia el prompt a starship-dev.toml) no lo mostramos.
-      if not set -q IN_NIX_SHELL
-        pokeget random --hide-name
-      end
+      pokeget random --hide-name
     '';
   };
 }
