@@ -66,9 +66,10 @@
        set -g fish_greeting
        fish_config theme choose catppuccin-mocha --color-theme=dark
 
-      if test -f ~/Dotfiles/.secrets/secrets.env
-        source ~/Dotfiles/.secrets/secrets.env
-      end
+      # OJO: secrets.env NO se carga aquí a propósito. Exportar las API keys
+      # en cada shell las regala a todo proceso hijo (cualquier paquete npm
+      # malicioso podría leerlas). Los wrappers MCP (claude.nix) cargan el
+      # archivo por sí mismos justo antes de usarlas.
 
       pokeget random --hide-name
     '';
