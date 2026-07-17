@@ -24,6 +24,7 @@
       zed-editor
       nil
       nixd
+      vtsls
       opencode
       claude-code
       # Entornos de desarrollo por proyecto (devenv.nix): paquetes, servicios

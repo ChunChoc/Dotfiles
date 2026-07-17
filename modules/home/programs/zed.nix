@@ -28,6 +28,7 @@
       buffer_font_size = 15;
       cli_default_open_behavior = "existing_window";
       icon_theme = "Material Icon Theme";
+      lsp.vtsls.binary.ignore_system_version = false;
       terminal = {
         copy_on_select = false;
         font_family = "JetBrainsMono Nerd Font";
