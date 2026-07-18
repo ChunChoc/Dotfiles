@@ -30,6 +30,9 @@
     # System Utils
     xwayland-satellite
   ]
+  ++ lib.optionals osConfig.myFeatures.development [
+    gh
+  ]
   ++ lib.optionals osConfig.myFeatures.communication [
     #vesktop alternativa de discord que sí funciona en teoría.
     discord # temporal: para depurar screen share; ver plan
