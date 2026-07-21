@@ -19,6 +19,7 @@
       ls = "eza --icons --group-directories-first";
       ll = "eza -l --icons --group-directories-first";
       cat = "bat";
+      grep = "rg";
       root = "run0 --background=";
     };
 
