@@ -18,9 +18,7 @@ return {
           path = "~/Documents/Obsidian",
         },
       },
-      completion = {
-        blink = true, -- LazyVim usa blink.cmp
-      },
+      -- Autocompletado: lo da el LSP integrado (obsidian-ls) sin config extra
       picker = {
         name = "snacks.pick", -- LazyVim usa snacks como picker
       },
