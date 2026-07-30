@@ -103,6 +103,12 @@ input {
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
+// Precarga nautilus como servicio D-Bus. Sin esto, la primera apertura de la
+// sesión tarda ~3 s (arranque completo del proceso: ~1300 .so repartidos en
+// ~100 rutas de /nix/store, mas gstreamer/alsa/tinysparql) y las siguientes son
+// instantaneas porque el proceso queda residente. Esto paga ese costo al inicio.
+spawn-at-startup "nautilus" "--gapplication-service"
+
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
