@@ -19,6 +19,7 @@ in
     ./theme.nix
     ./packages.nix
     ./localsend.nix
+    ./virtualization.nix
     ./programs/fish.nix
     ./programs/fzf.nix
     ./programs/bat.nix

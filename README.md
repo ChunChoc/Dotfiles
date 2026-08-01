@@ -174,7 +174,7 @@ myFeatures = {
   communication = true;  # Discord, Signal
   office = true;         # LibreOffice
   gaming = false;        # Steam + soporte 32-bit
-  virtualization = false; # KVM/QEMU + virt-manager
+  virtualization = true; # KVM/QEMU + virt-manager (UEFI/TPM listos para Windows 11)
   localsend = true;      # App LocalSend + sus puertos de firewall
   batteryChargeLimit = 90; # Limite de carga de bateria (1-100)
 };

@@ -10,7 +10,7 @@
     development = true;
     communication = true;
     office = true;
-    virtualization = false;
+    virtualization = true;
     localsend = true;
     gaming = false;
     batteryChargeLimit = 90;
