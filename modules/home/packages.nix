@@ -20,8 +20,8 @@
       imv
       zathura
       file-roller
-      #obsidian
-      appflowy
+      obsidian
+      #appflowy
       tauon
 
       # CLI Utils
