@@ -150,7 +150,7 @@ in
       # que existía hace 3 días, nunca una recién publicada.
       set -lx npm_config_before (${pkgs.coreutils}/bin/date -d '3 days ago' -Iseconds)
       exec ${pkgs.nodejs}/bin/npx -y chrome-devtools-mcp@latest \
-        --executablePath=${pkgs.brave}/bin/brave \
+        --executablePath=${pkgs.brave-origin}/bin/brave-origin \
         --isolated \
         --no-usage-statistics \
         --no-performance-crux
@@ -193,6 +193,11 @@ in
     ${pkgs.coreutils}/bin/mv "$tmp_file" "$claude_json"
   '';
 
+  # Queda registrado global (activo por defecto en cada proyecto). Claude Code
+  # no tiene un "desactivado por defecto" declarativo: su disabledMcpServers
+  # vive en .claude.json por proyecto, así que apagarlo es a mano con /mcp en
+  # el proyecto donde estorbe. En opencode sí está apagado por defecto
+  # (enabled: false en opencode.json).
   home.activation.claudeChromeDevToolsMcp = lib.hm.dag.entryAfter [ "claudeMagicMcp" ] ''
     claude_json="$HOME/.claude.json"
     tmp_file="$(${pkgs.coreutils}/bin/mktemp "''${TMPDIR:-/tmp}/claude-json.XXXXXX")"
