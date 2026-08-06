@@ -49,6 +49,7 @@
     ]
     ++ lib.optionals osConfig.myFeatures.office [
       libreoffice-fresh # editor diario; toma las fuentes del sistema vía fontconfig
+      hunspellDicts.es_GT # corrección ortográfica para Español (Guatemala)
       #onlyoffice-desktopeditors # para verificar fidelidad de formato .docx/.xlsx
     ];
 }

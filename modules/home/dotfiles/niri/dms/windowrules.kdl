@@ -32,16 +32,19 @@ window-rule {
     open-floating true
 }
 
-//virt manager flotante y pequeño
+// Keep virt-manager floating with the same minimum height as LocalSend.
 window-rule {
     match app-id=r#".virt-manager-wrapped"#
     open-floating true
+    min-height 560
+}
 
-    // Ancho: 80% de la pantalla
-    default-column-width { proportion 0.2; }
-
-    // Alto: 80% de la pantalla
-    default-window-height { proportion 0.4; }
+// VM details and console windows should open nearly full-screen while floating.
+window-rule {
+    match app-id=r#"^\.virt-manager-wrapped$"# title=r#".+ on QEMU/KVM$"#
+    open-floating true
+    default-column-width { proportion 0.9; }
+    default-window-height { proportion 0.9; }
 }
 
 // Zed settings uses the same app-id as the main editor; match by title.
