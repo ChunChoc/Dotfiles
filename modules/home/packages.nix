@@ -14,7 +14,7 @@
       # GUI Utils
       alacritty
       nautilus
-      brave
+      #brave
       brave-origin
       mullvad-browser
       mpv
