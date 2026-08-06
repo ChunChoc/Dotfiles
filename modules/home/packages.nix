@@ -15,6 +15,7 @@
       alacritty
       nautilus
       brave
+      brave-origin
       mullvad-browser
       mpv
       imv
