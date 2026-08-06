@@ -22,7 +22,7 @@
     tree-sitter
 
     # Linters/formatters que piden los extras de LazyVim para archivos que
-    # se editan fuera de un devshell (estos dotfiles, notas de Obsidian):
+    # se editan fuera de un devshell (estos dotfiles, notas en markdown):
     # con Mason desactivado deben venir del PATH
     statix
     nixfmt
