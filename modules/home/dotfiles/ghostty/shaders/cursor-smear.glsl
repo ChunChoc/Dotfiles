@@ -15,6 +15,11 @@
 #define TRAIL_THICKNESS 0.65
 // Opacidad máxima de la cola.
 #define TRAIL_OPACITY 0.9
+// Celdas que se tiene que mover el cursor para que aparezca la estela. Es el
+// equivalente al cursor_trail_start_threshold de Kitty (que también usa 2): al
+// escribir el cursor avanza de una en una, así que no se dispara; solo en
+// saltos (limpiar la pantalla, moverse en vim, cambiar de línea).
+#define START_THRESHOLD 2.0
 
 // Distancia con signo a una cápsula (segmento de grosor r).
 float sdSegment(in vec2 p, in vec2 a, in vec2 b, in float r) {
@@ -41,6 +46,14 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
     vec2 currentCenter = iCurrentCursor.xy + vec2(iCurrentCursor.z, -iCurrentCursor.w) * 0.5;
     vec2 previousCenter = iPreviousCursor.xy + vec2(iPreviousCursor.z, -iPreviousCursor.w) * 0.5;
+
+    // El salto, medido en celdas y no en píxeles: el cursor mide una celda, así
+    // que dividir entre su ancho y su alto vuelve comparables el eje horizontal
+    // y el vertical (una fila y una columna cuentan igual, como en Kitty).
+    vec2 cell = max(iCurrentCursor.zw, vec2(1.0));
+    if (length((currentCenter - previousCenter) / cell) < START_THRESHOLD) {
+        return;
+    }
 
     // La punta de la cola persigue al cursor: al llegar a 1.0 se juntan.
     vec2 tailTip = mix(previousCenter, currentCenter, progress);
