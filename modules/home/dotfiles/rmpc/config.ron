@@ -59,42 +59,20 @@
 
     // OJO: declarar `tabs` reemplaza la lista completa, no la extiende. Por eso
     // están aquí las siete pestañas y no solo la que se modificó. Salió de
-    // `rmpc config`; el único cambio respecto al default es el panel Cava
-    // dentro de "Queue", entre la carátula y las letras.
+    // `rmpc config`; los cambios respecto al default son el panel Cava y el
+    // reparto de la pestaña "Queue".
+    //
+    // La cola va a la IZQUIERDA y el panel auxiliar (carátula / cava / letras) a
+    // la derecha, al revés del default de rmpc. Es para que coincida con nvim,
+    // donde el explorador de snacks también está a la derecha
+    // (dotfiles/nvim/lua/plugins/explorer.lua): contenido a la izquierda, panel
+    // de apoyo a la derecha, siempre en el mismo sitio.
     tabs: [
         (
             name: "Queue",
             pane: Split(
                 direction: Horizontal,
                 panes: [
-                    (
-                        size: "35%",
-                        pane: Split(
-                            direction: Vertical,
-                            panes: [
-                                (
-                                    size: "100%",
-                                    borders: "LEFT | RIGHT | TOP",
-                                    border_symbols: Rounded,
-                                    pane: Pane(AlbumArt)
-                                ),
-                                (
-                                    size: "9",
-                                    borders: "ALL",
-                                    border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤",),
-                                    pane: Pane(Cava)
-                                ),
-                                (
-                                    size: "7",
-                                    borders: "ALL",
-                                    border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤",),
-                                    border_title: [(kind: Text(" Lyrics "))],
-                                    border_title_alignment: Right,
-                                    pane: Pane(Lyrics)
-                                ),
-                            ],
-                        ),
-                    ),
                     (
                         size: "65%",
                         pane: Split(
@@ -126,6 +104,41 @@
                                 ),
                             ],
                         )
+                    ),
+                    (
+                        size: "35%",
+                        pane: Split(
+                            direction: Vertical,
+                            panes: [
+                                // La carátula toma lo que sobre tras repartir el
+                                // cava y las letras. Antes era al revés (ella
+                                // "100%" con las letras en 7) y quedaba enorme:
+                                // como la imagen es cuadrada, su alto arrastraba
+                                // ~500 px y las letras se veían vacías.
+                                (
+                                    size: "100%",
+                                    borders: "LEFT | RIGHT | TOP",
+                                    border_symbols: Rounded,
+                                    pane: Pane(AlbumArt)
+                                ),
+                                (
+                                    size: "9",
+                                    borders: "ALL",
+                                    border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤",),
+                                    pane: Pane(Cava)
+                                ),
+                                // 13 filas: con el interlineado de los .lrc caben
+                                // unos 6-7 versos. Con 7 filas solo entraban dos.
+                                (
+                                    size: "13",
+                                    borders: "ALL",
+                                    border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤",),
+                                    border_title: [(kind: Text(" Lyrics "))],
+                                    border_title_alignment: Right,
+                                    pane: Pane(Lyrics)
+                                ),
+                            ],
+                        ),
                     ),
                 ],
             ),
