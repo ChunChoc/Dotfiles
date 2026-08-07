@@ -1,8 +1,12 @@
 layout {
     background-color "transparent"
 
-    // Set gaps around windows in logical pixels.
-    gaps 4
+    // Margen alrededor de las ventanas, en píxeles lógicos. Son los mismos 8 px
+    // que separan las cápsulas de la barra (DMS) del borde de la pantalla, para
+    // que todo el escritorio respire igual y se vea wallpaper por los cuatro
+    // lados. Si se cambia aquí, hay que cambiarlo también en el `struts` de
+    // abajo y en spacing/barInsetPadding de DankMaterialShell/settings.json.
+    gaps 8
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -158,9 +162,21 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
+        // La barra de DMS reserva 42 px (zona exclusiva = grosor 40 + spacing
+        // 2), pero sus cápsulas solo miden 28 px y van centradas: sobran 6 px
+        // de relleno interno por debajo de ellas. Sin esto, el hueco entre la
+        // cápsula y la ventana sería de 14 px y no de 8 como en los otros tres
+        // lados. El strut negativo le devuelve esos 6 px al área de trabajo y
+        // el `gaps 8` de arriba vuelve a poner el margen bueno.
+        //
+        // El 6 sale de (grosor de barra − grosor de cápsula) / 2, o sea que si
+        // algún día se toca `innerPadding` en DankMaterialShell/settings.json
+        // hay que recalcularlo. `spacing` no influye: mueve la cápsula y la
+        // zona exclusiva a la vez.
+        top -6
+
         // left 64
         // right 64
-        // top 64
         // bottom 64
     }
 }

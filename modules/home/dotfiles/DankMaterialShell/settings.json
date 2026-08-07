@@ -8,8 +8,9 @@
   "matugenTargetMonitor": "",
   "popupTransparency": 0.9,
   "dockTransparency": 0.9,
-  "widgetBackgroundColor": "sch",
+  "widgetBackgroundColor": "sc",
   "widgetColorMode": "default",
+  "barElevationEnabled": false,
   "cornerRadius": 12,
   "use24HourClock": false,
   "showSeconds": false,
@@ -270,10 +271,11 @@
         "battery",
         "controlCenterButton"
       ],
-      "spacing": 4,
+      "spacing": 2,
       "innerPadding": 4,
+      "barInsetPadding": 6,
       "bottomGap": 0,
-      "transparency": 0.9,
+      "transparency": 0,
       "widgetTransparency": 0.9,
       "squareCorners": false,
       "noBackground": false,
@@ -293,9 +295,9 @@
       "autoHideDelay": 250,
       "openOnOverview": false,
       "visible": true,
-      "popupGapsAuto": true,
-      "popupGapsManual": 4,
-      "maximizeDetection": true
+      "popupGapsAuto": false,
+      "popupGapsManual": 2,
+      "maximizeDetection": false
     }
   ],
   "configVersion": 5
