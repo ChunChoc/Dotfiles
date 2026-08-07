@@ -12,7 +12,8 @@
     with pkgs;
     [
       # GUI Utils
-      alacritty
+      # La terminal es Ghostty y la instala programs/ghostty.nix (necesita el
+      # módulo para la unit de systemd y la activación por D-Bus)
       nautilus
       #brave
       brave-origin

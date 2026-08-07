@@ -29,6 +29,7 @@ in
     ./programs/zed.nix
     ./programs/neovim.nix
     ./programs/lazygit.nix
+    ./programs/ghostty.nix
     ./mime.nix
     ./wallpaper.nix
   ];
@@ -41,7 +42,6 @@ in
   # --------------------------------------------------------
   xdg.configFile = {
     # Archivos estáticos (source)
-    "alacritty/alacritty.toml".source = ./dotfiles/alacritty/alacritty.toml;
     "herdr/config.toml".source = ./dotfiles/herdr/config.toml;
     "starship.toml".source = ./dotfiles/starship/starship.toml;
     "DankMaterialShell/settings.json".source = ./dotfiles/DankMaterialShell/settings.json;

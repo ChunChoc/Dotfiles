@@ -186,7 +186,7 @@ myFeatures = {
 - Shell/bar: DankMaterialShell
 - Login: greetd + dms-greeter (sesion `niri-dms`)
 - Tema: Catppuccin Mocha Mauve
-- Terminal: Alacritty
+- Terminal: Ghostty
 - Editor: Neovim (LazyVim) + Zed
 - Shell: Fish + Starship
 - Audio: PipeWire

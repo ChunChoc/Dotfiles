@@ -1,4 +1,4 @@
--- Tema del sistema: Catppuccin Mocha (igual que Alacritty, Fish y DMS)
+-- Tema del sistema: Catppuccin Mocha (igual que Ghostty, Fish y DMS)
 return {
   {
     "catppuccin/nvim",
