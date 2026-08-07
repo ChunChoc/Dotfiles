@@ -17,6 +17,29 @@ let
     tweaks = [ "rimless" ];
     variant = "mocha";
   };
+
+  # Teclas muertas (el acento del layout latam) en aplicaciones GTK.
+  #
+  # GTK bajo Wayland elige por defecto el contexto de entrada "wayland", que
+  # espera que la composición la provea un método de entrada del compositor.
+  # niri anuncia zwp_text_input_manager_v3 pero no compone nada por su cuenta,
+  # solo hace de puente hacia un IME; sin ninguno corriendo la tecla muerta se
+  # descarta y la vocal llega pelada (´ + a daba "a" en vez de "á").
+  #
+  # Comprobado tecleando con un teclado virtual y leyendo los bytes del pty:
+  #   Ghostty tal cual .................. 61 61      -> "aa"
+  #   foot (compone con xkbcommon) ...... 61 c3 a1   -> "aá"
+  #   Ghostty con esta variable ......... 61 c3 a1   -> "aá"
+  #
+  # gtk-im-context-simple compone en el propio cliente. El problema se detectó
+  # en Ghostty, pero se pone a nivel de escritorio porque afecta a cualquier
+  # app GTK bajo este compositor.
+  #
+  # Efecto secundario: desactiva los IME (fcitx, ibus). No usas ninguno; si
+  # algún día ocupas escritura china o japonesa, esto es lo primero que quitar.
+  gtkImModule = {
+    GTK_IM_MODULE = "gtk-im-context-simple";
+  };
 in
 
 {
@@ -25,7 +48,16 @@ in
     GDK_BACKEND = "wayland";
     QT_QPA_PLATFORM = "wayland";
     GTK_CSD = "0";
-  };
+  } // gtkImModule;
+
+  # Las de arriba solo llegan a lo que arranca desde el shell o desde niri:
+  # home.sessionVariables escribe hm-session-vars.sh, que systemd no lee. Los
+  # units de usuario se alimentan de ~/.config/environment.d, y ahí solo
+  # escribe systemd.user.sessionVariables. Por eso el módulo de entrada va
+  # declarado en los dos sitios: si faltara aquí, el daemon de Ghostty
+  # (app-com.mitchellh.ghostty.service) se quedaría sin él, que es justo el
+  # proceso que crea las ventanas.
+  systemd.user.sessionVariables = gtkImModule;
 
   # Configuración del puntero (Cursor)
   home.pointerCursor = {

@@ -63,6 +63,11 @@
   xdg.configFile."systemd/user/graphical-session.target.wants/app-com.mitchellh.ghostty.service".source =
     "${config.programs.ghostty.package}/share/systemd/user/app-com.mitchellh.ghostty.service";
 
+  # Nota: las teclas muertas (´ + a = á) no funcionan en Ghostty sin
+  # GTK_IM_MODULE=gtk-im-context-simple. La variable se declara a nivel de
+  # escritorio en ../theme.nix, con el diagnóstico completo; aquí solo queda el
+  # apunte porque este es el programa donde se notó.
+
   # DankMaterialShell deja un ~/.config/ghostty/config.ghostty vacío junto al
   # themes/dankcolors que sí genera. Ghostty lee los dos nombres de archivo y
   # se queja en cada arranque ("FileIsEmpty" + "both config files exist").
