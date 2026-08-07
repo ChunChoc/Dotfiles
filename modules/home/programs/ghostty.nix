@@ -28,6 +28,17 @@
         "16=#fab387"
         "17=#f5e0dc"
       ];
+      # Estela del cursor, como el cursor_trail de Kitty. Ghostty no tiene
+      # animaciones propias: lo único que anima es el pipeline de shaders, así
+      # que el efecto va en un GLSL (ver ../dotfiles/ghostty/shaders/).
+      # Se pueden encadenar más shaders añadiendo entradas a esta lista; la
+      # salida de cada uno alimenta el iChannel0 del siguiente.
+      custom-shader = [ "${../dotfiles/ghostty/shaders/cursor-smear.glsl}" ];
+      # `true` = el bucle de animación corre solo en la ventana enfocada
+      # (<10% de un core). Con `always` animaría también las de atrás, que en
+      # una laptop es gastar batería en algo que no estás viendo.
+      custom-shader-animation = true;
+
       gtk-single-instance = true;
       # Sin esto Ghostty se cierra entero al cerrar la última ventana: el
       # daemon muere, suelta el nombre de D-Bus y Mod+Return deja de hacer
@@ -51,6 +62,18 @@
   # ventana de la sesión, que pagaría el segundo completo.
   xdg.configFile."systemd/user/graphical-session.target.wants/app-com.mitchellh.ghostty.service".source =
     "${config.programs.ghostty.package}/share/systemd/user/app-com.mitchellh.ghostty.service";
+
+  # DankMaterialShell deja un ~/.config/ghostty/config.ghostty vacío junto al
+  # themes/dankcolors que sí genera. Ghostty lee los dos nombres de archivo y
+  # se queja en cada arranque ("FileIsEmpty" + "both config files exist").
+  # Se borra solo si está vacío: el día que DMS le escriba algo de verdad,
+  # este guard no lo toca.
+  home.activation.cleanEmptyGhosttyConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    stray="$HOME/.config/ghostty/config.ghostty"
+    if test -f "$stray" && ! test -s "$stray"; then
+      ${pkgs.coreutils}/bin/rm -f "$stray"
+    fi
+  '';
 
   # dbus-broker solo escanea los .service de activación al arrancar, y el bus
   # de sesión sobrevive a los re-logins: sin esto, el archivo que instala

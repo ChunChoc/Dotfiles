@@ -1,0 +1,26 @@
+// Config de rmpc. Solo lleva lo que se aparta del default; el resto (incluidos
+// los keybinds, que ya son estilo vim) se toma de fábrica. Para ver el default
+// completo y de dónde salen estos nombres: `rmpc config`.
+#![enable(implicit_some)]
+#![enable(unwrap_newtypes)]
+#![enable(unwrap_variant_newtypes)]
+(
+    // MPD escucha solo en loopback (ver programs/mpd.nix). El servicio también
+    // exporta MPD_HOST/MPD_PORT, así que esto es redundante a propósito: rmpc
+    // sigue funcionando aunque lo lances desde un entorno sin esas variables.
+    address: "127.0.0.1:6600",
+    theme: "catppuccin-mocha",
+    volume_step: 5,
+    // La biblioteca es chica; que el cursor no se pegue a los bordes.
+    scrolloff: 4,
+    wrap_navigation: true,
+    album_art: (
+        // Auto detecta el protocolo gráfico del terminal. Ghostty implementa el
+        // de Kitty, así que la carátula sale como imagen de verdad, no en ASCII.
+        method: Auto,
+        max_size_px: (width: 1200, height: 1200),
+        disabled_protocols: ["http://", "https://"],
+        vertical_align: Center,
+        horizontal_align: Center,
+    ),
+)

@@ -160,6 +160,29 @@ in
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+
+    # El grafo corre a 48 kHz (lo que quieren las llamadas y el escritorio), pero
+    # la biblioteca de MPD es FLAC 16/44.1: a rate fijo cada canción pasaría por
+    # un remuestreo 44.1 -> 48 innecesario. Con allowed-rates PipeWire conmuta el
+    # grafo al rate nativo del stream y la reproducción sale bit-perfect hasta el
+    # DAC (en los Moondrop MAY, el que trae el propio cable USB-C).
+    #
+    # Solo conmuta cuando no hay otro stream sonando, así que una llamada en
+    # curso nunca se ve interrumpida: en ese caso gana el rate del grafo y MPD
+    # es el que se remuestrea, que es exactamente el orden de prioridades que
+    # queremos.
+    extraConfig.pipewire."10-clock-rates" = {
+      "context.properties" = {
+        "default.clock.rate" = 48000;
+        "default.clock.allowed-rates" = [
+          44100
+          48000
+          88200
+          96000
+          192000
+        ];
+      };
+    };
   };
 
   # Impresión. También registra cups-pk-helper en D-Bus/Polkit para DMS.

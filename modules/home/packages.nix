@@ -24,7 +24,7 @@
       file-roller
       obsidian
       #appflowy
-      tauon
+      # La música la manejan MPD + rmpc (programs/mpd.nix), antes tauon
 
       # CLI Utils
       git
