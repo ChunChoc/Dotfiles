@@ -33,21 +33,22 @@
         mono_option = "average";
       };
 
-      # Degradado Catppuccin Mocha de frío a caliente: azul abajo (silencio),
-      # rojo arriba (picos), como un VU. gradient_color_1 es la base.
-      # Los valores van entre comillas simples porque cava las exige.
+      # Degradado Catppuccin Mocha recorriendo el círculo de tono: cian -> azul
+      # -> violeta -> magenta -> rojo -> naranja. El mauve del sistema queda en
+      # el centro, que es donde más tiempo pasan las barras.
+      # gradient_color_1 es la base. Van entre comillas simples: cava las exige.
       color = {
         background = "'default'"; # hereda el fondo del terminal
         gradient = 1;
         gradient_count = 8;
-        gradient_color_1 = "'#89b4fa'"; # blue
-        gradient_color_2 = "'#74c7ec'"; # sapphire
-        gradient_color_3 = "'#94e2d5'"; # teal
-        gradient_color_4 = "'#a6e3a1'"; # green
-        gradient_color_5 = "'#f9e2af'"; # yellow
-        gradient_color_6 = "'#fab387'"; # peach
-        gradient_color_7 = "'#eba0ac'"; # maroon
-        gradient_color_8 = "'#f38ba8'"; # red
+        gradient_color_1 = "'#94e2d5'"; # teal
+        gradient_color_2 = "'#89b4fa'"; # blue
+        gradient_color_3 = "'#b4befe'"; # lavender
+        gradient_color_4 = "'#cba6f7'"; # mauve  <- el acento del sistema
+        gradient_color_5 = "'#f5c2e7'"; # pink
+        gradient_color_6 = "'#eba0ac'"; # maroon
+        gradient_color_7 = "'#fab387'"; # peach
+        gradient_color_8 = "'#f9e2af'"; # yellow
       };
 
       smoothing = {
