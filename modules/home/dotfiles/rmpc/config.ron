@@ -121,12 +121,6 @@
                                     border_symbols: Rounded,
                                     pane: Pane(AlbumArt)
                                 ),
-                                (
-                                    size: "9",
-                                    borders: "ALL",
-                                    border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤",),
-                                    pane: Pane(Cava)
-                                ),
                                 // 13 filas: con el interlineado de los .lrc caben
                                 // unos 6-7 versos. Con 7 filas solo entraban dos.
                                 (
@@ -136,6 +130,20 @@
                                     border_title: [(kind: Text(" Lyrics "))],
                                     border_title_alignment: Right,
                                     pane: Pane(Lyrics)
+                                ),
+                                // El cava va al final, no entre la carátula y las
+                                // letras. Es lo único que se mueve a 60 fps de
+                                // toda la interfaz: en medio hacía parpadear el
+                                // borde de la carátula todo el tiempo, y su línea
+                                // base quedaba a media altura sin alinear con
+                                // nada. Al fondo, esa base coincide con el borde
+                                // inferior del panel de la cola y las barras
+                                // (orientation: Bottom) crecen hacia adentro.
+                                (
+                                    size: "9",
+                                    borders: "ALL",
+                                    border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤",),
+                                    pane: Pane(Cava)
                                 ),
                             ],
                         ),
