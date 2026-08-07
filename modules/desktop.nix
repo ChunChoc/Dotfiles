@@ -174,11 +174,17 @@ in
     extraConfig.pipewire."10-clock-rates" = {
       "context.properties" = {
         "default.clock.rate" = 48000;
+        # Las dos familias completas (múltiplos de 44.1 y de 48). Si un archivo
+        # viene a un rate que no esté aquí, o que la tarjeta no soporte, no pasa
+        # nada malo: PipeWire simplemente lo remuestrea como hasta ahora.
+        # El códec interno (ALC257) reporta 44100/48000/96000/192000, así que
+        # 88200 y 176400 solo aplicarán a un DAC USB que sí los tenga.
         "default.clock.allowed-rates" = [
           44100
           48000
           88200
           96000
+          176400
           192000
         ];
       };
