@@ -276,7 +276,7 @@
       "barInsetPadding": 6,
       "bottomGap": 0,
       "transparency": 0,
-      "widgetTransparency": 0.9,
+      "widgetTransparency": 1,
       "squareCorners": false,
       "noBackground": false,
       "gothCornersEnabled": false,
