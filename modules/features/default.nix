@@ -11,6 +11,7 @@
     ./development.nix
     ./gaming.nix
     ./localsend.nix
+    ./printing.nix
     ./virtualization
   ];
 }

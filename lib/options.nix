@@ -8,6 +8,7 @@
     office = lib.mkEnableOption "apps de oficina y documentos";
     virtualization = lib.mkEnableOption "máquinas virtuales con KVM/QEMU";
     localsend = lib.mkEnableOption "LocalSend (abrir puertos firewall)";
+    printing = lib.mkEnableOption "impresión por CUPS (Canon PIXMA G2170 por USB)";
 
     batteryChargeLimit = lib.mkOption {
       type = lib.types.nullOr (lib.types.ints.between 1 100);

@@ -191,8 +191,7 @@ in
     };
   };
 
-  # Impresión. También registra cups-pk-helper en D-Bus/Polkit para DMS.
-  services.printing.enable = true;
+  # La impresión (CUPS) vive en modules/features/printing.nix.
 
   # Estado de batería para DMS y otras shells/servicios de escritorio.
   services.upower.enable = true;

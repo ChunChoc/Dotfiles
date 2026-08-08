@@ -12,6 +12,7 @@
     office = true;
     virtualization = true;
     localsend = true;
+    printing = true;
     gaming = false;
     batteryChargeLimit = 90;
   };
