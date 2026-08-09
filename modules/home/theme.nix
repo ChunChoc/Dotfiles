@@ -83,8 +83,26 @@ in
         accent = "mauve";
       };
     };
+    # La fuente de la INTERFAZ de las apps GTK: menús, botones, etiquetas y
+    # sobre todo los diálogos de abrir/guardar. Es la misma que usa DMS
+    # (settings.json, "fontFamily"), así que el diálogo de guardar de Brave y la
+    # barra del escritorio se leen con la misma letra.
+    #
+    # Antes era JetBrainsMono Nerd Font: una monoespaciada de programar haciendo
+    # de fuente de interfaz. Se queda solo donde hay código, que es la terminal
+    # (programs/ghostty.nix, con su propia configuración de fuente y ajena a
+    # esto) y el `monospace-font-name` de aquí abajo.
+    #
+    # Roboto Flex está instalada a nivel de sistema en core/fonts.nix, que es
+    # donde tiene que estar para que la vean tanto Qt (DMS) como fontconfig.
+    #
+    # Esta opción no escribe en un solo sitio: home-manager la vuelca en el
+    # settings.ini de GTK3 y GTK4 y, además, en el font-name de dconf
+    # (modules/misc/gtk/gtk3.nix:162). Hacen falta los dos, porque el diálogo de
+    # Brave no lo dibuja Brave sino xdg-desktop-portal-gnome, que es un proceso
+    # aparte y de los que leen la configuración por gsettings.
     font = {
-      name = "JetBrainsMono Nerd Font";
+      name = "Roboto Flex";
       size = 11;
     };
     gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
@@ -98,6 +116,17 @@ in
       color-scheme = "prefer-dark";
       gtk-theme = "catppuccin-mocha-mauve-standard+rimless";
       icon-theme = "Papirus-Dark";
+
+      # El `font-name` NO se pone aquí: lo escribe home-manager a partir de
+      # `gtk.font` de arriba, y declararlo en los dos sitios daría un conflicto
+      # de claves duplicadas en dconf.
+      #
+      # El monoespaciado sí, porque `gtk.font` no lo cubre y sin esto queda al
+      # valor de fábrica de GNOME (Source Code Pro), que ni siquiera está
+      # instalada: cualquier app GTK que pida "monospace" acabaría en la
+      # sustituta que le tocara. Aquí no hay interfaz que valga, es texto de
+      # código, así que se queda JetBrains Mono igual que la terminal.
+      monospace-font-name = "JetBrainsMono Nerd Font 11";
     };
   };
 
