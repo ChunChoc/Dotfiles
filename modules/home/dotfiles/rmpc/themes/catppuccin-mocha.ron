@@ -225,7 +225,10 @@
                                 panes: [
                                     // El chip de modo ya lleva fondo propio, así
                                     // que no necesita marco para leerse como chip.
-                                    (size: "10", pane: Component("input_mode")),
+                                    // 12, no 10: el chip creció 2 columnas al
+                                    // ponerle las tapas redondas (ver el
+                                    // componente "input_mode" más abajo).
+                                    (size: "12", pane: Component("input_mode")),
                                     (size: "100%", pane: Component("progress_bar")),
                                 ]
                             )
@@ -334,11 +337,43 @@
                 ),
             ]
         ),
+        // El chip de modo, rematado con las mismas tapas redondas (U+E0B6 y
+        // U+E0B4) que abren y cierran el prompt de starship y las pastillas de
+        // la barra de estado de Yazi. Las tres TUI comparten así el mismo
+        // vocabulario de forma, que es lo que hace que se lean como un solo
+        // escritorio y no como tres programas sueltos.
+        //
+        // Las tapas llevan el color del chip en `fg` y ningún `bg`: el glifo es
+        // un semicírculo relleno, así que pintado sobre el fondo de la app
+        // continúa el rectángulo y lo redondea. Por eso el color se repite en
+        // cada rama del Replace: cada modo tiene el suyo.
+        //
+        // Son tres Replace en la lista de `content` y no un Group de tres
+        // trozos con estilo cada uno, aunque el Group sea más corto. Motivo:
+        // rmpc ignora en silencio los campos que no conoce dentro de un Group
+        // (comprobado colándole un `bogus:` inventado y arrancando igual), así
+        // que no había forma de saber si respetaba el `style` de cada hijo. La
+        // lista de `content` con un `style` por elemento sí está probada: es lo
+        // que usa el componente "state" de aquí abajo, y el `style` dentro de
+        // `replace:` es el que ya pintaba el chip antes de las tapas.
+        //
+        // Anchura: 1 tapa + 8 del rótulo + 1 tapa = 10, centrado en un panel de
+        // 12, que deja el mismo espacio de 1 columna a cada lado que había
+        // antes con el rótulo pelado en un panel de 10. Si algún día se añade
+        // un modo con un rótulo de otra longitud, hay que recalcular el 12.
         "input_mode": Pane(Property(
             content: [
                 (kind: Transform(Replace(content: (kind: Property(Status(InputMode()))), replacements: [
+                    (match: "Normal", replace: (kind: Text(""), style: (fg: "#cba6f7"))),
+                    (match: "Insert", replace: (kind: Text(""), style: (fg: "#a6e3a1"))),
+                ]))),
+                (kind: Transform(Replace(content: (kind: Property(Status(InputMode()))), replacements: [
                     (match: "Normal", replace: (kind: Text(" NORMAL "), style: (fg: "#1e1e2e", bg: "#cba6f7"))),
                     (match: "Insert", replace: (kind: Text(" INSERT "), style: (fg: "#1e1e2e", bg: "#a6e3a1"))),
+                ]))),
+                (kind: Transform(Replace(content: (kind: Property(Status(InputMode()))), replacements: [
+                    (match: "Normal", replace: (kind: Text(""), style: (fg: "#cba6f7"))),
+                    (match: "Insert", replace: (kind: Text(""), style: (fg: "#a6e3a1"))),
                 ])))
             ], align: Center
         )),

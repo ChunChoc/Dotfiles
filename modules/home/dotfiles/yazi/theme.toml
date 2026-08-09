@@ -73,6 +73,13 @@ syntect_theme = ""
 active   = { fg = "#1e1e2e", bg = "#fab387", bold = true }
 inactive = { fg = "#cdd6f4", bg = "#45475a" }
 
+# Las mismas tapas redondas que en [status]. Van escritas aquí aunque coincidan
+# con el valor por defecto de Yazi: el tema fija el resto de [tabs], y dejar los
+# separadores al azar del preset es justo cómo se coló el bug de la barra de
+# estado.
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
 [mode]
 normal_main = { fg = "#1e1e2e", bg = "#cba6f7", bold = true }
 normal_alt  = { fg = "#cba6f7", bg = "#313244" }
@@ -91,8 +98,16 @@ current = { bg = "#45475a", bold = true }
 preview = { underline = true }
 
 [status]
-sep_left  = { open = "", close = "" }
-sep_right = { open = "", close = "" }
+# Tapas redondas en las pastillas de la barra de estado: las mismas U+E0B6 y
+# U+E0B4 que abren y cierran el prompt de starship (ver starship/starship.toml),
+# así el pie de Yazi y el prompt del shell hablan el mismo idioma dentro de la
+# misma ventana de Ghostty.
+#
+# No es un invento: es el valor por defecto de Yazi (preset theme-dark.toml,
+# incrustado en el binario). El tema de Catppuccin los ponía a cadena vacía y
+# por eso las pastillas salían cuadradas y pegadas unas a otras.
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
 
 progress_label  = { fg = "#cdd6f4", bold = true }
 progress_normal = { fg = "#fab387", bg = "#45475a" }
