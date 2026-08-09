@@ -1,6 +1,6 @@
-// Config de rmpc. Solo lleva lo que se aparta del default; el resto (incluidos
-// los keybinds, que ya son estilo vim) se toma de fábrica. Para ver el default
-// completo y de dónde salen estos nombres: `rmpc config`.
+// Config de rmpc. Solo lleva lo que se aparta del default; el resto (los
+// keybinds, que ya son estilo vim, salvo los dos de abajo) se toma de fábrica.
+// Para ver el default completo y de dónde salen estos nombres: `rmpc config`.
 #![enable(implicit_some)]
 #![enable(unwrap_newtypes)]
 #![enable(unwrap_variant_newtypes)]
@@ -10,6 +10,34 @@
     // sigue funcionando aunque lo lances desde un entorno sin esas variables.
     address: "127.0.0.1:6600",
     theme: "catppuccin-mocha",
+
+    // Cambiar de pestaña con el mismo acorde que en herdr (dotfiles/herdr/
+    // config.toml: next_tab/previous_tab), para no tener que recordar dos
+    // gestos distintos para lo mismo.
+    //
+    // Este bloque SE SUMA a los atajos de fábrica, no los sustituye: `clear`
+    // vale false por defecto y en ese caso rmpc parte de la tabla completa por
+    // defecto y le inserta encima lo que haya aquí (src/config/keys/mod.rs, el
+    // `if value.clear`). Con `clear: true` sí se quedaría solo esto. O sea que
+    // <Tab>, <S-Tab>, gt, gT y los números 1-7 siguen funcionando igual.
+    //
+    // Ojo si alguna vez se añaden más: al insertar un atajo, rmpc lo borra
+    // antes de TODAS las secciones (global, navigation, queue) para que no haya
+    // conflictos. Ctrl+Alt no lo usa ningún default, así que aquí no se pierde
+    // nada.
+    //
+    // El orden de los modificadores no es libre: el parser lee C-, luego A- y
+    // luego S- (src/config/keys/key.rs), así que es <C-A-h> y nunca <A-C-h>.
+    //
+    // Advertencia: si algún día abres rmpc DENTRO de herdr, herdr se queda el
+    // acorde y rmpc no lo ve. Es el problema clásico de multiplexores anidados,
+    // no un fallo de esta configuración.
+    keybinds: (
+        global: {
+            "<C-A-h>": PreviousTab,
+            "<C-A-l>": NextTab,
+        },
+    ),
     // Letras. rmpc NO lee el tag LYRICS embebido en los FLAC: busca un .lrc
     // aquí, espejando la ruta relativa del archivo dentro de ~/Music. Los
     // genera `rmpc-sync-lyrics` (ver programs/mpd.nix).
