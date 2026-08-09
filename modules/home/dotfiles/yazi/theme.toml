@@ -1,69 +1,109 @@
-# Catppuccin Mocha (acento Mauve) para Yazi.
+# Catppuccin Mocha para Yazi, igual que rmpc, Ghostty, nvim y DMS.
 #
-# Copiado sin modificar de catppuccin/yazi, themes/mocha/catppuccin-mocha-mauve.toml
-# (rev baaf5d1c9427b836fbefd126aa855f9eab7a9d0d, 2026-06-13). Se guarda aquí en vez
-# de descargarlo en cada evaluación para que el build no dependa de la red y para
-# poder leer el tema sin salir del repo, igual que rmpc/themes/catppuccin-mocha.ron.
+# Base: catppuccin/yazi, themes/mocha/catppuccin-mocha-mauve.toml (rev
+# baaf5d1c9427b836fbefd126aa855f9eab7a9d0d, 2026-06-13). De ahí se conservan tal
+# cual la sección [icon] y la estructura; la cromática de la interfaz está
+# repartida de nuevo, con el mismo criterio que rmpc/themes/catppuccin-mocha.ron.
 #
-# NO editar a mano: para actualizarlo, volver a copiar el archivo de upstream. El
-# único valor que se cambia es `mgr.syntect_theme`, y no se cambia aquí sino en
-# programs/yazi.nix, que lo reescribe a la ruta del .tmTheme del store (ver ahí).
+# El tema de upstream es "mocha con acento mauve": pone el mismo mauve en todos
+# los bordes, en la fila del cursor y —lo peor— en el color por defecto de las
+# carpetas, que son la mayoría de lo que se ve en un gestor de archivos. El
+# resultado es la pantalla rosa que el comentario de rmpc advierte que hay que
+# evitar. Aquí cada color significa una cosa:
+#
+#   blue     #89b4fa  carpetas. Es lo más repetido en pantalla, así que se lleva
+#                     un color propio y neutro (el mismo dir_style de rmpc)
+#   mauve    #cba6f7  navegación y foco, y solo eso: coincidencias de búsqueda,
+#                     modo NORMAL, borde e ítem activo de los diálogos
+#   peach    #fab387  la pestaña activa y la barra de progreso
+#   teal     #94e2d5  la ubicación (la ruta de la cabecera)
+#   green    #a6e3a1  estado correcto: modo SELECT, ejecutables, permiso x
+#   yellow   #f9e2af  banderas y etiquetas: selección, teclas de los menús de
+#                     ayuda, permiso r
+#   red      #f38ba8  destructivo o roto: cortar, comprimidos, huérfanos, errores
+#   lavender #b4befe  documentos
+#   pink     #f5c2e7  audio y vídeo
+#   grises   surface/overlay: fila del cursor, texto secundario, bordes
+#
+# La fila del cursor va en gris (surface1) y no en un bloque de acento, por la
+# misma razón que en rmpc: hay una en cada panel, y en mauve macizo se comía el
+# resto de la pantalla. Además, al no forzar el color de texto, la carpeta sigue
+# leyéndose azul y el ejecutable verde cuando pasas por encima.
+#
+# Al añadir algo nuevo, conviene meterlo en un rol existente antes que sacar un
+# color más de la paleta.
+#
+# `mgr.syntect_theme` es el único valor que no se escribe aquí: lo reescribe
+# programs/yazi.nix a la ruta del .tmTheme del store (ver ahí).
 
 [app]
 overall = { bg = "#1e1e2e" }
 
 [mgr]
+# La ruta de la cabecera: dónde estás.
 cwd = { fg = "#94e2d5" }
 
-find_keyword  = { fg = "#f9e2af", italic = true }
-find_position = { fg = "#f5c2e7", bg = "reset", italic = true }
+# Coincidencias de búsqueda: aquí sí el mauve, que es donde quieres que el ojo
+# salte, igual que highlighted_item_style en rmpc.
+find_keyword  = { fg = "#cba6f7", bold = true, italic = true }
+find_position = { fg = "#cba6f7", bg = "reset", italic = true }
 
+symlink_target = { italic = true }
+
+# La barrita de la izquierda de cada archivo. Comparte los colores semánticos:
+# verde copiado, rojo cortado, amarillo seleccionado, teal marcado.
 marker_copied   = { fg = "#a6e3a1", bg = "#a6e3a1" }
 marker_cut      = { fg = "#f38ba8", bg = "#f38ba8" }
 marker_marked   = { fg = "#94e2d5", bg = "#94e2d5" }
-marker_selected = { fg = "#cba6f7", bg = "#cba6f7" }
+marker_selected = { fg = "#f9e2af", bg = "#f9e2af" }
 
+# Los contadores de la cabecera, con los mismos colores.
 count_copied   = { fg = "#1e1e2e", bg = "#a6e3a1" }
 count_cut      = { fg = "#1e1e2e", bg = "#f38ba8" }
-count_selected = { fg = "#1e1e2e", bg = "#cba6f7" }
+count_selected = { fg = "#1e1e2e", bg = "#f9e2af" }
 
+# Mismo gris que borders_style en rmpc.
 border_symbol = "│"
-border_style  = { fg = "#7f849c" }
+border_style  = { fg = "#585b70" }
 
-syntect_theme = "~/.config/yazi/Catppuccin-mocha.tmTheme"
+syntect_theme = ""
 
 [tabs]
-active   = { fg = "#1e1e2e", bg = "#cdd6f4", bold = true }
+# Peach para la pestaña activa, como la pestaña activa de rmpc.
+active   = { fg = "#1e1e2e", bg = "#fab387", bold = true }
 inactive = { fg = "#cdd6f4", bg = "#45475a" }
 
 [mode]
 normal_main = { fg = "#1e1e2e", bg = "#cba6f7", bold = true }
-normal_alt  = { fg = "#cba6f7", bg = "#313244"}
+normal_alt  = { fg = "#cba6f7", bg = "#313244" }
 
 select_main = { fg = "#1e1e2e", bg = "#a6e3a1", bold = true }
-select_alt  = { fg = "#a6e3a1", bg = "#313244"}
+select_alt  = { fg = "#a6e3a1", bg = "#313244" }
 
-unset_main  = { fg = "#1e1e2e", bg = "#f2cdcd", bold = true }
-unset_alt   = { fg = "#f2cdcd", bg = "#313244"}
+unset_main  = { fg = "#1e1e2e", bg = "#f9e2af", bold = true }
+unset_alt   = { fg = "#f9e2af", bg = "#313244" }
 
 [indicator]
-parent = { fg = "#1e1e2e", bg = "#cdd6f4" }
-current = { fg = "#1e1e2e", bg = "#cba6f7" }
-preview = { fg = "#1e1e2e", bg = "#cdd6f4" }
+# La fila del cursor. En gris, no en un bloque de acento: ver la nota de arriba.
+# `parent` va más apagado porque es contexto, no foco.
+parent  = { bg = "#313244" }
+current = { bg = "#45475a", bold = true }
+preview = { underline = true }
 
 [status]
-sep_left  = { open = "", close = "" }
-sep_right = { open = "", close = "" }
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
 
-progress_label  = { fg = "#ffffff", bold = true }
-progress_normal = { fg = "#a6e3a1", bg = "#45475a" }
-progress_error  = { fg = "#f9e2af", bg = "#f38ba8" }
+progress_label  = { fg = "#cdd6f4", bold = true }
+progress_normal = { fg = "#fab387", bg = "#45475a" }
+progress_error  = { fg = "#1e1e2e", bg = "#f38ba8" }
 
+# Los permisos van coloreados por lo que significan, no por estética.
 perm_type  = { fg = "#89b4fa" }
 perm_read  = { fg = "#f9e2af" }
 perm_write = { fg = "#f38ba8" }
 perm_exec  = { fg = "#a6e3a1" }
-perm_sep   = { fg = "#7f849c" }
+perm_sep   = { fg = "#585b70" }
 
 [input]
 border   = { fg = "#cba6f7" }
@@ -73,16 +113,16 @@ selected = { reversed = true }
 
 [pick]
 border   = { fg = "#cba6f7" }
-active   = { fg = "#f5c2e7" }
+active   = { fg = "#cba6f7", bold = true }
 inactive = {}
 
 [confirm]
-border     = { fg = "#cba6f7" }
-title      = { fg = "#cba6f7" }
-body       = {}
-list       = {}
-btn_yes    = { reversed = true }
-btn_no     = {}
+border  = { fg = "#cba6f7" }
+title   = { fg = "#cba6f7" }
+body    = {}
+list    = {}
+btn_yes = { fg = "#1e1e2e", bg = "#cba6f7", bold = true }
+btn_no  = {}
 
 [cmp]
 border = { fg = "#cba6f7" }
@@ -90,25 +130,27 @@ border = { fg = "#cba6f7" }
 [tasks]
 border  = { fg = "#cba6f7" }
 title   = {}
-hovered = { fg = "#f5c2e7", bold = true }
+hovered = { fg = "#cba6f7", bold = true }
 
 [which]
+# La tecla en amarillo (es una etiqueta), la descripción en texto normal.
 mask            = { bg = "#313244" }
-cand            = { fg = "#94e2d5" }
+cand            = { fg = "#f9e2af" }
 rest            = { fg = "#9399b2" }
-desc            = { fg = "#f5c2e7" }
-separator       = "  "
+desc            = { fg = "#cdd6f4" }
+separator       = "  "
 separator_style = { fg = "#585b70" }
 
 [help]
-on      = { fg = "#94e2d5" }
-run     = { fg = "#f5c2e7" }
+on      = { fg = "#f9e2af" }
+run     = { fg = "#cdd6f4" }
 desc    = { fg = "#9399b2" }
-hovered = { bg = "#585b70", bold = true }
+hovered = { bg = "#45475a", bold = true }
 footer  = { fg = "#cdd6f4", bg = "#45475a" }
 
 [notify]
-title_info  = { fg = "#94e2d5" }
+# Los mismos niveles que level_styles en rmpc.
+title_info  = { fg = "#89b4fa" }
 title_warn  = { fg = "#f9e2af" }
 title_error = { fg = "#f38ba8" }
 
@@ -118,49 +160,50 @@ rules = [
 	{ mime = "image/*", fg = "#f9e2af" },
 	{ mime = "{audio,video}/*", fg = "#f5c2e7" },
 
-	# Archives
+	# Comprimidos: rojo, como todo lo que conviene mirar dos veces.
 	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#f38ba8" },
 
-	# Documents
-	{ mime = "application/{pdf,doc,rtf}", fg = "#89dceb" },
+	# Documentos en lavender, no en sky: sky se confundía con el azul de las
+	# carpetas a simple vista.
+	{ mime = "application/{pdf,doc,rtf}", fg = "#b4befe" },
 
-	# Virtual file system
+	# Sistema de archivos virtual
 	{ mime = "vfs/{absent,stale}", fg = "#45475a" },
 
-	# Special file
+	# Archivos especiales
 	{ url = "*", is = "orphan", bg = "#f38ba8" },
 	{ url = "*", is = "exec"  , fg = "#a6e3a1" },
 
-	# Dummy file
 	{ url = "*", is = "dummy", bg = "#f38ba8" },
 	{ url = "*/", is = "dummy", bg = "#f38ba8" },
 
-	# Fallback
-	{ url = "*/", fg = "#cba6f7" },
+	# Carpetas. Este es el cambio de fondo respecto a upstream, que las ponía
+	# en mauve: son la mayoría de lo que se ve, así que llevan un color propio.
+	{ url = "*/", fg = "#89b4fa" },
 ]
 
 [spot]
-border = { fg = "#cba6f7" }
-title  = { fg = "#cba6f7" }
-tbl_cell = { fg = "#cba6f7", reversed = true }
-tbl_col = { bold = true }
+border   = { fg = "#cba6f7" }
+title    = { fg = "#cba6f7" }
+tbl_cell = { bg = "#45475a", bold = true }
+tbl_col  = { bold = true }
 
 [icon]
 dirs = [
-	{ name = ".config", text = "", fg = "#cba6f7" },
-	{ name = ".git", text = "", fg = "#cba6f7" },
-	{ name = ".github", text = "", fg = "#cba6f7" },
-	{ name = ".npm", text = "", fg = "#cba6f7" },
-	{ name = "Desktop", text = "", fg = "#cba6f7" },
-	{ name = "Development", text = "", fg = "#cba6f7" },
-	{ name = "Documents", text = "", fg = "#cba6f7" },
-	{ name = "Downloads", text = "", fg = "#cba6f7" },
-	{ name = "Library", text = "", fg = "#cba6f7" },
-	{ name = "Movies", text = "", fg = "#cba6f7" },
-	{ name = "Music", text = "", fg = "#cba6f7" },
-	{ name = "Pictures", text = "", fg = "#cba6f7" },
-	{ name = "Public", text = "", fg = "#cba6f7" },
-	{ name = "Videos", text = "", fg = "#cba6f7" },
+	{ name = ".config", text = "", fg = "#89b4fa" },
+	{ name = ".git", text = "", fg = "#89b4fa" },
+	{ name = ".github", text = "", fg = "#89b4fa" },
+	{ name = ".npm", text = "", fg = "#89b4fa" },
+	{ name = "Desktop", text = "", fg = "#89b4fa" },
+	{ name = "Development", text = "", fg = "#89b4fa" },
+	{ name = "Documents", text = "", fg = "#89b4fa" },
+	{ name = "Downloads", text = "", fg = "#89b4fa" },
+	{ name = "Library", text = "", fg = "#89b4fa" },
+	{ name = "Movies", text = "", fg = "#89b4fa" },
+	{ name = "Music", text = "", fg = "#89b4fa" },
+	{ name = "Pictures", text = "", fg = "#89b4fa" },
+	{ name = "Public", text = "", fg = "#89b4fa" },
+	{ name = "Videos", text = "", fg = "#89b4fa" },
 ]
 conds = [
 	# Special files
@@ -174,7 +217,7 @@ conds = [
 	{ if = "dummy", text = "", fg = "#f38ba8" },
 
 	# Fallback
-	{ if = "dir", text = "", fg = "#cba6f7" },
+	{ if = "dir", text = "", fg = "#89b4fa" },
 	{ if = "exec", text = "", fg = "#a6e3a1" },
 	{ if = "!dir", text = "", fg = "#cdd6f4" },
 ]

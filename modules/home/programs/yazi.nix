@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 let
-  # El tema de Catppuccin trae `syntect_theme` apuntando a una ruta de ejemplo
-  # bajo ~/.config. Aquí se reescribe al .tmTheme real, que ya está pineado en
+  # El tema deja `syntect_theme` vacío porque es lo único que no se puede fijar
+  # desde el TOML: aquí se reescribe al .tmTheme real, que ya está pineado en
   # programs/bat.nix (repo catppuccin/bat): así el resaltado de sintaxis del
   # panel de vista previa de Yazi y el de `bat` salen del mismo archivo y no hay
   # dos pines del mismo repo que se puedan desincronizar.
@@ -85,7 +85,9 @@ in
       require("full-border"):setup({ type = ui.Border.ROUNDED })
     '';
 
-    # El tema vendorizado, con la ruta del .tmTheme resuelta al store.
+    # El tema del repo, con la ruta del .tmTheme resuelta al store. La cromática
+    # está repartida por rol igual que en el tema de rmpc; el porqué de cada
+    # color está documentado en la cabecera del propio theme.toml.
     theme = catppuccinMauve // {
       mgr = catppuccinMauve.mgr // {
         syntect_theme = syntectTheme;
