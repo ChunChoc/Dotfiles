@@ -14,7 +14,9 @@
       # GUI Utils
       # La terminal es Ghostty y la instala programs/ghostty.nix (necesita el
       # módulo para la unit de systemd y la activación por D-Bus)
-      nautilus
+      # El gestor de archivos es Yazi y lo instala programs/yazi.nix (necesita el
+      # módulo para el tema, las dependencias de vista previa y el handler de
+      # inode/directory). Sustituyó a Nautilus; ver el comentario de ese módulo.
       #brave
       brave-origin
       mullvad-browser

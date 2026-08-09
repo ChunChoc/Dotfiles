@@ -101,7 +101,11 @@ in
     };
   };
 
-  # Hacks de CSS para Nautilus
+  # libadwaita ignora `gtk-theme-name`: las apps GTK4 modernas solo respetan un
+  # gtk.css propio del usuario. Sin esto, LibreOffice, los diálogos de archivo y
+  # cualquier otra app GTK4 saldrían con el Adwaita de serie en vez de
+  # Catppuccin. (Antes el comentario decía "hacks para Nautilus", pero no tiene
+  # nada que ver con Nautilus: aplica a todo GTK4.)
   xdg.configFile = {
     "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
     "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";

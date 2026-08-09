@@ -18,6 +18,11 @@
       "video/mp4" = [ "mpv.desktop" ];
       "video/x-matroska" = [ "mpv.desktop" ]; # Archivos .mkv
       "video/webm" = [ "mpv.desktop" ];
+
+      # Carpetas -> yazi (dentro de Ghostty). El .desktop lo genera
+      # programs/yazi.nix; es lo que se abre desde "mostrar en carpeta" de otras
+      # apps. Antes lo atendía Nautilus.
+      "inode/directory" = [ "yazi.desktop" ];
     };
   };
 }

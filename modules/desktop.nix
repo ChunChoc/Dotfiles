@@ -142,7 +142,11 @@ in
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
 
-  # Removable drive integration for Nautilus in the minimal Niri session.
+  # Almacenamiento extraíble. udisks2 es el que monta los USB y el que usa
+  # `udisksctl mount -b /dev/sdX`, que es como se montan ahora que el gestor de
+  # archivos es Yazi (TUI) y no Nautilus. gvfs se queda porque no es solo del
+  # gestor de archivos: de él dependen la papelera y las "otras ubicaciones"
+  # (smb://, sftp://) de los diálogos GTK de guardar/abrir.
   services.udisks2.enable = true;
   services.gvfs.enable = true;
 
