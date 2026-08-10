@@ -13,12 +13,9 @@ binds {
     Mod+Space hotkey-overlay-title="Application Launcher" {
         spawn "dms" "ipc" "call" "spotlight" "toggle";
     }
-    // `gapplication launch` le pide la ventana por D-Bus al Nautilus residente
-    // (ver programs/nautilus.nix). No usar `nautilus` a secas: eso arranca un
-    // proceso nuevo completo y paga los ~2 s aunque el residente esté vivo.
-    Mod+E hotkey-overlay-title="Open Files" {
-        spawn "gapplication" "launch" "org.gnome.Nautilus";
-    }
+    // El primer Mod+E de la sesión tarda ~1.5 s. No tiene arreglo; ver la nota
+    // sobre la precarga más abajo en config.kdl.
+    Mod+E hotkey-overlay-title="Open Files" { spawn "nautilus"; }
     Mod+V hotkey-overlay-title="Clipboard Manager" {
         spawn "dms" "ipc" "call" "clipboard" "toggle";
     }

@@ -103,9 +103,22 @@ input {
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
-// Aquí estuvo una precarga de nautilus (`--gapplication-service`). Ya no vive
-// en niri: es una unit de systemd, para que arranque ordenada dentro de la
-// sesión gráfica y se reinicie si se cae. Ver modules/home/programs/nautilus.nix.
+// Aquí estuvo una precarga de nautilus (`--gapplication-service`) para ahorrar
+// los ~1.5 s del primer Mod+E. NO INTENTARLO OTRA VEZ: no funciona, y el motivo
+// no es cómo se lance.
+//
+// `--gapplication-service` es un servicio de GApplication, y GApplication se
+// suicida a los ~10 s sin ventanas ni holds. Medido: el proceso muere entre los
+// 10 y los 15 s, lo mismo lanzado por systemd (Type=dbus o Type=exec) que a
+// mano. O sea que la precarga estaba muerta mucho antes del primer Mod+E y solo
+// costaba ~780 ms de CPU al iniciar sesión.
+//
+// Con Ghostty sí funciona porque tiene una opción explícita para esto,
+// `quit-after-last-window-closed = false` (ver programs/ghostty.nix). Nautilus
+// no tiene equivalente: está diseñado para salir cuando no lo usas.
+//
+// Lo único que lo mantendría vivo sería hacerle una llamada de D-Bus cada menos
+// de 10 s, para siempre. No vale la pena por 1.5 s una vez por sesión.
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
