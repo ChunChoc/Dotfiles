@@ -14,13 +14,8 @@
       # GUI Utils
       # La terminal es Ghostty y la instala programs/ghostty.nix (necesita el
       # módulo para la unit de systemd y la activación por D-Bus)
-      # Nautilus se declara aquí aunque el módulo de niri ya lo mete en el
-      # closure por su cuenta (programs.niri.useNautilus, activo por defecto:
-      # se lo pasa a services.dbus.packages para el FileChooser del portal de
-      # GNOME). Eso solo lo hace activable por D-Bus —de ahí sale el "mostrar
-      # en carpeta" de los navegadores—, pero no instala el .desktop ni lo pone
-      # en el PATH, así que sin esta línea no habría forma de abrirlo a mano.
-      nautilus
+      # El gestor de archivos es Nautilus y lo instala programs/nautilus.nix
+      # (necesita el módulo para la unit de systemd que lo deja residente)
       #brave
       brave-origin
       mullvad-browser

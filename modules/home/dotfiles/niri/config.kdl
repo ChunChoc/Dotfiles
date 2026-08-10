@@ -103,11 +103,9 @@ input {
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
-// Aquí estuvo una precarga de nautilus (`--gapplication-service`) para evitar
-// sus ~2 s de primer arranque. No se restaura: el bind Mod+E lanza `nautilus` a
-// secas, que arranca un proceso nuevo completo y solo al final descubre por
-// D-Bus que ya había otra instancia, así que se pagaba el arranque igual y
-// además dejaba ~150 MB residentes toda la sesión.
+// Aquí estuvo una precarga de nautilus (`--gapplication-service`). Ya no vive
+// en niri: es una unit de systemd, para que arranque ordenada dentro de la
+// sesión gráfica y se reinicie si se cae. Ver modules/home/programs/nautilus.nix.
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
