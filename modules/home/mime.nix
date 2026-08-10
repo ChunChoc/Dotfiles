@@ -19,10 +19,13 @@
       "video/x-matroska" = [ "mpv.desktop" ]; # Archivos .mkv
       "video/webm" = [ "mpv.desktop" ];
 
-      # Carpetas -> yazi (dentro de Ghostty). El .desktop lo genera
-      # programs/yazi.nix; es lo que se abre desde "mostrar en carpeta" de otras
-      # apps. Antes lo atendía Nautilus.
-      "inode/directory" = [ "yazi.desktop" ];
+      # Carpetas -> Nautilus. Es lo que se abre desde "mostrar en carpeta" de
+      # otras apps.
+      #
+      # Declararlo es redundante hoy (Nautilus ya es el único candidato), pero
+      # se deja explícito para que el handler no dependa del orden en que
+      # aparezcan los .desktop si algún día se instala otro gestor.
+      "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
     };
   };
 }

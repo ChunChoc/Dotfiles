@@ -30,7 +30,6 @@ in
     ./programs/neovim.nix
     ./programs/lazygit.nix
     ./programs/ghostty.nix
-    ./programs/yazi.nix
     ./programs/mpd.nix
     ./programs/cava.nix
     ./mime.nix

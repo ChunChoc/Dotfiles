@@ -14,9 +14,13 @@
       # GUI Utils
       # La terminal es Ghostty y la instala programs/ghostty.nix (necesita el
       # módulo para la unit de systemd y la activación por D-Bus)
-      # El gestor de archivos es Yazi y lo instala programs/yazi.nix (necesita el
-      # módulo para el tema, las dependencias de vista previa y el handler de
-      # inode/directory). Sustituyó a Nautilus; ver el comentario de ese módulo.
+      # Nautilus se declara aquí aunque el módulo de niri ya lo mete en el
+      # closure por su cuenta (programs.niri.useNautilus, activo por defecto:
+      # se lo pasa a services.dbus.packages para el FileChooser del portal de
+      # GNOME). Eso solo lo hace activable por D-Bus —de ahí sale el "mostrar
+      # en carpeta" de los navegadores—, pero no instala el .desktop ni lo pone
+      # en el PATH, así que sin esta línea no habría forma de abrirlo a mano.
+      nautilus
       #brave
       brave-origin
       mullvad-browser
@@ -41,13 +45,6 @@
 
       # System Utils
       xwayland-satellite
-      # `wl-copy` / `wl-paste`: el portapapeles de Wayland desde la terminal.
-      # Va aquí y no en las extraPackages de Yazi porque no es cosa suya: Yazi
-      # lo usa (sin él, la tecla `C` copia la ruta dentro de Yazi pero no la
-      # deja en el portapapeles del sistema), pero también sirve en scripts y
-      # a mano, p. ej. `wl-copy -t image/png < foto.png` para meter una imagen
-      # de verdad, no su ruta.
-      wl-clipboard
     ]
     ++ lib.optionals osConfig.myFeatures.development [
       gh

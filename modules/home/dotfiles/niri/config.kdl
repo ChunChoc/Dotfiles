@@ -103,12 +103,11 @@ input {
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
-// Aquí estuvo una precarga de nautilus para evitar sus ~2 s de primer arranque.
-// Nunca llegó a servir: el bind lanzaba `nautilus` a secas, que arranca un
-// proceso nuevo completo y solo al final descubre por D-Bus que ya había otra
-// instancia, así que se pagaba el arranque igual. Se quitó junto con Nautilus;
-// el gestor de archivos ahora es Yazi dentro de Ghostty, que ya viene precargado
-// por su unit de systemd. Ver modules/home/programs/yazi.nix.
+// Aquí estuvo una precarga de nautilus (`--gapplication-service`) para evitar
+// sus ~2 s de primer arranque. No se restaura: el bind Mod+E lanza `nautilus` a
+// secas, que arranca un proceso nuevo completo y solo al final descubre por
+// D-Bus que ya había otra instancia, así que se pagaba el arranque igual y
+// además dejaba ~150 MB residentes toda la sesión.
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.

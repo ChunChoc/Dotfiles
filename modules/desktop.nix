@@ -142,11 +142,12 @@ in
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
 
-  # Almacenamiento extraíble. udisks2 es el que monta los USB y el que usa
-  # `udisksctl mount -b /dev/sdX`, que es como se montan ahora que el gestor de
-  # archivos es Yazi (TUI) y no Nautilus. gvfs se queda porque no es solo del
-  # gestor de archivos: de él dependen la papelera y las "otras ubicaciones"
-  # (smb://, sftp://) de los diálogos GTK de guardar/abrir.
+  # Almacenamiento extraíble. udisks2 hace el montaje y gvfs es la capa que lo
+  # expone a las apps GTK: sin él, Nautilus no monta los USB al enchufarlos ni
+  # tiene papelera ni "otras ubicaciones" (smb://, sftp://), y eso último
+  # también lo usan los diálogos de guardar/abrir.
+  #
+  # Sin gvfs siempre queda la vía manual: `udisksctl mount -b /dev/sdX`.
   services.udisks2.enable = true;
   services.gvfs.enable = true;
 
