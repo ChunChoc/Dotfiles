@@ -34,6 +34,7 @@ in
     ./programs/cava.nix
     ./mime.nix
     ./wallpaper.nix
+    ./clipboard-images.nix
   ];
 
   home.username = "chunchoc";
