@@ -39,6 +39,21 @@
       # una laptop es gastar batería en algo que no estás viendo.
       custom-shader-animation = true;
 
+      # Ghostty se queda ctrl+tab y ctrl+shift+tab para SUS pestañas, y son los
+      # mismos que herdr usa para cambiar de espacio (dotfiles/herdr/config.toml:
+      # next_workspace / previous_workspace). Gana el terminal, así que dentro de
+      # herdr el atajo no hacía nada.
+      #
+      # `unbind` los libera y el acorde le llega tal cual a la aplicación. Aquí
+      # no se pierde nada: la multiplexación la hace herdr y las ventanas las
+      # hace niri; las pestañas de Ghostty no se usan. Si algún día se quisieran,
+      # siguen disponibles en ctrl+shift+flechas y en ctrl+av-pág/re-pág, que no
+      # los toca nadie.
+      keybind = [
+        "ctrl+tab=unbind"
+        "ctrl+shift+tab=unbind"
+      ];
+
       gtk-single-instance = true;
       # Sin esto Ghostty se cierra entero al cerrar la última ventana: el
       # daemon muere, suelta el nombre de D-Bus y Mod+Return deja de hacer
