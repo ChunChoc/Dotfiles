@@ -41,6 +41,13 @@
 
       # System Utils
       xwayland-satellite
+      # `wl-copy` / `wl-paste`: el portapapeles de Wayland desde la terminal.
+      # Va aquí y no en las extraPackages de Yazi porque no es cosa suya: Yazi
+      # lo usa (sin él, la tecla `C` copia la ruta dentro de Yazi pero no la
+      # deja en el portapapeles del sistema), pero también sirve en scripts y
+      # a mano, p. ej. `wl-copy -t image/png < foto.png` para meter una imagen
+      # de verdad, no su ruta.
+      wl-clipboard
     ]
     ++ lib.optionals osConfig.myFeatures.development [
       gh
