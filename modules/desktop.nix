@@ -32,34 +32,34 @@ let
   '';
 
   niriDmsSession = pkgs.writeShellScriptBin "niri-dms-session" ''
-    if systemctl --user -q is-active niri.service; then
-      echo 'A niri session is already running.'
-      exit 1
-    fi
+        if systemctl --user -q is-active niri.service; then
+          echo 'A niri session is already running.'
+          exit 1
+        fi
 
-    systemctl --user reset-failed
+        systemctl --user reset-failed
 
-    env_vars=""
-    while IFS='=' read -r name _; do
-      case "$name" in
-        "" | [0-9]* | *[!A-Za-z0-9_]* ) continue ;;
-      esac
-      env_vars="$env_vars $name"
-    done <<EOF
-$(env)
-EOF
+        env_vars=""
+        while IFS='=' read -r name _; do
+          case "$name" in
+            "" | [0-9]* | *[!A-Za-z0-9_]* ) continue ;;
+          esac
+          env_vars="$env_vars $name"
+        done <<EOF
+    $(env)
+    EOF
 
-    if [ -n "$env_vars" ]; then
-      systemctl --user import-environment $env_vars
-    fi
+        if [ -n "$env_vars" ]; then
+          systemctl --user import-environment $env_vars
+        fi
 
-    if [ -n "$env_vars" ] && command -v dbus-update-activation-environment >/dev/null 2>&1; then
-      dbus-update-activation-environment $env_vars
-    fi
+        if [ -n "$env_vars" ] && command -v dbus-update-activation-environment >/dev/null 2>&1; then
+          dbus-update-activation-environment $env_vars
+        fi
 
-    systemctl --user --wait start niri.service
-    systemctl --user start --job-mode=replace-irreversibly niri-shutdown.target
-    systemctl --user unset-environment WAYLAND_DISPLAY DISPLAY XDG_SESSION_TYPE XDG_CURRENT_DESKTOP NIRI_SOCKET
+        systemctl --user --wait start niri.service
+        systemctl --user start --job-mode=replace-irreversibly niri-shutdown.target
+        systemctl --user unset-environment WAYLAND_DISPLAY DISPLAY XDG_SESSION_TYPE XDG_CURRENT_DESKTOP NIRI_SOCKET
   '';
 
   niriDmsSessionPackage = pkgs.symlinkJoin {
@@ -67,15 +67,15 @@ EOF
     paths = [ niriDmsSession ];
     passthru.providedSessions = [ "niri-dms" ];
     postBuild = ''
-      mkdir -p $out/share/wayland-sessions
-      cat > $out/share/wayland-sessions/niri-dms.desktop <<EOF
-[Desktop Entry]
-Name=Niri + DMS
-Comment=Niri session with explicit environment import
-Exec=${niriDmsSession}/bin/niri-dms-session
-Type=Application
-DesktopNames=niri
-EOF
+            mkdir -p $out/share/wayland-sessions
+            cat > $out/share/wayland-sessions/niri-dms.desktop <<EOF
+      [Desktop Entry]
+      Name=Niri + DMS
+      Comment=Niri session with explicit environment import
+      Exec=${niriDmsSession}/bin/niri-dms-session
+      Type=Application
+      DesktopNames=niri
+      EOF
     '';
   };
 in
@@ -85,7 +85,7 @@ in
   programs.niri.enable = true;
   programs.dms-shell = {
     enable = true;
-    enableCalendarEvents = true;
+    enableCalendarEvents = false;
   };
 
   services.displayManager.dms-greeter = {
@@ -127,7 +127,8 @@ in
     sessionPackages = [ niriDmsSessionPackage ];
   };
 
-  services.greetd.settings.default_session.command = lib.mkForce "${dmsGreeterStart}/bin/dms-greeter-start-with-cursor";
+  services.greetd.settings.default_session.command =
+    lib.mkForce "${dmsGreeterStart}/bin/dms-greeter-start-with-cursor";
 
   systemd.services.greetd.environment = {
     XCURSOR_PATH = greeterCursorPath;
