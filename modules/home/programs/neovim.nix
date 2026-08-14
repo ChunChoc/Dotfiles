@@ -33,6 +33,16 @@
     # El extra lang.astro necesita el binario astro-ls en el PATH; el
     # ts-plugin que lo acompaña se enlaza abajo en la ruta de Mason.
     astro-language-server
+
+    # Resto de LSP que activan los extras importados en config/lazy.lua y que
+    # ningún devshell provee. Sin ellos Neovim los descarta en silencio al no
+    # ser ejecutables; tailwindcss además falla en el spawn con un error
+    # visible al abrir cualquier .ts/.tsx/.astro de un proyecto con Tailwind.
+    tailwindcss-language-server # lang.tailwind
+    marksman # lang.markdown
+    vscode-langservers-extracted # lang.json -> vscode-json-language-server
+    ruff # lang.python (LSP + formateo; un devshell que lo fije tiene prioridad)
+    lua-language-server # lua_ls, del core de LazyVim (estos mismos dotfiles)
   ];
 
   # El extra lang.astro de LazyVim busca @astrojs/ts-plugin dentro del árbol
