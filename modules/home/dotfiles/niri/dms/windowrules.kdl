@@ -74,6 +74,21 @@ window-rule {
     max-height 514
 }
 
+// Desenfoque detrás de la terminal, para acompañar al background-opacity 0.9
+// de Ghostty (modules/home/programs/ghostty.nix).
+//
+// Va aquí y no en Ghostty a propósito: su `background-blur` solo funciona en
+// KDE Plasma. Poniéndolo como window-rule lo aplica niri con el mismo dual
+// kawase que usa DMS, y hereda los ajustes globales de `blur` (passes 3,
+// offset 3, noise 0.02, saturation 1.5) en vez de definir números aparte.
+window-rule {
+    match app-id=r#"^com\.mitchellh\.ghostty$"#
+
+    background-effect {
+        blur true
+    }
+}
+
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
 /-window-rule {

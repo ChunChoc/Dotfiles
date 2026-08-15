@@ -54,6 +54,27 @@
         "ctrl+shift+tab=unbind"
       ];
 
+      # --------------------------------------------------------
+      # Transparencia
+      # --------------------------------------------------------
+      # El blur NO se pone aquí: el `background-blur` de Ghostty depende del
+      # protocolo de KWin y solo funciona en KDE Plasma, así que en niri no
+      # haría nada. El desenfoque lo aplica el compositor con la window-rule de
+      # dms/windowrules.kdl, que además usa el mismo dual-kawase que el resto
+      # del escritorio.
+      #
+      # 0.9 y no más alto: con el fondo casi negro de Mocha (#1e1e2e), a 0.95
+      # solo pasa un 5 % del wallpaper y el efecto desaparece salvo en zonas
+      # muy claras — el coste del blur sin nada a cambio.
+      background-opacity = 0.9;
+      # `background-opacity-cells` se queda en false (el valor por defecto):
+      # solo se transparenta el fondo de la ventana, no las celdas que traen su
+      # propio color. En la práctica eso deja Neovim opaco, porque su tema pinta
+      # un `Normal` explícito. Es intencionado: en Material 3 las superficies de
+      # contenido son opacas y las que flotan son las que llevan blur. Si algún
+      # día se quiere Neovim traslúcido, ponerlo en true también vuelve
+      # traslúcidos la selección y la línea actual.
+
       gtk-single-instance = true;
       # Sin esto Ghostty se cierra entero al cerrar la última ventana: el
       # daemon muere, suelta el nombre de D-Bus y Mod+Return deja de hacer

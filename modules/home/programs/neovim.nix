@@ -63,5 +63,54 @@
     # silencia el aviso de ".envrc is blocked"; en un proyecto nuevo hay que
     # acordarse de correr `direnv allow` a mano.
     silent = true;
+
+    # ------------------------------------------------------------------
+    # use devenv_locked: un devenv a la vez por proyecto
+    # ------------------------------------------------------------------
+    # `stdlib` acaba en ~/.config/direnv/direnvrc, que direnv carga antes que
+    # cualquier .envrc. Lo que se defina aquí está disponible en todos los
+    # proyectos.
+    #
+    # El problema que resuelve: devenv da por hecho que solo corre una
+    # instancia por directorio y escribe archivos compartidos dentro de
+    # .devenv/ sin ningún candado. Cuando un espacio de herdr abre sus dos o
+    # tres tabs de golpe, los tres devenv arrancan a la vez y se pisan:
+    #
+    #   .devenv/load-exports  -> se escribe y después se le hace chmod; si otro
+    #                            proceso lo reemplaza en medio, el chmod falla.
+    #   .devenv/gc/shell      -> es un symlink que devenv BORRA y vuelve a
+    #                            crear; si dos lo borran, el segundo se lleva
+    #                            "Failed to remove existing GC root (os error 2)".
+    #
+    # El resultado es que una de las pestañas se queda sin entorno y hay que
+    # hacerle `direnv reload` a mano. Reproducido lanzando tres
+    # `devenv direnv-export` en paralelo: falla de forma intermitente.
+    #
+    # La corrección es un candado por proyecto: con flock solo un devenv entra
+    # a la vez y los demás esperan su turno. No esconde la carrera, la vuelve
+    # imposible. El precio es que los tabs 2 y 3 esperan al 1, que con la caché
+    # de devenv son segundos; tras tocar devenv.nix esperan la evaluación
+    # entera, pero esa espera ya existía —solo que antes terminaba en error.
+    #
+    # El candado vive en XDG_RUNTIME_DIR (tmpfs), así que no deja rastro en el
+    # repo y desaparece al reiniciar. La clave es la ruta del proyecto con las
+    # barras cambiadas por %, para no depender de ningún comando externo.
+    #
+    # Se descartó reintentar cuando falla: esconde el problema en vez de
+    # arreglarlo.
+    stdlib = ''
+      use_devenv_locked() {
+        local lock="''${XDG_RUNTIME_DIR:-/tmp}/devenv-lock-''${PWD//\//%}"
+
+        # Sin timeout a propósito: quien tiene el candado siempre acaba
+        # soltándolo (lo libera el kernel al morir el proceso), y esperar una
+        # compilación larga es justo lo que se quiere. Un timeout solo
+        # devolvería el fallo que se está corrigiendo.
+        exec {devenv_lock_fd}>"$lock"
+        flock "$devenv_lock_fd"
+
+        use devenv "$@"
+      }
+    '';
   };
 }
