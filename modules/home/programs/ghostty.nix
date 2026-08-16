@@ -63,10 +63,11 @@
       # dms/windowrules.kdl, que además usa el mismo dual-kawase que el resto
       # del escritorio.
       #
-      # 0.9 y no más alto: con el fondo casi negro de Mocha (#1e1e2e), a 0.95
-      # solo pasa un 5 % del wallpaper y el efecto desaparece salvo en zonas
-      # muy claras — el coste del blur sin nada a cambio.
-      background-opacity = 0.9;
+      # 0.95: con el fondo casi negro de Mocha (#1e1e2e) solo pasa un 5 % del
+      # wallpaper, así que el efecto casi no se nota salvo en zonas muy claras.
+      # Es a propósito — la transparencia a 0.9 distraía al leer. El blur del
+      # compositor sigue puesto, que es lo que sostiene el aspecto de Material.
+      background-opacity = 0.95;
       # `background-opacity-cells` se queda en false (el valor por defecto):
       # solo se transparenta el fondo de la ventana, no las celdas que traen su
       # propio color. En la práctica eso deja Neovim opaco, porque su tema pinta
