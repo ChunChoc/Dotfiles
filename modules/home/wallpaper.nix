@@ -46,7 +46,7 @@ let
     ${pkgs.jq}/bin/jq '
       .wallpaperTransition = "disc"
       | .includedTransitions = ["disc"]
-      | .wallpaperCyclingInterval = 600
+      | .wallpaperCyclingInterval = 1800
       | .nightModeEnabled = true
       | .nightModeTemperature = 3700
       | .nightModeHighTemperature = 6500
