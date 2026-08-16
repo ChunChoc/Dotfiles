@@ -37,6 +37,14 @@ binds {
     Mod+Alt+L hotkey-overlay-title="Lock Screen" {
         spawn "dms" "ipc" "call" "lock" "lock";
     }
+    // Para el momento en que se copió algo que no debía quedar guardado, sin
+    // esperar a la caducidad de un día. Borra el historial entero, no solo la
+    // última entrada: es lo único que ofrece el CLI, y para esto conviene.
+    // El toast es la única señal de que pasó algo; sin él no hay forma de
+    // saber si el atajo corrió.
+    Mod+Shift+V hotkey-overlay-title="Clear Clipboard History" {
+        spawn "sh" "-c" "dms clipboard clear && dms ipc call toast info 'Historial del portapapeles borrado'";
+    }
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete hotkey-overlay-title="Task Manager" {
         spawn "dms" "ipc" "call" "processlist" "focusOrToggle";
@@ -87,7 +95,6 @@ binds {
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
     Mod+Shift+T { toggle-window-floating; }
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+W hotkey-overlay-title="Next Wallpaper" { spawn "dms" "ipc" "wallpaper" "next"; }
     Mod+Shift+W hotkey-overlay-title="Previous Wallpaper" { spawn "dms" "ipc" "wallpaper" "prev"; }
 

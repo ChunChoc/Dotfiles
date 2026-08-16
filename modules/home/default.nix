@@ -35,6 +35,7 @@ in
     ./mime.nix
     ./wallpaper.nix
     ./clipboard-images.nix
+    ./clipboard-privacy.nix
   ];
 
   home.username = "chunchoc";
