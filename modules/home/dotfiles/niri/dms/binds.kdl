@@ -40,10 +40,19 @@ binds {
     // Para el momento en que se copió algo que no debía quedar guardado, sin
     // esperar a la caducidad de un día. Borra el historial entero, no solo la
     // última entrada: es lo único que ofrece el CLI, y para esto conviene.
+    //
+    // El `rm` es necesario porque `clipboard clear` borra las entradas de la
+    // base pero NO los PNGs de las imágenes, que se quedan en disco para
+    // siempre (medido: había archivos de entradas caducadas semanas atrás).
+    // Va condicionado a que el historial quede vacío: no pude comprobar si
+    // `clear` respeta las entradas fijadas —fijar solo existe en la interfaz,
+    // no hay comando—, y si las respetara, un `rm` a ciegas dejaría una imagen
+    // fijada apuntando a un archivo inexistente.
+    //
     // El toast es la única señal de que pasó algo; sin él no hay forma de
     // saber si el atajo corrió.
     Mod+Shift+V hotkey-overlay-title="Clear Clipboard History" {
-        spawn "sh" "-c" "dms clipboard clear && dms ipc call toast info 'Historial del portapapeles borrado'";
+        spawn "sh" "-c" "dms clipboard clear && { [ \"$(dms clipboard history | grep -c '^ID: ')\" -eq 0 ] && rm -f \"$HOME/.cache/dms/clipboard/\"*.png; }; dms ipc call toast info 'Historial del portapapeles borrado'";
     }
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete hotkey-overlay-title="Task Manager" {
