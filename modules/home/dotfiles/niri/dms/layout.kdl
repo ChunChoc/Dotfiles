@@ -4,8 +4,11 @@ layout {
     // Margen alrededor de las ventanas, en píxeles lógicos. Son los mismos 8 px
     // que separan las cápsulas de la barra (DMS) del borde de la pantalla, para
     // que todo el escritorio respire igual y se vea wallpaper por los cuatro
-    // lados. Si se cambia aquí, hay que cambiarlo también en el `struts` de
-    // abajo y en spacing/barInsetPadding de DankMaterialShell/settings.json.
+    // lados. Si se cambia aquí, hay que cambiarlo también en `popupGapsManual`
+    // (y en spacing/barInsetPadding) de DankMaterialShell/settings.json: ese
+    // valor es a la vez la distancia de los popups al borde de la pantalla y
+    // su separación respecto a la barra, y de él depende que la notificación
+    // caiga en la misma esquina que la ventana. Ver el bloque `struts`.
     gaps 8
 
     // When to center a column when changing focus, options are:
@@ -162,18 +165,24 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        // La barra de DMS reserva 42 px (zona exclusiva = grosor 40 + spacing
-        // 2), pero sus cápsulas solo miden 28 px y van centradas: sobran 6 px
-        // de relleno interno por debajo de ellas. Sin esto, el hueco entre la
-        // cápsula y la ventana sería de 14 px y no de 8 como en los otros tres
-        // lados. El strut negativo le devuelve esos 6 px al área de trabajo y
-        // el `gaps 8` de arriba vuelve a poner el margen bueno.
+        // Aquí hubo un `top -6` que subía las ventanas hasta dejar los mismos
+        // 8 px contra las cápsulas de la barra que en los otros tres lados. Se
+        // quitó a propósito: DMS coloca sus popups (notificaciones, control
+        // center, etc.) contra el grosor de la barra —42 px— y no contra el
+        // borde real de las cápsulas —36—, así que no ve esos 6 px de relleno
+        // interno. Con el strut puesto, las ventanas subían y los popups no,
+        // y la notificación quedaba descuadrada con la esquina de la app.
         //
-        // El 6 sale de (grosor de barra − grosor de cápsula) / 2, o sea que si
-        // algún día se toca `innerPadding` en DankMaterialShell/settings.json
-        // hay que recalcularlo. `spacing` no influye: mueve la cápsula y la
-        // zona exclusiva a la vez.
-        top -6
+        // Sin él, el borde superior de la ventana y el del popup caen los dos
+        // en y=50 y coinciden. El precio es que el hueco bajo las cápsulas es
+        // de 14 px en vez de 8. Es lo único que se puede ceder: las tres cosas
+        // —alinear arriba, alinear a los lados y 8 px bajo la barra— no pueden
+        // cumplirse a la vez, porque `popupGapsManual` de
+        // DankMaterialShell/settings.json hace de separación tras la barra y
+        // de distancia al borde de la pantalla al mismo tiempo.
+        //
+        // Si algún día se vuelve a poner, `popupGapsManual` tiene que seguir
+        // en 8 y hay que asumir los popups 6 px más abajo que las ventanas.
 
         // left 64
         // right 64
