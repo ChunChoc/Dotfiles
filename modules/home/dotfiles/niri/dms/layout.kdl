@@ -165,24 +165,26 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        // Aquí hubo un `top -6` que subía las ventanas hasta dejar los mismos
-        // 8 px contra las cápsulas de la barra que en los otros tres lados. Se
-        // quitó a propósito: DMS coloca sus popups (notificaciones, control
-        // center, etc.) contra el grosor de la barra —42 px— y no contra el
-        // borde real de las cápsulas —36—, así que no ve esos 6 px de relleno
-        // interno. Con el strut puesto, las ventanas subían y los popups no,
-        // y la notificación quedaba descuadrada con la esquina de la app.
+        // DMS coloca sus popups (notificaciones, control center, etc.) contra
+        // el grosor de la barra —42 px— y no contra el borde real de las
+        // cápsulas —36—, así que no ve los 6 px de relleno interno que le
+        // quedan por debajo. Como la barra no tiene fondo, esos 6 px son
+        // wallpaper a la vista: sin este strut las ventanas quedan a 14 px de
+        // las cápsulas mientras los otros tres lados están a 8, y se nota.
         //
-        // Sin él, el borde superior de la ventana y el del popup caen los dos
-        // en y=50 y coinciden. El precio es que el hueco bajo las cápsulas es
-        // de 14 px en vez de 8. Es lo único que se puede ceder: las tres cosas
-        // —alinear arriba, alinear a los lados y 8 px bajo la barra— no pueden
-        // cumplirse a la vez, porque `popupGapsManual` de
-        // DankMaterialShell/settings.json hace de separación tras la barra y
-        // de distancia al borde de la pantalla al mismo tiempo.
+        // El -6 devuelve ese relleno al área de trabajo y el `gaps 8` de
+        // arriba vuelve a poner los 8 px buenos, así que el hueco bajo las
+        // cápsulas mide igual que los márgenes laterales y el de abajo.
         //
-        // Si algún día se vuelve a poner, `popupGapsManual` tiene que seguir
-        // en 8 y hay que asumir los popups 6 px más abajo que las ventanas.
+        // El precio: las notificaciones caen 6 px más abajo que el borde
+        // superior de la ventana, porque ellas siguen midiendo desde los 42.
+        // Los lados sí coinciden. No se puede tener todo — `popupGapsManual`
+        // de DankMaterialShell/settings.json hace a la vez de separación tras
+        // la barra y de distancia al borde de la pantalla, así que alinear
+        // arriba, alinear a los lados y dejar 8 px bajo la barra son tres
+        // cosas que no se cumplen simultáneamente. Ese valor tiene que seguir
+        // en 8 para que al menos los lados cuadren.
+        top -6
 
         // left 64
         // right 64
