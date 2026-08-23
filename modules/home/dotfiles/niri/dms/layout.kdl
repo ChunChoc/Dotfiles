@@ -161,17 +161,23 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        // DMS coloca sus popups (notificaciones, control center, etc.) contra
-        // el grosor de la barra —42 px— y no contra el borde real de las
-        // cápsulas —36—, así que no ve los 6 px de relleno interno que le
-        // quedan por debajo. Como la barra no tiene fondo, esos 6 px son
-        // wallpaper a la vista: sin este strut las ventanas quedan a 14 px de
-        // las cápsulas mientras los otros tres lados están a 8, y se nota.
+        // La barra de DMS reserva 42 px de alto aunque su fondo esté en
+        // `transparency: 0` y lo único visible sean las cápsulas, que acaban en
+        // los 36. Sin este strut las ventanas arrancaban 6 px más abajo de lo
+        // debido y el hueco bajo la barra medía 14 px mientras los otros tres
+        // lados medían 8 — justo lo que se ve mal con la barra sin fondo.
         //
-        // `popupGapsManual = 6` alinea el borde derecho del popup con el focus
-        // ring (gaps 8 menos sus 2 px). El strut 0 compensa el eje vertical
-        // para que sus esquinas superiores también coincidan.
-        top 0
+        // El -6 devuelve esos píxeles fantasma al área de trabajo, y el
+        // `gaps 8` de arriba vuelve a poner el margen bueno: la ventana empieza
+        // en y=44 y su focus ring (2 px) en y=42, a 6 px de las cápsulas, los
+        // mismos 6 px que el ring deja contra los bordes de la pantalla.
+        //
+        // Los popups siguen cuadrando porque `dms-shell` va parcheado en
+        // modules/desktop.nix para que los mida contra el borde real de las
+        // cápsulas: con `popupGapsManual: 6` la notificación cae también en
+        // y=42 y a 6 px del borde derecho, encima de la esquina del ring. Si
+        // alguna vez se quita ese parche, este strut vuelve a descuadrarlas.
+        top -6
 
         // left 64
         // right 64

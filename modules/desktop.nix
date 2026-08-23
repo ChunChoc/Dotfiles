@@ -86,6 +86,34 @@ in
   programs.dms-shell = {
     enable = true;
     enableCalendarEvents = false;
+
+    # DMS mide sus popups (notificaciones, centro de control, etc.) contra el
+    # *grosor* de la barra, no contra el borde real de las cápsulas. Con el
+    # fondo de la barra puesto en `transparency: 0` ese grosor es invisible: la
+    # barra dice ocupar 42 px cuando lo último que se ve son las cápsulas, que
+    # acaban en 36. Esos 6 px fantasma obligaban a elegir entre dos males —
+    # dejar el hueco bajo la barra en 14 px en vez de 8, o que las
+    # notificaciones no cayeran sobre la esquina de la ventana.
+    #
+    # El parche hace que `getAdjacentBarInfo()` devuelva el borde inferior real
+    # de las cápsulas —`spacing + (grosorBarra + grosorWidget) / 2`, que es
+    # justo donde las centra `DankBarWindow.qml`— en lugar del grosor completo.
+    # Con eso los popups se alinean con las cápsulas y el `struts { top -6 }` de
+    # niri/dms/layout.kdl puede subir las ventanas sin descuadrarlos.
+    #
+    # Solo toca QML, pero `dms-shell` es un buildGoModule, así que el override
+    # recompila el CLI. Si un día DMS cambia esa línea, `--replace-fail` corta
+    # la compilación con un error claro en vez de dejarlo pasar en silencio.
+    package = pkgs.dms-shell.overrideAttrs (prev: {
+      postFixup = (prev.postFixup or "") + ''
+        qml=$out/share/quickshell/dms/Common/SettingsData.qml
+        chmod u+w "$qml"
+        substituteInPlace "$qml" \
+          --replace-fail \
+            'const otherThickness = Math.max(26 + otherPadding * 0.6, Theme.barHeight - 4 - (8 - otherPadding)) + otherSpacing;' \
+            'const otherWidgetThickness = Math.max(20, 26 + otherPadding * 0.6); const otherThickness = otherSpacing + (Math.max(otherWidgetThickness + otherPadding + 4, Theme.barHeight - 4 - (8 - otherPadding)) + otherWidgetThickness) / 2;'
+      '';
+    });
   };
 
   services.displayManager.dms-greeter = {
