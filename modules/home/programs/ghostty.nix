@@ -77,6 +77,8 @@
       # traslúcidos la selección y la línea actual.
 
       gtk-single-instance = true;
+      working-directory = "home";
+      window-inherit-working-directory = false;
       # Sin esto Ghostty se cierra entero al cerrar la última ventana: el
       # daemon muere, suelta el nombre de D-Bus y Mod+Return deja de hacer
       # nada hasta que abras una terminal por otro lado. Manteniéndolo vivo

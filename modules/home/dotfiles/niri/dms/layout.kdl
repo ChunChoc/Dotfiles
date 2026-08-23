@@ -4,11 +4,7 @@ layout {
     // Margen alrededor de las ventanas, en píxeles lógicos. Son los mismos 8 px
     // que separan las cápsulas de la barra (DMS) del borde de la pantalla, para
     // que todo el escritorio respire igual y se vea wallpaper por los cuatro
-    // lados. Si se cambia aquí, hay que cambiarlo también en `popupGapsManual`
-    // (y en spacing/barInsetPadding) de DankMaterialShell/settings.json: ese
-    // valor es a la vez la distancia de los popups al borde de la pantalla y
-    // su separación respecto a la barra, y de él depende que la notificación
-    // caiga en la misma esquina que la ventana. Ver el bloque `struts`.
+    // lados. Ver el bloque `struts` para la alineación de las notificaciones.
     gaps 8
 
     // When to center a column when changing focus, options are:
@@ -172,19 +168,10 @@ layout {
         // wallpaper a la vista: sin este strut las ventanas quedan a 14 px de
         // las cápsulas mientras los otros tres lados están a 8, y se nota.
         //
-        // El -6 devuelve ese relleno al área de trabajo y el `gaps 8` de
-        // arriba vuelve a poner los 8 px buenos, así que el hueco bajo las
-        // cápsulas mide igual que los márgenes laterales y el de abajo.
-        //
-        // El precio: las notificaciones caen 6 px más abajo que el borde
-        // superior de la ventana, porque ellas siguen midiendo desde los 42.
-        // Los lados sí coinciden. No se puede tener todo — `popupGapsManual`
-        // de DankMaterialShell/settings.json hace a la vez de separación tras
-        // la barra y de distancia al borde de la pantalla, así que alinear
-        // arriba, alinear a los lados y dejar 8 px bajo la barra son tres
-        // cosas que no se cumplen simultáneamente. Ese valor tiene que seguir
-        // en 8 para que al menos los lados cuadren.
-        top -6
+        // `popupGapsManual = 6` alinea el borde derecho del popup con el focus
+        // ring (gaps 8 menos sus 2 px). El strut -2 compensa el eje vertical
+        // para que sus esquinas superiores también coincidan.
+        top -2
 
         // left 64
         // right 64

@@ -296,7 +296,7 @@
       "openOnOverview": false,
       "visible": true,
       "popupGapsAuto": false,
-      "popupGapsManual": 8,
+      "popupGapsManual": 6,
       "maximizeDetection": false
     }
   ],
