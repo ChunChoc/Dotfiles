@@ -1,5 +1,37 @@
 {
   "nodes": {
+    "anthropic-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787332253,
+        "narHash": "sha256-nVid8vENmLDh7ffDqh+bJbEWtXcVltA0qa2rItmniZM=",
+        "owner": "anthropics",
+        "repo": "skills",
+        "rev": "3b3fad96af16a10759d930941b4520ba0c40edae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anthropics",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
+    "django-ai-plugins": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784825477,
+        "narHash": "sha256-VQSZ9KJw2pEt4z9lyzBou6V4zL2rcTuRVXNXl0ysdrg=",
+        "owner": "vintasoftware",
+        "repo": "django-ai-plugins",
+        "rev": "b8af2688d994747666e6a793d441365807d6772f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vintasoftware",
+        "repo": "django-ai-plugins",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -7,11 +39,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786999651,
-        "narHash": "sha256-MTGMFlLDTklsXhCp4r5GXB4VAVadPdalXLvUjd/K7h0=",
+        "lastModified": 1787379775,
+        "narHash": "sha256-XL2qfqmocfsvuEGyomZg4nOZfkuSe8vZtrOX99I+b6I=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "353742587cbaf079b3caee743115d037bc51fea6",
+        "rev": "ec1a8fdf74ed3f276148ee106299a2ba0e65d51f",
         "type": "github"
       },
       "original": {
@@ -23,11 +55,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1786862985,
-        "narHash": "sha256-FBJRXmbGXiSUDvYEbfLYRkckayyZ6SK1UEqhCrIZ2Cs=",
+        "lastModified": 1787360063,
+        "narHash": "sha256-dt4WdcvsA8/RCe+VZZwqU0X+XMM3wBbGCWA0/sFWzGo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e5bdc4a41d4c072fe1e3787eaa0320a384741d44",
+        "rev": "2c423e03bbafcff28bfadc6781a4a8257f205cb5",
         "type": "github"
       },
       "original": {
@@ -39,8 +71,44 @@
     },
     "root": {
       "inputs": {
+        "anthropic-skills": "anthropic-skills",
+        "django-ai-plugins": "django-ai-plugins",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "superpowers": "superpowers",
+        "ui-ux-pro-max-skill": "ui-ux-pro-max-skill"
+      }
+    },
+    "superpowers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786553601,
+        "narHash": "sha256-EsGNO0dULWf5Bx6bGrCv2kI2Z8aKH0kRvGiuN23wChQ=",
+        "owner": "obra",
+        "repo": "superpowers",
+        "rev": "b36e0829c6d0140e93cfef2ca599b1b07d4a7797",
+        "type": "github"
+      },
+      "original": {
+        "owner": "obra",
+        "repo": "superpowers",
+        "type": "github"
+      }
+    },
+    "ui-ux-pro-max-skill": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787226546,
+        "narHash": "sha256-IJViR89dcLOBHj2iAVVcI0elb0T96CqACv/8UU5mK8w=",
+        "owner": "nextlevelbuilder",
+        "repo": "ui-ux-pro-max-skill",
+        "rev": "bc826e2267a36d98a2dcf5231e16c30ff546770f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nextlevelbuilder",
+        "repo": "ui-ux-pro-max-skill",
+        "type": "github"
       }
     }
   },

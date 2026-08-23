@@ -152,7 +152,7 @@ Estas funciones y abreviaturas estan configuradas en Fish (`modules/home/program
 ```text
 Dotfiles/
 ├── flake.nix              # Punto de entrada, define hosts y monitorSettings
-├── flake.lock             # Versiones bloqueadas de nixpkgs y home-manager
+├── flake.lock             # Versiones fijadas de nixpkgs, Home Manager y repositorios externos de skills
 ├── lib/
 │   └── options.nix        # Opciones custom myFeatures
 ├── hosts/

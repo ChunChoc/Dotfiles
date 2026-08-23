@@ -112,33 +112,13 @@ in
     '';
   };
 
-  # bunfig global: cualquier bun/bunx del usuario (incluido el wrapper de
-  # magic-mcp) solo instala versiones con ≥3 días de publicadas — mitigación
-  # de ataques de cadena de suministro en npm. Los proyectos pueden tener su
-  # propio bunfig.toml que complementa a este.
+  # bunfig global: cualquier bun/bunx del usuario solo instala versiones con
+  # ≥3 días de publicadas — mitigación de ataques de cadena de suministro en
+  # npm. Los proyectos pueden tener su propio bunfig.toml que complementa a este.
   home.file.".bunfig.toml".text = ''
     [install]
     minimumReleaseAge = 259200
   '';
-
-  home.file.".local/bin/magic-mcp" = {
-    executable = true;
-    text = ''
-      #!${pkgs.fish}/bin/fish
-
-      if test -f ~/Dotfiles/.secrets/secrets.env
-        source ~/Dotfiles/.secrets/secrets.env
-      end
-
-      if not set -q _21_DEV_API_KEY
-        echo "_21_DEV_API_KEY is not set. Add it to ~/Dotfiles/.secrets/secrets.env" >&2
-        exit 1
-      end
-
-      set -x API_KEY "$_21_DEV_API_KEY"
-      exec ${pkgs.bun}/bin/bunx -y @21st-dev/magic@latest
-    '';
-  };
 
   home.file.".local/bin/chrome-devtools-mcp" = {
     executable = true;
@@ -175,22 +155,16 @@ in
     ${pkgs.coreutils}/bin/mv "$tmp_file" "$claude_json"
   '';
 
-  home.activation.claudeMagicMcp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.claudeMagicMcpCleanup = lib.hm.dag.entryAfter [ "claudeContext7Mcp" ] ''
     claude_json="$HOME/.claude.json"
     tmp_file="$(${pkgs.coreutils}/bin/mktemp "''${TMPDIR:-/tmp}/claude-json.XXXXXX")"
 
-    if ! test -f "$claude_json"; then
-      printf '{}\n' > "$claude_json"
+    if test -f "$claude_json"; then
+      ${pkgs.jq}/bin/jq 'del(.mcpServers.magic)' "$claude_json" > "$tmp_file"
+      ${pkgs.coreutils}/bin/mv "$tmp_file" "$claude_json"
+    else
+      ${pkgs.coreutils}/bin/rm -f "$tmp_file"
     fi
-
-    ${pkgs.jq}/bin/jq --arg command "$HOME/.local/bin/magic-mcp" '
-      .mcpServers.magic = {
-        "command": $command,
-        "args": []
-      }
-    ' "$claude_json" > "$tmp_file"
-
-    ${pkgs.coreutils}/bin/mv "$tmp_file" "$claude_json"
   '';
 
   # Queda registrado global (activo por defecto en cada proyecto). Claude Code
@@ -198,7 +172,7 @@ in
   # vive en .claude.json por proyecto, así que apagarlo es a mano con /mcp en
   # el proyecto donde estorbe. En opencode sí está apagado por defecto
   # (enabled: false en opencode.json).
-  home.activation.claudeChromeDevToolsMcp = lib.hm.dag.entryAfter [ "claudeMagicMcp" ] ''
+  home.activation.claudeChromeDevToolsMcp = lib.hm.dag.entryAfter [ "claudeMagicMcpCleanup" ] ''
     claude_json="$HOME/.claude.json"
     tmp_file="$(${pkgs.coreutils}/bin/mktemp "''${TMPDIR:-/tmp}/claude-json.XXXXXX")"
 

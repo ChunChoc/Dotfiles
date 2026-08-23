@@ -5,6 +5,22 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    superpowers = {
+      url = "github:obra/superpowers";
+      flake = false;
+    };
+    django-ai-plugins = {
+      url = "github:vintasoftware/django-ai-plugins";
+      flake = false;
+    };
+    anthropic-skills = {
+      url = "github:anthropics/skills";
+      flake = false;
+    };
+    ui-ux-pro-max-skill = {
+      url = "github:nextlevelbuilder/ui-ux-pro-max-skill";
+      flake = false;
+    };
   };
 
   outputs =
