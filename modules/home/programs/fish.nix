@@ -55,11 +55,12 @@
         run0 --background= nixos-rebuild switch --flake ~/Dotfiles#(hostname)
       '';
 
+      # Sin `cd`: se trabaja sobre ~/Dotfiles con `--flake` y `git -C`, así el
+      # shell termina en el mismo directorio desde donde llamaste el comando.
       upgrade = ''
-        cd ~/Dotfiles
-        nix flake update
-        git add flake.lock
-        run0 --background= nixos-rebuild switch --flake .#(hostname)
+        nix flake update --flake ~/Dotfiles
+        git -C ~/Dotfiles add flake.lock
+        run0 --background= nixos-rebuild switch --flake ~/Dotfiles#(hostname)
       '';
     };
 
