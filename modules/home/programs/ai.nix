@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   lib,
   osConfig,
@@ -21,6 +22,17 @@ in
     xdg.configFile."opencode/opencode.json".text = builtins.toJSON opencodeConfig;
 
     home.file = {
+      # Instrucciones globales para agentes: un solo archivo, enlazado FUERA de la store
+      # (como la config de nvim) para poder editarlo y que aplique sin rebuild.
+      # Lo que es regla de un repo va en el AGENTS.md de ese repo.
+      ".claude/CLAUDE.md".source =
+        config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/Dotfiles/modules/home/dotfiles/ai/AGENTS.md";
+
+      ".config/opencode/AGENTS.md".source =
+        config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/Dotfiles/modules/home/dotfiles/ai/AGENTS.md";
+
       ".claude/skills/django-expert" = {
         source = inputs.django-ai-plugins.outPath + "/plugins/django-expert/skills/django-expert";
         recursive = true;
