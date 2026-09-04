@@ -2,6 +2,13 @@ onboarding = false
 
 [ui]
 agent_panel_sort = "spaces"
+# Arrancar con el sidebar colapsado para ganar columnas de pantalla. "compact"
+# deja el riel angosto con los indicadores de estado de los agentes; "hidden"
+# lo quita del todo (ancho cero). Se expande/colapsa en caliente con prefix+b
+# (keys.toggle_sidebar) y el cambio de config solo aplica en el siguiente
+# arranque del servidor (herdr server stop).
+sidebar_start_collapsed = true
+sidebar_collapsed_mode = "compact"
 
 [theme]
 name = "catppuccin"
