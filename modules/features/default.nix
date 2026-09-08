@@ -9,7 +9,7 @@
   imports = [
     ./battery-charge-limit.nix
     ./development.nix
-    ./gaming.nix
+    ./gaming
     ./localsend.nix
     ./printing.nix
     ./virtualization

@@ -13,8 +13,10 @@
     virtualization = true;
     localsend = true;
     printing = true;
-    gaming = false;
-    minecraft = true;
+    gaming = {
+      steam = true;
+      minecraft = true;
+    };
     batteryChargeLimit = 90;
   };
 

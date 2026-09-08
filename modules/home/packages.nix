@@ -59,7 +59,7 @@
       hunspellDicts.es_GT # corrección ortográfica para Español (Guatemala)
       #onlyoffice-desktopeditors # para verificar fidelidad de formato .docx/.xlsx
     ]
-    ++ lib.optionals osConfig.myFeatures.minecraft [
+    ++ lib.optionals osConfig.myFeatures.gaming.minecraft [
       # Minecraft Java. Prism trae sus propios JDK y arregla las rutas de
       # glfw/openal; el launcher oficial es un binario dinámico de fuera de Nix
       # y no arranca sin envoltorio FHS. Login con cuenta Microsoft incluido.
