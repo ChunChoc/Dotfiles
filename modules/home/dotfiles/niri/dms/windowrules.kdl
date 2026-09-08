@@ -56,6 +56,16 @@ window-rule {
     default-window-height { proportion 0.75; }
 }
 
+// LibreOffice ya corriendo: al abrir un .doc desde el navegador o Nautilus, la
+// ventana llega al configure inicial con el app-id genérico "soffice" (el
+// "libreoffice-writer" se lo pone después). Como open-maximized se resuelve
+// justo en ese configure, la regla de "Apps maximizadas" no la agarraba y el
+// documento abría a media pantalla. Ver niri#2076.
+window-rule {
+    match app-id=r#"^soffice$"#
+    open-maximized true
+}
+
 // Apps maximizadas
 window-rule {
     // Asegúrate de que el app-id sea correcto (suele ser brave-browser)
@@ -108,4 +118,29 @@ window-rule {
     clip-to-geometry true
     tiled-state true
     draw-border-with-background false
+}
+
+// Steam: la ventana principal maximizada como el resto de apps, y todo lo
+// demas que abra el cliente (lista de amigos, ajustes, dialogos) flotando en
+// vez de meterse como una columna mas en el tiling. Los juegos no entran
+// aqui: usan app-id "steam_app_<id>", no "steam".
+window-rule {
+    match app-id=r#"^steam$"#
+    open-floating true
+}
+
+window-rule {
+    match app-id=r#"^steam$"# title=r#"^Steam$"#
+    open-floating false
+    open-maximized true
+}
+
+// Prism Launcher: la ventana principal se queda en el tiling con su medio
+// ancho, pero las subventanas (consola de la instancia, editar instancia,
+// ajustes) flotan. Todas comparten app-id, asi que la principal se distingue
+// por titulo.
+window-rule {
+    match app-id=r#"^org\.prismlauncher\.PrismLauncher$"#
+    exclude title=r#"^Prism Launcher"#
+    open-floating true
 }
