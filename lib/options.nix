@@ -4,6 +4,7 @@
   options.myFeatures = {
     development = lib.mkEnableOption "herramientas de desarrollo y programación";
     gaming = lib.mkEnableOption "juegos, Steam y soporte 32-bit";
+    minecraft = lib.mkEnableOption "Minecraft Java vía Prism Launcher";
     communication = lib.mkEnableOption "apps de comunicación y mensajería";
     office = lib.mkEnableOption "apps de oficina y documentos";
     virtualization = lib.mkEnableOption "máquinas virtuales con KVM/QEMU";

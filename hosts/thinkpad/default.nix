@@ -14,6 +14,7 @@
     localsend = true;
     printing = true;
     gaming = false;
+    minecraft = true;
     batteryChargeLimit = 90;
   };
 
