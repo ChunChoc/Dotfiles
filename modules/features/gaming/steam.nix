@@ -23,15 +23,30 @@
     # Proton y casi todo el catálogo viejo siguen siendo 32-bit.
     hardware.graphics.enable32Bit = true;
 
-    # El i5-8250U es un chip U de 15 W: sin gamemode el governor se queda en
-    # powersave y el juego arranca a media frecuencia. gamemode lo sube a
-    # performance solo mientras el juego corre.
+    # gamemode NO se activa solo: se pide por juego, en las opciones de
+    # lanzamiento de Steam:
+    #
+    #   gamemoderun %command%
+    #
+    # Ahí ajusta el governor del CPU mientras dura la partida y restaura el
+    # que había al salir. No habla con power-profiles-daemon (el "plan de
+    # energía" de la barra de DMS): escribe el governor directo, así que
+    # durante el juego la barra sigue mostrando el perfil viejo. Es cosmético
+    # —ver gamemode#462—, pero si se cambia el perfil en DMS con el juego
+    # corriendo, al cerrarlo gamemode pisa ese cambio.
+    #
+    # Ojo con la expectativa: en este equipo casi nunca va a poner
+    # "performance". Con `igpu_desiredgov=powersave` y umbral 0.3, cuando
+    # detecta que la carga la lleva la iGPU baja el CPU a powersave para
+    # dejarle a la UHD 620 más del presupuesto de 15 W que comparte con el
+    # i5-8250U. Eso es justo lo que más FPS da en un chip U.
     programs.gamemode.enable = true;
 
-    # gamescope es la palanca que más rinde en una UHD 620: deja renderizar
-    # el juego a 720p y escalarlo a la pantalla 1080p. Se usa por juego, en
-    # las opciones de lanzamiento de Steam:
-    #   gamescope -W 1920 -H 1080 -w 1280 -h 720 -f -- %command%
+    # gamescope tampoco es automático: es un compositor anidado que se invoca
+    # por juego. Lo que más rinde en una UHD 620 es renderizar a 720p y
+    # escalar a la pantalla, también desde las opciones de lanzamiento:
+    #
+    #   gamescope -W 1920 -H 1080 -w 1280 -h 720 -f -- gamemoderun %command%
     programs.gamescope.enable = true;
   };
 }
