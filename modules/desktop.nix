@@ -16,6 +16,7 @@ let
     export PATH="$PATH:${
       lib.makeBinPath [
         dmsGreeterCfg.quickshell.package
+        pkgs.glib # gdbus: lo usa el greeter para fprintd y portales
         config.programs.${dmsGreeterCfg.compositor.name}.package
       ]
     }"
@@ -24,10 +25,9 @@ let
       XCURSOR_PATH=${greeterCursorPath} \
       XCURSOR_THEME=${greeterCursorTheme} \
       XCURSOR_SIZE=${greeterCursorSize} \
-      ${pkgs.bash}/bin/sh ${dmsGreeterCfg.package}/share/quickshell/dms/Modules/Greetd/assets/dms-greeter \
+      ${dmsGreeterCfg.package}/bin/dms-greeter \
       --cache-dir /var/lib/dms-greeter \
       --command ${dmsGreeterCfg.compositor.name} \
-      -p ${dmsGreeterCfg.package}/share/quickshell/dms \
       -C ${dmsGreeterCompositorConfig}
   '';
 
