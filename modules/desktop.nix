@@ -101,18 +101,21 @@ in
     # Con eso los popups se alinean con las cápsulas y el `struts { top -6 }` de
     # niri/dms/layout.kdl puede subir las ventanas sin descuadrarlos.
     #
-    # Solo toca QML, pero `dms-shell` es un buildGoModule, así que el override
-    # recompila el CLI. Si un día DMS cambia esa línea, `--replace-fail` corta
-    # la compilación con un error claro en vez de dejarlo pasar en silencio.
+    # Solo toca QML, pero desde DMS 1.6 el shell va embebido en el binario Go
+    # (`make sync-shell` en preBuild), así que hay que parchear el fuente antes
+    # de compilar, no `$out`. Si un día DMS vuelve a cambiar esa línea,
+    # `--replace-fail` corta la compilación con un error claro.
     package = pkgs.dms-shell.overrideAttrs (prev: {
-      postFixup = (prev.postFixup or "") + ''
-        qml=$out/share/quickshell/dms/Common/SettingsData.qml
-        chmod u+w "$qml"
-        substituteInPlace "$qml" \
+      # Va antes del preBuild de nixpkgs, que termina con `make sync-shell`
+      # (la copia que se embebe). ../quickshell queda fuera del sourceRoot,
+      # así que hay que darle permiso de escritura a mano.
+      preBuild = ''
+        chmod u+w ../quickshell/Common/SettingsData.qml
+        substituteInPlace ../quickshell/Common/SettingsData.qml \
           --replace-fail \
-            'const otherThickness = Math.max(26 + otherPadding * 0.6, Theme.barHeight - 4 - (8 - otherPadding)) + otherSpacing;' \
-            'const otherWidgetThickness = Math.max(20, 26 + otherPadding * 0.6); const otherThickness = otherSpacing + (Math.max(otherWidgetThickness + otherPadding + 4, Theme.barHeight - 4 - (8 - otherPadding)) + otherWidgetThickness) / 2;'
-      '';
+            'const otherThickness = Theme.barThickness(otherPadding, CompositorService.getScreenScale(screen)) + otherSpacing;' \
+            'const otherDpr = CompositorService.getScreenScale(screen); const otherThickness = otherSpacing + (Theme.barThickness(otherPadding, otherDpr) + Theme.barWidgetThickness(otherPadding, otherDpr)) / 2;'
+      '' + (prev.preBuild or "");
     });
   };
 
