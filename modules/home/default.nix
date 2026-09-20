@@ -48,6 +48,9 @@ in
     # Archivos estáticos (source)
     "herdr/config.toml".source = ./dotfiles/herdr/config.toml;
     "starship.toml".source = ./dotfiles/starship/starship.toml;
+    # La barra `default` va en modo isla (DMS 1.6). Los tres `island*` fijan la
+    # franja reservada en 42 px, la misma de la barra clásica, para que el
+    # `struts { top -6 }` de niri/dms/layout.kdl siga cuadrando.
     "DankMaterialShell/settings.json".source = ./dotfiles/DankMaterialShell/settings.json;
     "DankMaterialShell/themes/catppuccin/theme.json".source =
       ./dotfiles/DankMaterialShell/themes/catppuccin/theme.json;

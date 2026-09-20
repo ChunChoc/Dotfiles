@@ -166,9 +166,11 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        // La barra de DMS reserva 42 px de alto aunque su fondo esté en
-        // `transparency: 0` y lo único visible sean las cápsulas, que acaban en
-        // los 36. Sin este strut las ventanas arrancaban 6 px más abajo de lo
+        // La barra `default` de DMS corre en modo isla y reserva 42 px de alto
+        // (`islandReserveThickness`), la misma franja que reservaba la barra
+        // clásica (40 de grosor + 2 de spacing). Las cápsulas son ahora
+        // satélites de la isla y siguen acabando en los 36; la isla misma va de
+        // 3 a 39. Sin este strut las ventanas arrancaban 6 px más abajo de lo
         // debido y el hueco bajo la barra medía 14 px mientras los otros tres
         // lados medían 8 — justo lo que se ve mal con la barra sin fondo.
         //

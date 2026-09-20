@@ -254,20 +254,20 @@
         "all"
       ],
       "showOnLastDisplay": true,
+      "island": true,
+      "islandReserveThickness": 42,
+      "islandCompactThickness": 36,
+      "islandOuterGap": 3,
       "leftWidgets": [
         "workspaceSwitcher",
         "focusedWindow"
       ],
-      "centerWidgets": [
-        "music",
-        "clock"
-      ],
+      "centerWidgets": [],
       "rightWidgets": [
         "systemTray",
         "clipboard",
         "cpuUsage",
         "memUsage",
-        "notificationButton",
         "battery",
         "controlCenterButton"
       ],
