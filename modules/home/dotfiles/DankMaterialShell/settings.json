@@ -8,10 +8,10 @@
   "matugenTargetMonitor": "",
   "popupTransparency": 0.9,
   "dockTransparency": 0.9,
-  "widgetBackgroundColor": "sc",
+  "widgetBackgroundColor": "sch",
   "widgetColorMode": "default",
   "barElevationEnabled": false,
-  "cornerRadius": 12,
+  "cornerRadius": 20,
   "use24HourClock": false,
   "showSeconds": false,
   "useFahrenheit": false,
@@ -256,8 +256,8 @@
       "showOnLastDisplay": true,
       "island": true,
       "islandReserveThickness": 42,
-      "islandCompactThickness": 36,
-      "islandOuterGap": 3,
+      "islandCompactThickness": 30,
+      "islandOuterGap": 6,
       "leftWidgets": [
         "workspaceSwitcher",
         "focusedWindow"
@@ -272,7 +272,7 @@
         "controlCenterButton"
       ],
       "spacing": 2,
-      "innerPadding": 4,
+      "innerPadding": 6,
       "barInsetPadding": 6,
       "bottomGap": 0,
       "transparency": 0,
