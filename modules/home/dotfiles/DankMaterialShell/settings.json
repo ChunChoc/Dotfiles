@@ -271,7 +271,7 @@
         "battery",
         "controlCenterButton"
       ],
-      "spacing": 2,
+      "spacing": 0,
       "innerPadding": 6,
       "barInsetPadding": 6,
       "bottomGap": 0,
@@ -296,7 +296,7 @@
       "openOnOverview": false,
       "visible": true,
       "popupGapsAuto": false,
-      "popupGapsManual": 6,
+      "popupGapsManual": 8,
       "maximizeDetection": false
     }
   ],

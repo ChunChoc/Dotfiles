@@ -115,6 +115,20 @@ in
           --replace-fail \
             'const otherThickness = Theme.barThickness(otherPadding, CompositorService.getScreenScale(screen)) + otherSpacing;' \
             'const otherDpr = CompositorService.getScreenScale(screen); const otherThickness = otherSpacing + (Theme.barThickness(otherPadding, otherDpr) + Theme.barWidgetThickness(otherPadding, otherDpr)) / 2;'
+        # Segundo parche, misma idea: `getPopupTriggerPosition()` coloca los popups
+        # a `popupGap` del grosor completo de la barra (42), pero lo visible son
+        # las cápsulas de 30 centradas en ella (6..36). Se mide desde su borde,
+        # `(barThickness + barWidgetThickness) / 2`, igual que niri mide `gaps`
+        # desde ahí para las ventanas. Con `spacing 0` y `popupGapsManual 8` en
+        # settings.json el popup arranca en 36 + 8 = 44, el mismo `y` que la
+        # ventana de abajo, y a 8 px del borde lateral, como ella.
+        substituteInPlace ../quickshell/Common/SettingsData.qml \
+          --replace-fail \
+            'const relativeY = pos.y;' \
+            'const relativeY = pos.y; const capsuleEdge = (barThickness + Theme.barWidgetThickness(barConfig?.innerPadding ?? 4, CompositorService.getScreenScale(screen))) / 2;' \
+          --replace-fail \
+            'barThickness + edgeSpacing' \
+            'capsuleEdge + edgeSpacing'
       '' + (prev.preBuild or "");
     });
   };
