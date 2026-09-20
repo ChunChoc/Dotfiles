@@ -1,4 +1,6 @@
 layout {
+    // Los colores de este archivo (mauve) son solo de respaldo: en sesión los
+    // pisa dms/colors.kdl, que DMS genera con el acento del wallpaper.
     background-color "transparent"
 
     // Margen alrededor de las ventanas, en píxeles lógicos. Son los mismos 8 px

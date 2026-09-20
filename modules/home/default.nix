@@ -57,9 +57,11 @@ in
     # que genera wallpaper.nix a partir de themes/catppuccin/theme.json con el
     # acento del wallpaper actual.
     "niri/config.kdl".source = ./dotfiles/niri/config.kdl;
+    # `niri/dms/colors.kdl` no se gestiona aquí: lo escribe DMS (plantilla matugen
+    # `niri-colors.kdl`) cada vez que aplica el tema, con el acento vigente. Ver
+    # la nota en niri/config.kdl.
     "niri/dms/alttab.kdl".source = ./dotfiles/niri/dms/alttab.kdl;
     "niri/dms/binds.kdl".source = ./dotfiles/niri/dms/binds.kdl;
-    "niri/dms/colors.kdl".source = ./dotfiles/niri/dms/colors.kdl;
     "niri/dms/cursor.kdl".source = ./dotfiles/niri/dms/cursor.kdl;
     "niri/dms/effects.kdl".source = ./dotfiles/niri/dms/effects.kdl;
     "niri/dms/layout.kdl".source = ./dotfiles/niri/dms/layout.kdl;

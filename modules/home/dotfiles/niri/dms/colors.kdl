@@ -1,7 +1,0 @@
-// Palette notes for the active niri modules.
-//
-// niri accepts only one top-level `layout {}` node, so these color values must
-// live inside their owning modules instead of being included as a second layout.
-// Current active color values are in:
-// - dms/layout.kdl: layout background, focus ring, border, shadow, tab indicator, insert hint
-// - dms/alttab.kdl: recent window highlight

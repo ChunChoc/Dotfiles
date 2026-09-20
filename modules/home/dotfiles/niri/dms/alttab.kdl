@@ -1,3 +1,5 @@
+// Los colores (mauve) son solo de respaldo: en sesión los pisa dms/colors.kdl,
+// que DMS genera con el acento del wallpaper.
 recent-windows {
     highlight {
         corner-radius 12

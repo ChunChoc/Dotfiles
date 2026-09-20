@@ -9,9 +9,15 @@
 
 include "./monitors.kdl"
 include "./dms/outputs.kdl"
-include "./dms/colors.kdl"
 include "./dms/layout.kdl"
 include "./dms/alttab.kdl"
+// Lo genera DMS (~/.config/niri/dms/colors.kdl) al aplicar el tema, con el
+// acento que wallpaper.nix elige según el wallpaper: focus ring, border,
+// tab-indicator, insert-hint y el resaltado de alt-tab. Va después de
+// layout.kdl y alttab.kdl porque niri fusiona los nodos repetidos y el último
+// gana; los colores fijos de esos archivos quedan solo de respaldo para cuando
+// el archivo todavía no existe (primer arranque), de ahí `optional=true`.
+include optional=true "./dms/colors.kdl"
 include "./dms/windowrules.kdl"
 include "./dms/wpblur.kdl"
 include "./dms/effects.kdl"
