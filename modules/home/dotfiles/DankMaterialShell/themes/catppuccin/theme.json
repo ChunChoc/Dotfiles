@@ -62,21 +62,255 @@
     ],
     "accents": [
       {
+        "id": "rosewater",
+        "name": "Rosewater",
+        "mocha": {
+          "primary": "#f5e0dc",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#7e3c30",
+          "secondary": "#f2cdcd",
+          "surfaceTint": "#3e2c28"
+        },
+        "latte": {
+          "primary": "#dc8a78",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#ffe2db",
+          "secondary": "#dd7878",
+          "surfaceTint": "#ffe2db"
+        }
+      },
+      {
+        "id": "flamingo",
+        "name": "Flamingo",
+        "mocha": {
+          "primary": "#f2cdcd",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#7e3030",
+          "secondary": "#f5e0dc",
+          "surfaceTint": "#3e2828"
+        },
+        "latte": {
+          "primary": "#dd7878",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#ffdbdb",
+          "secondary": "#dc8a78",
+          "surfaceTint": "#ffdbdb"
+        }
+      },
+      {
+        "id": "pink",
+        "name": "Pink",
+        "mocha": {
+          "primary": "#f5c2e7",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#7e3068",
+          "secondary": "#f2cdcd",
+          "surfaceTint": "#3e2838"
+        },
+        "latte": {
+          "primary": "#ea76cb",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#ffdbf5",
+          "secondary": "#dd7878",
+          "surfaceTint": "#ffdbf5"
+        }
+      },
+      {
         "id": "mauve",
         "name": "Mauve",
         "mocha": {
           "primary": "#cba6f7",
           "primaryText": "#1e1e2e",
-          "primaryContainer": "#55307f",
+          "primaryContainer": "#53307e",
           "secondary": "#b4befe",
-          "surfaceTint": "#33293f"
+          "surfaceTint": "#32283e"
         },
         "latte": {
           "primary": "#8839ef",
           "primaryText": "#eff1f5",
-          "primaryContainer": "#eadcff",
+          "primaryContainer": "#ebdbff",
           "secondary": "#7287fd",
-          "surfaceTint": "#eadcff"
+          "surfaceTint": "#ebdbff"
+        }
+      },
+      {
+        "id": "red",
+        "name": "Red",
+        "mocha": {
+          "primary": "#f38ba8",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#7e3045",
+          "secondary": "#eba0ac",
+          "surfaceTint": "#3e282e"
+        },
+        "latte": {
+          "primary": "#d20f39",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#ffdbe3",
+          "secondary": "#e64553",
+          "surfaceTint": "#ffdbe3"
+        }
+      },
+      {
+        "id": "maroon",
+        "name": "Maroon",
+        "mocha": {
+          "primary": "#eba0ac",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#7e303c",
+          "secondary": "#f38ba8",
+          "surfaceTint": "#3e282c"
+        },
+        "latte": {
+          "primary": "#e64553",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#ffdbde",
+          "secondary": "#d20f39",
+          "surfaceTint": "#ffdbde"
+        }
+      },
+      {
+        "id": "peach",
+        "name": "Peach",
+        "mocha": {
+          "primary": "#fab387",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#7e4e30",
+          "secondary": "#f9e2af",
+          "surfaceTint": "#3e3028"
+        },
+        "latte": {
+          "primary": "#fe640b",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#ffe8db",
+          "secondary": "#df8e1d",
+          "surfaceTint": "#ffe8db"
+        }
+      },
+      {
+        "id": "yellow",
+        "name": "Yellow",
+        "mocha": {
+          "primary": "#f9e2af",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#7e6530",
+          "secondary": "#fab387",
+          "surfaceTint": "#3e3728"
+        },
+        "latte": {
+          "primary": "#df8e1d",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#fff0db",
+          "secondary": "#fe640b",
+          "surfaceTint": "#fff0db"
+        }
+      },
+      {
+        "id": "green",
+        "name": "Green",
+        "mocha": {
+          "primary": "#a6e3a1",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#367e30",
+          "secondary": "#94e2d5",
+          "surfaceTint": "#2a3e28"
+        },
+        "latte": {
+          "primary": "#40a02b",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#e2ffdb",
+          "secondary": "#179299",
+          "surfaceTint": "#e2ffdb"
+        }
+      },
+      {
+        "id": "teal",
+        "name": "Teal",
+        "mocha": {
+          "primary": "#94e2d5",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#307e71",
+          "secondary": "#a6e3a1",
+          "surfaceTint": "#283e3a"
+        },
+        "latte": {
+          "primary": "#179299",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#dbfdff",
+          "secondary": "#40a02b",
+          "surfaceTint": "#dbfdff"
+        }
+      },
+      {
+        "id": "sky",
+        "name": "Sky",
+        "mocha": {
+          "primary": "#89dceb",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#30727e",
+          "secondary": "#74c7ec",
+          "surfaceTint": "#283a3e"
+        },
+        "latte": {
+          "primary": "#04a5e5",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#dbf5ff",
+          "secondary": "#209fb5",
+          "surfaceTint": "#dbf5ff"
+        }
+      },
+      {
+        "id": "sapphire",
+        "name": "Sapphire",
+        "mocha": {
+          "primary": "#74c7ec",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#30667e",
+          "secondary": "#89dceb",
+          "surfaceTint": "#28373e"
+        },
+        "latte": {
+          "primary": "#209fb5",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#dbfaff",
+          "secondary": "#04a5e5",
+          "surfaceTint": "#dbfaff"
+        }
+      },
+      {
+        "id": "blue",
+        "name": "Blue",
+        "mocha": {
+          "primary": "#89b4fa",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#304d7e",
+          "secondary": "#74c7ec",
+          "surfaceTint": "#28303e"
+        },
+        "latte": {
+          "primary": "#1e66f5",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#dbe7ff",
+          "secondary": "#209fb5",
+          "surfaceTint": "#dbe7ff"
+        }
+      },
+      {
+        "id": "lavender",
+        "name": "Lavender",
+        "mocha": {
+          "primary": "#b4befe",
+          "primaryText": "#1e1e2e",
+          "primaryContainer": "#303a7e",
+          "secondary": "#89b4fa",
+          "surfaceTint": "#282b3e"
+        },
+        "latte": {
+          "primary": "#7287fd",
+          "primaryText": "#eff1f5",
+          "primaryContainer": "#dbe1ff",
+          "secondary": "#1e66f5",
+          "surfaceTint": "#dbe1ff"
         }
       }
     ]

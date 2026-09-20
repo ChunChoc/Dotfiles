@@ -53,8 +53,9 @@ in
     # niri/dms/layout.kdl siga cuadrando; `innerPadding 6` + `gap 6 / compact 30`
     # ponen cápsulas e isla en la misma fila de 30 px, a 6 px del borde.
     "DankMaterialShell/settings.json".source = ./dotfiles/DankMaterialShell/settings.json;
-    "DankMaterialShell/themes/catppuccin/theme.json".source =
-      ./dotfiles/DankMaterialShell/themes/catppuccin/theme.json;
+    # `customThemeFile` apunta a ~/.local/state/DankMaterialShell/catppuccin-theme.json,
+    # que genera wallpaper.nix a partir de themes/catppuccin/theme.json con el
+    # acento del wallpaper actual.
     "niri/config.kdl".source = ./dotfiles/niri/config.kdl;
     "niri/dms/alttab.kdl".source = ./dotfiles/niri/dms/alttab.kdl;
     "niri/dms/binds.kdl".source = ./dotfiles/niri/dms/binds.kdl;

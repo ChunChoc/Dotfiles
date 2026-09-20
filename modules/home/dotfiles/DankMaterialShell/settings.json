@@ -1,7 +1,7 @@
 {
   "currentThemeName": "custom",
   "currentThemeCategory": "registry",
-  "customThemeFile": "/home/chunchoc/.config/DankMaterialShell/themes/catppuccin/theme.json",
+  "customThemeFile": "/home/chunchoc/.local/state/DankMaterialShell/catppuccin-theme.json",
   "registryThemeVariants": {},
   "matugenScheme": "scheme-tonal-spot",
   "runUserMatugenTemplates": true,
