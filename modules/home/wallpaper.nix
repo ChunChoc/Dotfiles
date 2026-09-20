@@ -148,7 +148,13 @@ let
     "$jq" --arg a "$accent" \
       '.variants.defaults.dark.accent = $a | .variants.defaults.light.accent = $a' \
       "${catppuccinThemeJson}" > "$tmp"
-    mv "$tmp" "$theme_out"
+    # Si el acento no cambió (el wallpaper nuevo cae en el mismo), no se toca el
+    # archivo: DMS lo vigila y cada escritura le hace regenerar el tema entero.
+    if cmp -s "$tmp" "$theme_out"; then
+      rm -f "$tmp"
+    else
+      mv "$tmp" "$theme_out"
+    fi
     printf '%s\n' "$wallpaper" > "$stamp"
   '';
   niriStartupWallpaper = pkgs.writeShellScript "niri-startup-wallpaper" ''
@@ -267,6 +273,11 @@ in
     Service = {
       Type = "oneshot";
       ExecStart = "${applyWallpaperAccent}";
+      # Corre en el mismo instante que la transición del wallpaper; a prioridad
+      # mínima para que matugen (PNG 4K) no le robe CPU al render de DMS.
+      Nice = 19;
+      CPUSchedulingPolicy = "idle";
+      IOSchedulingClass = "idle";
     };
 
     Install.WantedBy = [ "graphical-session.target" ];
