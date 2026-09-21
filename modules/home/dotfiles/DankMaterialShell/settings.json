@@ -258,6 +258,8 @@
       "islandReserveThickness": 42,
       "islandCompactThickness": 30,
       "islandOuterGap": 6,
+      "islandSpringStiffness": 380,
+      "islandSpringDamping": 31.2,
       "leftWidgets": [
         "workspaceSwitcher",
         "focusedWindow"

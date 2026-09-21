@@ -144,6 +144,23 @@ in
           --replace-fail \
             'Theme.withAlpha(root.surfaceColor, root.islandOpacity)' \
             '(root.popupStyled ? Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency) : Theme.withAlpha(root.surfaceColor, root.islandOpacity))'
+        # Cuarto parche: muelles con los tokens de Material 3 Expressive. DMS trae
+        # tres presets propios (Theme.qml `springSpecs`, duplicados en Anims.qml):
+        # `default` [100, 16] para popups, modales, OSD y notificaciones (ω=10,
+        # ~500 ms en asentar), `fast` [220, 23] para dock y workspaces, y
+        # `expressive` [560, 37] para la isla y el overview (ω=24, ~200 ms). Esa
+        # diferencia de 2.4x entre isla y popups es lo que se nota como
+        # animaciones distintas. Se sustituyen por los tokens M3 (damping =
+        # ratio·2·√stiffness, masa 1): `default` y `expressive` → default spatial
+        # 380/0.8; `fast` → fast spatial 800/0.6, el de componentes pequeños.
+        # Van a juego con el bloque `animations` de niri/config.kdl.
+        for f in ../quickshell/Common/Theme.qml ../quickshell/Common/Anims.qml; do
+          chmod u+w "$f"
+          substituteInPlace "$f" \
+            --replace-fail '"expressive": [560, 37],' '"expressive": [380, 31.2],' \
+            --replace-fail '"fast": [220, 23],' '"fast": [800, 33.9],' \
+            --replace-fail '"default": [100, 16]' '"default": [380, 31.2]'
+        done
       '' + (prev.preBuild or "");
     });
   };

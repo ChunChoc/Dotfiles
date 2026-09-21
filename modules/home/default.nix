@@ -52,6 +52,9 @@ in
     # mantiene la franja de la barra clásica para que el `struts { top -6 }` de
     # niri/dms/layout.kdl siga cuadrando; `innerPadding 6` + `gap 6 / compact 30`
     # ponen cápsulas e isla en la misma fila de 30 px, a 6 px del borde.
+    # `islandSpring* 380 / 31.2` es el muelle "default spatial" de M3 Expressive
+    # (ratio 0.8), el mismo que el parche de desktop.nix pone en el resto de DMS
+    # y que usa niri/config.kdl.
     "DankMaterialShell/settings.json".source = ./dotfiles/DankMaterialShell/settings.json;
     # `customThemeFile` apunta a ~/.local/state/DankMaterialShell/catppuccin-theme.json,
     # que genera wallpaper.nix a partir de themes/catppuccin/theme.json con el
