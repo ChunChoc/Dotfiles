@@ -136,13 +136,14 @@ in
         # tono que el fondo y se pierde la jerarquía tonal de M3 que sí tienen el
         # control center o la batería (fondo `surfaceContainer`, tarjetas un
         # escalón arriba). Solo al expandir (`popupStyled`) se baja el fondo a
-        # `surfaceContainer`; el pill compacto sigue igual que las cápsulas de la
-        # barra. El `Behavior on color` que ya existe anima el cambio.
+        # `surfaceContainer` con `popupTransparency` (0.9 + blur, como cualquier popup:
+        # DMS solo pide blur a niri si la isla es translúcida); el pill compacto
+        # sigue opaco como las cápsulas. El `Behavior on color` anima el cambio.
         chmod u+w ../quickshell/Modules/DankIsland/DankIslandSurface.qml
         substituteInPlace ../quickshell/Modules/DankIsland/DankIslandSurface.qml \
           --replace-fail \
             'Theme.withAlpha(root.surfaceColor, root.islandOpacity)' \
-            'Theme.withAlpha(root.popupStyled ? Theme.surfaceContainer : root.surfaceColor, root.islandOpacity)'
+            '(root.popupStyled ? Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency) : Theme.withAlpha(root.surfaceColor, root.islandOpacity))'
       '' + (prev.preBuild or "");
     });
   };
