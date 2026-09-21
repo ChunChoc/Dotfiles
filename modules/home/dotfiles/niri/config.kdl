@@ -154,9 +154,17 @@ overview {
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
 
-// Animation settings.
-// The wiki explains how to configure individual animations:
-// https://yalter.github.io/niri/Configuration:-Animations
+// Animaciones con los tokens de Material 3 Expressive (los de Android 16), para
+// que niri se mueva igual que DMS, que ya usa el mismo esquema por dentro
+// (variante Material, muelles ζ≈0.8). Reglas M3: lo espacial (posición, tamaño,
+// forma) va con muelle; los efectos (opacidad, color) con muelle crítico; las
+// salidas, con "emphasized accelerate". Referencia:
+// https://m3.material.io/styles/motion/overview/specs
+//
+//   default spatial  stiffness=380  damping-ratio=0.8   (contenedores medianos)
+//   fast spatial     stiffness=800  damping-ratio=0.6   (componentes pequeños, aparición)
+//   default effects  stiffness=1600 damping-ratio=1.0   (fundidos)
+//   emphasized accelerate  200 ms  cubic-bezier(0.3, 0, 0.8, 0.15)  (salidas)
 animations {
     // Uncomment to turn off all animations.
     // off
@@ -164,50 +172,55 @@ animations {
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
 
+    // Default spatial: el lienzo (workspaces, columnas, ventanas) se desplaza y
+    // redimensiona con el mismo muelle.
     workspace-switch {
-        spring damping-ratio=0.8 stiffness=680 epsilon=0.0001
+        spring damping-ratio=0.8 stiffness=380 epsilon=0.0001
     }
 
     horizontal-view-movement {
-        spring damping-ratio=0.8 stiffness=700 epsilon=0.0001
+        spring damping-ratio=0.8 stiffness=380 epsilon=0.0001
     }
 
     window-movement {
-        spring damping-ratio=0.82 stiffness=750 epsilon=0.0001
+        spring damping-ratio=0.8 stiffness=380 epsilon=0.0001
     }
 
     window-resize {
-        spring damping-ratio=0.88 stiffness=800 epsilon=0.0001
-    }
-
-    config-notification-open-close {
-        spring damping-ratio=1.0 stiffness=900 epsilon=0.001
+        spring damping-ratio=0.8 stiffness=380 epsilon=0.0001
     }
 
     exit-confirmation-open-close {
-        spring damping-ratio=0.85 stiffness=740 epsilon=0.01
-    }
-
-    window-open {
-        spring damping-ratio=0.6 stiffness=720 epsilon=0.0001
-    }
-
-    window-close {
-        duration-ms 140
-        curve "ease-out-quad"
-    }
-
-    screenshot-ui-open {
-        duration-ms 180
-        curve "cubic-bezier" 0.05 0.7 0.1 1
+        spring damping-ratio=0.8 stiffness=380 epsilon=0.0001
     }
 
     overview-open-close {
-        spring damping-ratio=0.6 stiffness=700 epsilon=0.0001
+        spring damping-ratio=0.8 stiffness=380 epsilon=0.0001
+    }
+
+    // Fast spatial: aparición de ventanas y del aviso de config, con el pequeño
+    // rebote expresivo.
+    window-open {
+        spring damping-ratio=0.6 stiffness=800 epsilon=0.0001
+    }
+
+    config-notification-open-close {
+        spring damping-ratio=0.6 stiffness=800 epsilon=0.0001
+    }
+
+    // Emphasized accelerate: las salidas son cortas y aceleran hacia el final.
+    window-close {
+        duration-ms 200
+        curve "cubic-bezier" 0.3 0 0.8 0.15
+    }
+
+    // Default effects: fundidos sin rebote.
+    screenshot-ui-open {
+        spring damping-ratio=1.0 stiffness=1600 epsilon=0.001
     }
 
     recent-windows-close {
-        spring damping-ratio=0.82 stiffness=760 epsilon=0.001
+        spring damping-ratio=1.0 stiffness=1600 epsilon=0.001
     }
 }
 
