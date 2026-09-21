@@ -129,6 +129,20 @@ in
           --replace-fail \
             'barThickness + edgeSpacing' \
             'capsuleEdge + edgeSpacing'
+        # Tercer parche: la isla expandida usa el mismo fondo que los demás popups.
+        # Con la paleta `default` la isla pinta `surfaceContainerHigh` tanto compacta
+        # como expandida (DankIslandSurface.qml), pero las tarjetas del dash
+        # (Overview/Card.qml) también son `surfaceContainerHigh`: quedan del mismo
+        # tono que el fondo y se pierde la jerarquía tonal de M3 que sí tienen el
+        # control center o la batería (fondo `surfaceContainer`, tarjetas un
+        # escalón arriba). Solo al expandir (`popupStyled`) se baja el fondo a
+        # `surfaceContainer`; el pill compacto sigue igual que las cápsulas de la
+        # barra. El `Behavior on color` que ya existe anima el cambio.
+        chmod u+w ../quickshell/Modules/DankIsland/DankIslandSurface.qml
+        substituteInPlace ../quickshell/Modules/DankIsland/DankIslandSurface.qml \
+          --replace-fail \
+            'Theme.withAlpha(root.surfaceColor, root.islandOpacity)' \
+            'Theme.withAlpha(root.popupStyled ? Theme.surfaceContainer : root.surfaceColor, root.islandOpacity)'
       '' + (prev.preBuild or "");
     });
   };
