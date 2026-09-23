@@ -45,6 +45,14 @@
 
       # System Utils
       xwayland-satellite
+      # `gapplication`, el helper de glib con el que Mod+Return le pide una
+      # ventana al daemon de Ghostty por D-Bus (niri/dms/binds.kdl, el porqué
+      # está en programs/ghostty.nix). Hasta la generación 285 glib llegaba al
+      # PATH de rebote, metido en environment.systemPackages por un módulo de
+      # nixpkgs; la actualización del 2026-09-22 dejó de hacerlo y el bind
+      # murió con `error spawning "gapplication": NotFound`. Declarándolo aquí
+      # ya no depende de la suerte.
+      glib
     ]
     ++ lib.optionals osConfig.myFeatures.development [
       gh
