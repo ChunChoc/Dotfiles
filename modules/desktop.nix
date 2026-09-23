@@ -85,7 +85,6 @@ in
   programs.niri.enable = true;
   programs.dms-shell = {
     enable = true;
-    enableCalendarEvents = false;
 
     # DMS mide sus popups (notificaciones, centro de control, etc.) contra el
     # *grosor* de la barra, no contra el borde real de las cápsulas. Con el
