@@ -12,6 +12,7 @@
     office = true;
     virtualization = true;
     localsend = true;
+    networkLab = true;
     printing = true;
     gaming = {
       steam = true;

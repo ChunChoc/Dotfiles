@@ -11,6 +11,7 @@
     office = lib.mkEnableOption "apps de oficina y documentos";
     virtualization = lib.mkEnableOption "máquinas virtuales con KVM/QEMU";
     localsend = lib.mkEnableOption "LocalSend (abrir puertos firewall)";
+    networkLab = lib.mkEnableOption "laboratorio de redes (Cisco Packet Tracer)";
     printing = lib.mkEnableOption "impresión por CUPS (Canon PIXMA G2170 por USB)";
 
     batteryChargeLimit = lib.mkOption {
