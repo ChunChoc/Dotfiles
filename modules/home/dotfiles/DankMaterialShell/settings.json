@@ -267,7 +267,6 @@
       "centerWidgets": [],
       "rightWidgets": [
         "systemTray",
-        "clipboard",
         "cpuUsage",
         "memUsage",
         "battery",
