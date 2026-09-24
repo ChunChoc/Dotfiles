@@ -56,6 +56,9 @@ in
     # `islandSpring* 380 / 31.2` es el muelle "default spatial" de M3 Expressive
     # (ratio 0.8), el mismo que el parche de desktop.nix pone en el resto de DMS
     # y que usa niri/config.kdl.
+    # `blurBorderEnabled false` quita el contorno al 35 % que DMS pone en las
+    # superficies con blur: es un rasgo del estilo vidrio, M3 separa solo por
+    # tono, blur y sombra. `monoFontFamily` es la misma mono que Ghostty.
     "DankMaterialShell/settings.json".source = ./dotfiles/DankMaterialShell/settings.json;
     # `customThemeFile` apunta a ~/.local/state/DankMaterialShell/catppuccin-theme.json,
     # que genera wallpaper.nix a partir de themes/catppuccin/theme.json con el

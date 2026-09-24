@@ -120,6 +120,26 @@ window-rule {
     draw-border-with-background false
 }
 
+// Sombra solo para ventanas flotantes. En M3 lo que flota sobre el contenido
+// es una superficie elevada y proyecta sombra; sin ella Nautilus, los ajustes
+// de DMS o LocalSend se funden con la ventana en mosaico de abajo. Los valores
+// son los de `Theme.elevationLevel3` de DMS (blur 12, y=6, 30 %), la misma
+// elevación que usan sus popouts, así ventanas y popups hablan igual. Las
+// ventanas en mosaico no la llevan: son contenido (nivel 0 en M3) y con
+// huecos de 8 px la sombra ensuciaría los espacios entre ellas. El color va
+// explícito porque el colors.kdl que genera DMS pone el suyo (#00000070) en
+// `layout`. Va después de la regla del radio para que la sombra siga el 20.
+window-rule {
+    match is-floating=true
+    shadow {
+        on
+        softness 12
+        spread 0
+        offset x=0 y=6
+        color "#0000004d"
+    }
+}
+
 // Steam: la ventana principal maximizada como el resto de apps, y todo lo
 // demas que abra el cliente (lista de amigos, ajustes, dialogos) flotando en
 // vez de meterse como una columna mas en el tiling. Los juegos no entran

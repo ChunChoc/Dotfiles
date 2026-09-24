@@ -17,6 +17,22 @@
       roboto-flex
     ];
 
-    fontconfig.enable = true;
+    fontconfig = {
+      enable = true;
+      # Sin esto los genéricos caen en DejaVu: Electron (Obsidian), el
+      # contenido web, Zed y cualquier app sin fuente propia salían en DejaVu
+      # Sans mientras DMS y GTK usaban Roboto Flex. La mono es la de Ghostty.
+      #
+      # La fuente del Pixel (Android 16, M3 Expressive) es Google Sans Flex,
+      # libre (OFL) y en google/fonts desde el 2026-09-04. Cuando el snapshot
+      # de `google-fonts` en nixpkgs sea posterior a esa fecha (hoy es del
+      # 2026-03-13), se instala con `google-fonts.override { fonts = [
+      # "GoogleSansFlex" ]; }` y se cambia aquí, en theme.nix (gtk.font) y en
+      # el `fontFamily` de DMS.
+      defaultFonts = {
+        sansSerif = [ "Roboto Flex" ];
+        monospace = [ "JetBrainsMono Nerd Font" ];
+      };
+    };
   };
 }
