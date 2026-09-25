@@ -266,6 +266,13 @@ in
   systemd.user.services.dms-wallpaper-accent = {
     Unit = {
       Description = "Pick the DMS Catppuccin accent from the current wallpaper";
+      # Sin límite de arranques. El de systemd (5 en 10 s) se agota cambiando
+      # de wallpaper seguido con Mod+W / Mod+Shift+W: al 6.º el servicio
+      # falla con start-limit-hit, arrastra al .path y el acento se queda
+      # congelado hasta reiniciar la sesión. Quitarlo es seguro: el script es
+      # idempotente (sale al instante si el wallpaper no cambió) y systemd
+      # nunca corre dos a la vez, fusiona los disparos en cola.
+      StartLimitIntervalSec = 0;
       Before = [ "dms.service" ];
       PartOf = [ "graphical-session.target" ];
     };
