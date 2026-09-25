@@ -164,8 +164,10 @@ show_milliseconds = true
 format = " in $duration "
 style = "bg:lavender"
 disabled = false
-show_notifications = true
-min_time_to_notify = 45000
+# Sin notificaciones: cada programa interactivo (nvim, lazygit, claude) que
+# pasaba de 45 s contaba como "comando largo" y al cerrarlo mandaba un
+# "Command finished". La duración se sigue viendo en el prompt.
+show_notifications = false
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
