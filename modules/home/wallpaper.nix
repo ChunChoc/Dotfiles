@@ -79,32 +79,38 @@ let
     theme_out="$state_dir/catppuccin-theme.json"
     stamp="$state_dir/catppuccin-theme.wallpaper"
 
-    # Carpetas de Papirus del mismo acento. catppuccin-papirus-folders trae los
-    # SVG de los 14 acentos; el `accent` del override solo decide a dónde apuntan
-    # `folder*.svg`, `user-home*.svg` y `user-desktop.svg`. Como el store no se
-    # puede tocar, esos enlaces se recrean en un tema de usuario que hereda de
-    # Papirus-Dark (index.theme en theme.nix). Mauve es la referencia porque
-    # es el acento con el que se construye el paquete. Los destinos van por el
-    # perfil y no por /nix/store para que un update o un GC no los dejen
-    # colgando. El `touch` cambia el mtime del tema: GTK lo revisa en la
-    # siguiente búsqueda de iconos y recarga sin reabrir Nautilus.
+    # Carpetas de Papirus del mismo acento. Los enlaces de los 14 acentos ya
+    # vienen hechos desde Nix (`papirusFolderAccents` en theme.nix,
+    # instalado en accents/); aquí solo se reapuntan los 5 directorios de
+    # tamaño del tema de usuario, así que el cambio es instantáneo
+    # y llega a la par que DMS y niri. Antes se recreaban 390 enlaces con un
+    # proceso cada uno (~3 s a prioridad idle).
     icons_dir="''${XDG_DATA_HOME:-$HOME/.local/share}/icons/Papirus-Dark-Accent"
-    papirus="/etc/profiles/per-user/$USER/share/icons/Papirus"
+    dconf="${pkgs.dconf}/bin/dconf"
+    icon_key=/org/gnome/desktop/interface/icon-theme
     sync_folder_icons() {
-      [ -d "$papirus" ] && [ -s "$theme_out" ] || return 0
-      local accent size dir link
+      [ -s "$theme_out" ] || return 0
+      local accent size link
       accent="$("$jq" -r '.variants.defaults.dark.accent // "mauve"' "$theme_out" 2>/dev/null || printf 'mauve')"
-      [ "$(cat "$icons_dir/.accent" 2>/dev/null || true)" = "$accent" ] && return 0
-      for size in 22 24 32 48 64; do
-        dir="''${size}x''${size}/places"
-        mkdir -p "$icons_dir/$dir"
-        while IFS= read -r -d "" link; do
-          target="$(readlink "$link")"
-          ln -sfn "$papirus/$dir/''${target//cat-mocha-mauve/cat-mocha-$accent}" "$icons_dir/$dir/''${link##*/}"
-        done < <(find "$papirus/$dir/" -maxdepth 1 -type l -lname '*cat-mocha-mauve*' -print0)
+      [ -d "$icons_dir/accents/$accent" ] || return 0
+      if [ -L "$icons_dir/48x48" ] && [ "$(cat "$icons_dir/.accent" 2>/dev/null || true)" = "$accent" ]; then
+        return 0
+      fi
+      for size in 22 24 32 48 64; do # los de index.theme (theme.nix)
+        link="$icons_dir/''${size}x''${size}"
+        # Migración: la versión anterior dejaba aquí directorios reales.
+        [ -L "$link" ] || rm -rf "$link"
+        ln -sfn "accents/$accent/''${size}x''${size}" "$link"
       done
       printf '%s\n' "$accent" > "$icons_dir/.accent"
-      touch "$icons_dir"
+      # GTK solo revisa el mtime del tema como mucho cada ~5 s, y solo cuando
+      # vuelve a buscar un icono. Un vaivén de icon-theme en dconf hace que el
+      # portal emita SettingChanged y las apps GTK recarguen al instante. Solo
+      # si el tema activo es este, para no pisar otro elegido a mano.
+      if [ "$("$dconf" read "$icon_key" 2>/dev/null || true)" = "'Papirus-Dark-Accent'" ]; then
+        "$dconf" write "$icon_key" "'Papirus-Dark'" || true
+        "$dconf" write "$icon_key" "'Papirus-Dark-Accent'" || true
+      fi
     }
 
     wallpaper=""

@@ -170,4 +170,27 @@ in
       Size=${toString s}
       Type=Fixed
     '') sizes;
+
+  # Enlaces de carpeta de los 14 acentos, hechos una sola vez al compilar. El
+  # paquete trae los SVG de todos, pero sus `folder*.svg` solo apuntan a
+  # mauve (el `accent` del override). Al cambiar de wallpaper,
+  # `sync_folder_icons` (wallpaper.nix) reapunta los 5 directorios de tamaño
+  # del tema hacia uno de estos: instantáneo. Los destinos están en el store y
+  # este derivado los referencia, así que el GC no los borra mientras la
+  # generación de HM exista. Los tamaños son los mismos del index.theme.
+  xdg.dataFile."icons/Papirus-Dark-Accent/accents".source =
+    pkgs.runCommand "papirus-folder-accents" { } ''
+      src=${config.gtk.iconTheme.package}/share/icons/Papirus
+      for accent in rosewater flamingo pink mauve red maroon peach yellow green teal sky sapphire blue lavender; do
+        for size in 22 24 32 48 64; do
+          dir="$src/''${size}x''${size}/places"
+          out_dir="$out/$accent/''${size}x''${size}/places"
+          mkdir -p "$out_dir"
+          find "$dir/" -maxdepth 1 -type l -lname '*cat-mocha-mauve*' -printf '%f\t%l\n' |
+            while IFS=$'\t' read -r name target; do
+              ln -s "$dir/''${target//cat-mocha-mauve/cat-mocha-$accent}" "$out_dir/$name"
+            done
+        done
+      done
+    '';
 }
