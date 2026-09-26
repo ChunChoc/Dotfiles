@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, lib, config, ... }:
 
 let
   pythonForCatppuccinGtk = pkgs.python313.override {
@@ -77,7 +77,11 @@ in
       package = catppuccinGtk;
     };
     iconTheme = {
-      name = "Papirus-Dark";
+      # Papirus-Dark con las carpetas del acento del wallpaper (ver el
+      # index.theme de abajo). El paquete aporta los SVG de los 14 acentos;
+      # `accent = "mauve"` solo es el color que se ve si el tema de usuario
+      # aún no se generó.
+      name = "Papirus-Dark-Accent";
       package = pkgs.catppuccin-papirus-folders.override {
         flavor = "mocha";
         accent = "mauve";
@@ -115,7 +119,7 @@ in
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
       gtk-theme = "catppuccin-mocha-mauve-standard+rimless";
-      icon-theme = "Papirus-Dark";
+      icon-theme = "Papirus-Dark-Accent";
 
       # El `font-name` NO se pone aquí: lo escribe home-manager a partir de
       # `gtk.font` de arriba, y declararlo en los dos sitios daría un conflicto
@@ -141,4 +145,29 @@ in
     "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
   };
 
+
+  # Tema de iconos de usuario que solo sobrescribe las carpetas: los enlaces
+  # los genera `sync_folder_icons` en wallpaper.nix con el acento del
+  # wallpaper; todo lo demás se hereda de Papirus-Dark. Los directorios copian
+  # el formato de Papirus-Dark/index.theme. Mientras no haya enlaces (primer
+  # arranque) se hereda todo y se ven las carpetas mauve, nunca iconos rotos.
+  xdg.dataFile."icons/Papirus-Dark-Accent/index.theme".text =
+    let
+      sizes = [ 22 24 32 48 64 ];
+      dir = s: "${toString s}x${toString s}/places";
+    in
+    ''
+      [Icon Theme]
+      Name=Papirus-Dark-Accent
+      Comment=Papirus-Dark con las carpetas del acento del wallpaper
+      Inherits=Papirus-Dark,breeze-dark,hicolor
+      Directories=${lib.concatMapStringsSep "," dir sizes}
+    ''
+    + lib.concatMapStrings (s: ''
+
+      [${dir s}]
+      Context=Places
+      Size=${toString s}
+      Type=Fixed
+    '') sizes;
 }

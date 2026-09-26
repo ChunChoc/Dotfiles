@@ -68,6 +68,7 @@ let
   # `variants.defaults`. `customThemeFile` en settings.json apunta a esa copia
   # y DMS la vigila (FileView watchChanges), así que recarga sin reiniciar.
   # Solo cambia el acento: superficies, texto y demás siguen siendo Mocha.
+  # El mismo acento pinta las carpetas de Papirus (sync_folder_icons).
   catppuccinThemeJson = ./dotfiles/DankMaterialShell/themes/catppuccin/theme.json;
   applyWallpaperAccent = pkgs.writeShellScript "dms-wallpaper-accent" ''
     set -eu
@@ -77,6 +78,34 @@ let
     session_json="$state_dir/session.json"
     theme_out="$state_dir/catppuccin-theme.json"
     stamp="$state_dir/catppuccin-theme.wallpaper"
+
+    # Carpetas de Papirus del mismo acento. catppuccin-papirus-folders trae los
+    # SVG de los 14 acentos; el `accent` del override solo decide a dónde apuntan
+    # `folder*.svg`, `user-home*.svg` y `user-desktop.svg`. Como el store no se
+    # puede tocar, esos enlaces se recrean en un tema de usuario que hereda de
+    # Papirus-Dark (index.theme en theme.nix). Mauve es la referencia porque
+    # es el acento con el que se construye el paquete. Los destinos van por el
+    # perfil y no por /nix/store para que un update o un GC no los dejen
+    # colgando. El `touch` cambia el mtime del tema: GTK lo revisa en la
+    # siguiente búsqueda de iconos y recarga sin reabrir Nautilus.
+    icons_dir="''${XDG_DATA_HOME:-$HOME/.local/share}/icons/Papirus-Dark-Accent"
+    papirus="/etc/profiles/per-user/$USER/share/icons/Papirus"
+    sync_folder_icons() {
+      [ -d "$papirus" ] && [ -s "$theme_out" ] || return 0
+      local accent size dir link
+      accent="$("$jq" -r '.variants.defaults.dark.accent // "mauve"' "$theme_out" 2>/dev/null || printf 'mauve')"
+      [ "$(cat "$icons_dir/.accent" 2>/dev/null || true)" = "$accent" ] && return 0
+      for size in 22 24 32 48 64; do
+        dir="''${size}x''${size}/places"
+        mkdir -p "$icons_dir/$dir"
+        while IFS= read -r -d "" link; do
+          target="$(readlink "$link")"
+          ln -sfn "$papirus/$dir/''${target//cat-mocha-mauve/cat-mocha-$accent}" "$icons_dir/$dir/''${link##*/}"
+        done < <(find "$papirus/$dir/" -maxdepth 1 -type l -lname '*cat-mocha-mauve*' -print0)
+      done
+      printf '%s\n' "$accent" > "$icons_dir/.accent"
+      touch "$icons_dir"
+    }
 
     wallpaper=""
     if [ -r "$session_json" ]; then
@@ -96,6 +125,7 @@ let
     # wallpaper. Sin copia previa del tema hay que generarla igual (primer
     # arranque), aunque sea con el acento por defecto.
     if [ -s "$theme_out" ] && [ -f "$stamp" ] && [ "$(cat "$stamp")" = "$wallpaper" ]; then
+      sync_folder_icons
       exit 0
     fi
 
@@ -156,6 +186,7 @@ let
       mv "$tmp" "$theme_out"
     fi
     printf '%s\n' "$wallpaper" > "$stamp"
+    sync_folder_icons
   '';
   niriStartupWallpaper = pkgs.writeShellScript "niri-startup-wallpaper" ''
     set -eu
