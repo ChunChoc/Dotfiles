@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   # Tus FLAC ya traen la letra sincronizada, pero embebida en el tag LYRICS, y
@@ -55,6 +55,43 @@ let
       exit 0
     '';
   };
+
+  # MPD bajo demanda: no corre desde el arranque, lo levanta el socket la
+  # primera vez que un cliente se conecta (abrir rmpc), y el envoltorio lo
+  # apaga al cerrar rmpc si no está sonando. Son ~80 MB (MPD + mpd-mpris) que
+  # no se gastan los días sin música, y la isla de DMS no muestra un
+  # reproductor fantasma. Si cierras rmpc con la música sonando, sigue sonando
+  # (el modelo de MPD); se apagará la próxima vez que cierres rmpc en pausa.
+  rmpc = pkgs.symlinkJoin {
+    name = "rmpc-on-demand";
+    paths = [ pkgs.rmpc ];
+    postBuild = ''
+      rm "$out/bin/rmpc"
+      cat > "$out/bin/rmpc" <<'SH'
+      #!${pkgs.runtimeShell}
+      real=${pkgs.rmpc}/bin/rmpc
+      # Subcomandos (rmpc status, rmpc theme…) pasan tal cual.
+      [ $# -eq 0 ] || exec "$real" "$@"
+
+      # Despierta a MPD (activación por socket) y, de paso, le hace indexar lo
+      # que llegó a ~/Music mientras estaba apagado: inotify solo vigila con
+      # MPD encendido. Sin --wait no bloquea, solo encola el escaneo.
+      "$real" update >/dev/null 2>&1 || true
+
+      "$real"
+      code=$?
+
+      # Otra instancia de rmpc abierta: MPD se queda.
+      if ! ${pkgs.procps}/bin/pgrep -u "$(id -u)" -fx "$real" >/dev/null; then
+        state="$("$real" status 2>/dev/null | ${pkgs.jq}/bin/jq -r '.state // empty')"
+        # mpd-mpris cae con él (PartOf) y la isla de DMS se vacía.
+        [ "$state" = Play ] || systemctl --user stop mpd.service
+      fi
+      exit "$code"
+      SH
+      chmod +x "$out/bin/rmpc"
+    '';
+  };
 in
 
 {
@@ -69,6 +106,9 @@ in
     enable = true;
     # musicDirectory sale de xdg.userDirs.music (~/Music) automáticamente.
     # network.listenAddress ya es 127.0.0.1 por defecto: nada expuesto a la red.
+    # Al iniciar sesión solo queda escuchando el socket (sin coste); MPD
+    # arranca con la primera conexión. Ver el envoltorio `rmpc` arriba.
+    network.startWhenNeeded = true;
 
     extraConfig = ''
       # --- Salida ---
@@ -118,11 +158,21 @@ in
   # muestra en la barra y las teclas de medios (XF86AudioPlay y compañía, que en
   # binds.kdl llaman a `dms ipc call mpris ...`) no lo controlan.
   services.mpd-mpris.enable = true;
+  # Atado a MPD en vez de al inicio de sesión: si arrancara con la sesión se
+  # conectaría al socket y despertaría a MPD al instante. Así sube con MPD y
+  # cae con él (PartOf).
+  systemd.user.services.mpd-mpris = {
+    Unit = {
+      PartOf = [ "mpd.service" ];
+      After = [ "mpd.service" ];
+    };
+    Install.WantedBy = lib.mkForce [ "mpd.service" ];
+  };
 
   # rmpc: cliente TUI. El servicio de MPD ya instala el paquete `mpd` (que trae
   # `mpc` para scripting), así que aquí solo falta el cliente.
   home.packages = [
-    pkgs.rmpc
+    rmpc
     syncLyrics
   ];
 
