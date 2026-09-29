@@ -36,6 +36,7 @@ in
     ./mime.nix
     ./wallpaper.nix
     ./clipboard-images.nix
+    ./projector.nix
     ./clipboard-privacy.nix
   ];
 

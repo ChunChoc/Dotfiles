@@ -165,3 +165,11 @@ window-rule {
     open-floating true
     default-window-height { proportion 0.75; }
 }
+
+// wl-mirror duplica la laptop en el proyector (modules/home/projector.nix).
+// Aparece sin robar el foco: sigues trabajando en la laptop sin tocar nada.
+window-rule {
+    match app-id=r#"^at\.yrlf\.wl_mirror$"#
+    open-focused false
+    open-fullscreen true
+}

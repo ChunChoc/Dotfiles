@@ -69,7 +69,7 @@
             name = "eDP-1"; # Cambiar según tu monitor
             width = 1920;
             height = 1080;
-            refreshRate = 60;
+            refreshRate = "60.001"; # el panel reporta 60.001 Hz; con "60" niri no lo encuentra
             scale = 1.2;
           };
           externalOutputs = [

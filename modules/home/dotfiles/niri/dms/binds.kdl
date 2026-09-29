@@ -237,4 +237,6 @@ binds {
     // === System Controls ===
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+P { power-off-monitors; }
+    // Proyector: alterna duplicar / extender (modules/home/projector.nix).
+    Mod+P hotkey-overlay-title="Proyector: duplicar/extender" { spawn "niri-projector" "toggle"; }
 }
