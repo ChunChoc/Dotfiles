@@ -5,6 +5,10 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # herdr fijado al nixpkgs de 2026-09-28: con el de 2026-09-29 (GCC 16) su
+    # libghostty-vt (Zig) deja un símbolo vacío y el enlace falla. Quitar esta
+    # entrada y el uso en modules/home/packages.nix cuando nixpkgs lo arregle.
+    nixpkgs-herdr.url = "github:nixos/nixpkgs/7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f";
     superpowers = {
       url = "github:obra/superpowers";
       flake = false;

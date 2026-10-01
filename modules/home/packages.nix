@@ -2,6 +2,7 @@
   pkgs,
   lib,
   osConfig,
+  inputs,
   ...
 }:
 
@@ -40,7 +41,8 @@
       htop
       eza
       fd
-      herdr
+      # Fijado a otro nixpkgs: ver `nixpkgs-herdr` en flake.nix.
+      inputs.nixpkgs-herdr.legacyPackages.${pkgs.stdenv.hostPlatform.system}.herdr
       pokeget-rs
 
       # System Utils

@@ -15,5 +15,10 @@
   # afectado mientras `networkLab` esté en false.
   config = lib.mkIf osConfig.myFeatures.networkLab {
     home.packages = [ pkgs.ciscoPacketTracer9 ];
+    # El .deb solo se usa al compilar, así que el GC semanal (nix.gc en
+    # core/system.nix) lo borraba, y cualquier cambio de nixpkgs que obligara
+    # a recompilar volvía a pedirlo a mano (2026-09-30). Como dependencia del
+    # perfil queda protegido; cuesta ~400 MB fijos en el store.
+    home.extraDependencies = [ pkgs.ciscoPacketTracer9.src.src ];
   };
 }
