@@ -164,6 +164,13 @@ in
     });
   };
 
+  # Planes de energía (ahorro / balanceado / rendimiento) del selector de DMS.
+  # Antes llegaba implícito: el módulo dms-shell de nixpkgs lo activaba con
+  # mkDefault, y en el nixpkgs del 2026-09-22 dejó de hacerlo. DMS se quedó sin
+  # daemon con el que hablar, de ahí el error al cambiar de plan. PPD recuerda
+  # el último plan elegido y arranca en balanceado la primera vez.
+  services.power-profiles-daemon.enable = true;
+
   services.displayManager.dms-greeter = {
     enable = true;
     compositor = {
