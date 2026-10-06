@@ -20,6 +20,7 @@ in
     ./packages.nix
     ./localsend.nix
     ./network-lab.nix
+    ./prism.nix
     ./virtualization.nix
     ./programs/fish.nix
     ./programs/fzf.nix
