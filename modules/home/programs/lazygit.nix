@@ -19,8 +19,9 @@
           unstagedChangesColor = [ "#f38ba8" ];
           defaultFgColor = [ "#cdd6f4" ];
           searchingActiveBorderColor = [ "#f9e2af" ];
+          # Antes gui.authorColors; lazygit 0.66 lo pasó a gui.theme.
+          authorColors."*" = "#b4befe";
         };
-        authorColors."*" = "#b4befe";
       };
 
       # Esquema de lazygit >= 0.64: lista git.diffRenderers con la clave
