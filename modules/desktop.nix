@@ -146,6 +146,15 @@ in
           --replace-fail \
             'Theme.withAlpha(root.surfaceColor, root.islandOpacity)' \
             '(root.popupStyled ? Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency) : Theme.withAlpha(root.surfaceColor, root.islandOpacity))'
+        # Desde dux-shell 2.0 la isla hereda la transparencia del *fondo* de la
+        # barra (`barTransparency`), que aquí es 0 a propósito: la isla compacta
+        # se volvía invisible y solo quedaba su contenido flotando. Se le da la
+        # de las cápsulas (`widgetTransparency`), que es lo que parece.
+        chmod u+w ../quickshell/Modules/DIsland/IslandBarHost.qml
+        substituteInPlace ../quickshell/Modules/DIsland/IslandBarHost.qml \
+          --replace-fail \
+            'transparency: SettingsData.barTransparency(root.barConfig)' \
+            'transparency: SettingsData.barWidgetTransparency(root.barConfig)'
         # Cuarto parche: muelles con los tokens de Material 3 Expressive. DMS trae
         # tres presets propios (Theme.qml `springSpecs`; desde 2.0 ya no van
         # duplicados en Anims.qml): `default` [300, 24] para popups, modales, OSD
