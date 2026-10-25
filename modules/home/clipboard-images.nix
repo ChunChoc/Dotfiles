@@ -35,7 +35,7 @@ let
   reoffer = pkgs.writeShellScript "clipboard-images-reoffer" ''
     set -u
 
-    dms="${pkgs.dms-shell}/bin/dms"
+    dms="${pkgs.dux-shell}/bin/dms"
 
     # `--mimes` añade el array `mimeTypes`; el filtro dispara solo cuando TODOS
     # los tipos ofrecidos son imagen, que es la firma de la copia de niri. Si

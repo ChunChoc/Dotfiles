@@ -7,7 +7,7 @@ let
     set -eu
 
     default_wallpaper="$1"
-    dms="${pkgs.dms-shell}/bin/dms"
+    dms="${pkgs.dux-shell}/bin/dms"
 
     current_wallpaper=""
     for _ in 1 2 3 4 5; do

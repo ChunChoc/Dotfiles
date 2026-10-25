@@ -29,7 +29,7 @@ let
   applyClipboardPolicy = pkgs.writeShellScript "dms-clipboard-policy" ''
     set -eu
 
-    dms="${pkgs.dms-shell}/bin/dms"
+    dms="${pkgs.dux-shell}/bin/dms"
 
     # El servidor de DMS puede no estar escuchando todavía cuando esto corre.
     # Se reintenta ~10 s; si no aparece, se sale sin error para no dejar la
