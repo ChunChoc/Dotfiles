@@ -14,6 +14,7 @@ let
   # escribe resolvconf), así `dns-normal` no repite las IPs a mano.
   resolvConfNormal =
     lib.concatMapStrings (ns: "nameserver ${ns}\n") config.networking.nameservers + "options edns0\n";
+  escribirResolvNormal = "printf '%s' ${lib.escapeShellArg resolvConfNormal} > /etc/resolv.conf";
 
   # Ambos comandos tocan /etc/resolv.conf y systemd: si no se corren como root
   # se relanzan solos con sudo, para no tener que acordarse en plena emergencia.
@@ -33,8 +34,9 @@ let
 
   # Plan B cuando dnscrypt no consigue hablar con nadie. Se usa primero el
   # gateway porque en el hotspot del teléfono es lo único que seguro responde:
-  # varias operadoras móviles bloquean o secuestran el puerto 53 hacia afuera,
-  # por eso apuntar directo a 9.9.9.9 no funcionó ahí. Quad9 queda de segunda.
+  # varias operadoras móviles bloquean el UDP 53 hacia afuera (comprobado: 9.9.9.9
+  # y 1.1.1.1 no responden por UDP, sí por TCP, y el gateway sí), por eso apuntar
+  # directo a 9.9.9.9 no funcionó ahí. Quad9 queda de segunda para otras redes.
   # Se pregunta la ruta hacia 9.9.9.9 en vez de leer `default` porque con dos
   # interfaces arriba (WiFi + cable) da el gateway que de verdad se usa.
   dnsEmergencia = pkgs.writeShellScriptBin "dns-emergencia" ''
@@ -59,7 +61,7 @@ let
     set -eu
     ${comoRoot}
     rm -f ${marcaEmergencia}
-    printf '%s' ${lib.escapeShellArg resolvConfNormal} > /etc/resolv.conf
+    ${escribirResolvNormal}
     systemctl restart dnscrypt-proxy.service
     echo "DNS normal: 127.0.0.1 -> dnscrypt-proxy (reiniciado)"
   '';
@@ -238,6 +240,15 @@ in
         if [ -e ${marcaEmergencia} ]; then
           exec ${dnsEmergencia}/bin/dns-emergencia
         fi
+
+        # Fuera del modo emergencia, resolv.conf tiene que apuntar a dnscrypt.
+        # Si quedó editado a mano (p. ej. `nameserver 9.9.9.9`) dnscrypt puede
+        # estar sano y aun así nadie le pregunta: pasó el 2026-10-28, cuando un
+        # 9.9.9.9 viejo sobrevivió al switch y en hotspots que bloquean el UDP 53
+        # hacia afuera no había DNS. Reescribirlo en cada cambio de red lo corrige
+        # solo, y como /run se vacía al apagar, también vuelve al modo normal
+        # tras reiniciar en modo emergencia.
+        ${escribirResolvNormal}
 
         # `up` y `connectivity-change` suelen llegar juntos; si el servicio
         # arrancó hace menos de 5 s, el segundo reinicio solo cortaría el sondeo
