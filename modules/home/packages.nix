@@ -29,7 +29,12 @@
       imv
       zathura
       file-roller
-      obsidian
+      # Obsidian corre sobre el Electron de nixpkgs, no el suyo. Con Electron 43
+      # el renderer revienta al arrancar (`TypeError: Cannot read properties of
+      # undefined (reading 'defineProperty')` en renderer_init) y la bóveda
+      # queda en negro; con 42 abre bien. Quitar el override cuando Obsidian
+      # soporte 43. Se usa -bin para no compilar Chromium si no está en caché.
+      (obsidian.override { electron = electron_42-bin; })
       #appflowy
       # La música la manejan MPD + rmpc (programs/mpd.nix), antes tauon
 
