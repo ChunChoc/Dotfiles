@@ -3,6 +3,7 @@
   inputs,
   lib,
   osConfig,
+  pkgs,
   ...
 }:
 
@@ -11,6 +12,19 @@
   # Los binarios (opencode, claude-code) los instala el feature development.
   config = lib.mkIf osConfig.myFeatures.development {
     xdg.configFile."opencode/opencode.json".source = ../dotfiles/ai/opencode/opencode.json;
+
+    # Servidor y navegador fijados por flake.lock; sin descargas de npm ni de Chromium.
+    # El contexto aislado no reutiliza el perfil personal de Brave.
+    home.file.".local/bin/playwright-mcp" = {
+      executable = true;
+      text = ''
+        #!${pkgs.runtimeShell}
+        exec ${lib.getExe pkgs.playwright-mcp} \
+          --executable-path=${lib.getExe pkgs.brave-origin} \
+          --isolated \
+          "$@"
+      '';
+    };
 
     home.file = {
       # Instrucciones globales para agentes: un solo archivo, enlazado FUERA de la store
