@@ -34,7 +34,13 @@
       # undefined (reading 'defineProperty')` en renderer_init) y la bóveda
       # queda en negro; con 42 abre bien. Quitar el override cuando Obsidian
       # soporte 43. Se usa -bin para no compilar Chromium si no está en caché.
-      (obsidian.override { electron = electron_42-bin; })
+      # Electron 42 ya es EOL y nixpkgs lo marca inseguro: se le quita la marca
+      # solo aquí, para que nada más del sistema pueda arrastrarlo.
+      (obsidian.override {
+        electron = electron_42-bin.overrideAttrs (old: {
+          meta = old.meta // { knownVulnerabilities = [ ]; };
+        });
+      })
       #appflowy
       # La música la manejan MPD + rmpc (programs/mpd.nix), antes tauon
 
