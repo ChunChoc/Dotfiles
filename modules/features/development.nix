@@ -25,7 +25,14 @@
       nil
       nixd
       vtsls
-      opencode
+      # FIXME(2026-11-05): nixpkgs 1d06008 trae opencode 2.2.5 con el hash
+      # de node_modules desactualizado (hash mismatch en el FOD). Quitar este
+      # override y volver a `opencode` a secas cuando nixpkgs lo corrija.
+      (opencode.overrideAttrs (old: {
+        node_modules = old.node_modules.overrideAttrs {
+          outputHash = "sha256-prx9dX7kUvs/E3zopkaPk5LXh3xJAy5sZeum/W8L7cA=";
+        };
+      }))
       claude-code
       # Entornos de desarrollo por proyecto (devenv.nix): paquetes, servicios
       # (Postgres, Mailpit...) y procesos con `devenv up`, integrado con direnv.
