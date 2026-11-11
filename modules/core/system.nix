@@ -1,7 +1,14 @@
-{ lib, ... }:
+{ lib, inputs, ... }:
 {
   # Permitir paquetes con licencia unfree.
   nixpkgs.config.allowUnfree = true;
+
+  # brave-origin desde 26.05: ver `nixpkgs-brave` en flake.nix.
+  nixpkgs.overlays = [
+    (final: _prev: {
+      brave-origin = inputs.nixpkgs-brave.legacyPackages.${final.stdenv.hostPlatform.system}.brave-origin;
+    })
+  ];
 
   # Red base común a todos los hosts (los hosts solo declaran quirks).
   # Las conexiones se configuran interactivamente con nmcli o nmtui.

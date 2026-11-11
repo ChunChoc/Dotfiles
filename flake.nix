@@ -9,6 +9,11 @@
     # libghostty-vt (Zig) deja un símbolo vacío y el enlace falla. Quitar esta
     # entrada y el uso en modules/home/packages.nix cuando nixpkgs lo arregle.
     nixpkgs-herdr.url = "github:nixos/nixpkgs/7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f";
+    # brave y brave-origin se quitaron de unstable (2026-11) por falta de
+    # committers entre sus mantenedores; 26.05 todavía lo trae. Probablemente
+    # tampoco reciba parches allí: es temporal. Se usa vía overlay en
+    # modules/core/system.nix; quitar ambos cuando se cambie de navegador.
+    nixpkgs-brave.url = "github:nixos/nixpkgs/nixos-26.05";
     anthropic-skills = {
       url = "github:anthropics/skills";
       flake = false;

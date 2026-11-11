@@ -114,8 +114,8 @@ in
         chmod u+w ../quickshell/Common/ShellLayout.qml
         substituteInPlace ../quickshell/Common/ShellLayout.qml \
           --replace-fail \
-            'popupThickness: Theme.barThickness(Resolver.option(config, "innerPadding", root.primaryBar, 2), screen.scale),' \
-            'popupThickness: (Theme.barThickness(Resolver.option(config, "innerPadding", root.primaryBar, 2), screen.scale) + Theme.barWidgetThickness(Resolver.option(config, "innerPadding", root.primaryBar, 2), screen.scale)) / 2,'
+            'popupThickness: Theme.barThickness(Resolver.option(config, "innerPadding", root.primaryBar, SettingsData.barInnerPaddingDefault), screen.scale),' \
+            'popupThickness: (Theme.barThickness(Resolver.option(config, "innerPadding", root.primaryBar, SettingsData.barInnerPaddingDefault), screen.scale) + Theme.barWidgetThickness(Resolver.option(config, "innerPadding", root.primaryBar, SettingsData.barInnerPaddingDefault), screen.scale)) / 2,'
         # Segundo parche, misma idea: `getPopupTriggerPosition()` coloca los popups
         # a `popupGap` del grosor completo de la barra (42), pero lo visible son
         # las cápsulas de 30 centradas en ella (6..36). Se mide desde su borde,
@@ -125,12 +125,13 @@ in
         # ventana de abajo, y a 8 px del borde lateral, como ella. En 2.0 el
         # cálculo vive en `LayoutResolver.popupTrigger()` (`thickness + spacing +
         # gap`); se le pasa el borde de las cápsulas como `thickness`. El
-        # `innerPadding` por defecto pasó de 4 a 2, igual que en DBarBody.qml.
+        # `innerPadding` por defecto pasó de 4 a 2, igual que en DBarBody.qml; desde
+        # 2.1.1 sale del preset de densidad (`barInnerPaddingDefault`, 2 en el normal).
         chmod u+w ../quickshell/Common/SettingsData.qml
         substituteInPlace ../quickshell/Common/SettingsData.qml \
           --replace-fail \
             'return ShellLayout.popupTrigger(pos, screen, barThickness, widgetWidth, barSpacing, barPosition, barConfig);' \
-            'const capsuleEdge = (barThickness + Theme.barWidgetThickness(barConfig?.innerPadding ?? 2, CompositorService.getScreenScale(screen))) / 2; return ShellLayout.popupTrigger(pos, screen, capsuleEdge, widgetWidth, barSpacing, barPosition, barConfig);'
+            'const capsuleEdge = (barThickness + Theme.barWidgetThickness(barConfig?.innerPadding ?? barInnerPaddingDefault, CompositorService.getScreenScale(screen))) / 2; return ShellLayout.popupTrigger(pos, screen, capsuleEdge, widgetWidth, barSpacing, barPosition, barConfig);'
         # Tercer parche: la isla expandida usa el mismo fondo que los demás popups.
         # Con la paleta `default` la isla pinta `surfaceContainerHigh` tanto compacta
         # como expandida (DIslandSurface.qml), pero las tarjetas del dash
