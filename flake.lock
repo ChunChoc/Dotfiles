@@ -37,6 +37,23 @@
         "type": "github"
       }
     },
+    "hyperframes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794490057,
+        "narHash": "sha256-15ySi9ZsgIJtBb5wEmWb7TY1P9GRIs534wpIPRPmyGM=",
+        "owner": "heygen-com",
+        "repo": "hyperframes",
+        "rev": "256675f92c44827ac3309cac615f46424dfca895",
+        "type": "github"
+      },
+      "original": {
+        "owner": "heygen-com",
+        "ref": "v0.9.39",
+        "repo": "hyperframes",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1794042290,
@@ -89,6 +106,7 @@
       "inputs": {
         "anthropic-skills": "anthropic-skills",
         "home-manager": "home-manager",
+        "hyperframes": "hyperframes",
         "nixpkgs": "nixpkgs",
         "nixpkgs-brave": "nixpkgs-brave",
         "nixpkgs-herdr": "nixpkgs-herdr"

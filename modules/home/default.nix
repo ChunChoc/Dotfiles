@@ -27,6 +27,7 @@ in
     ./programs/bat.nix
     ./programs/niri-session.nix
     ./programs/ai.nix
+    ./programs/hyperframes.nix
     ./programs/claude.nix
     ./programs/zed.nix
     ./programs/neovim.nix

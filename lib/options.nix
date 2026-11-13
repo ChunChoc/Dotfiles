@@ -13,6 +13,7 @@
     localsend = lib.mkEnableOption "LocalSend (abrir puertos firewall)";
     networkLab = lib.mkEnableOption "laboratorio de redes (Cisco Packet Tracer)";
     printing = lib.mkEnableOption "impresión por CUPS (Canon PIXMA G2170 por USB)";
+    hyperframes = lib.mkEnableOption "HyperFrames: videos desde HTML (CLI + skills para agentes)";
 
     batteryChargeLimit = lib.mkOption {
       type = lib.types.nullOr (lib.types.ints.between 1 100);

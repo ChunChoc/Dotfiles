@@ -18,6 +18,12 @@
       url = "github:anthropics/skills";
       flake = false;
     };
+    # Skills de HyperFrames (videos con HTML). Fijado a un tag: debe coincidir con
+    # la versión de la CLI en pkgs/hyperframes (se verifica al evaluar).
+    hyperframes = {
+      url = "github:heygen-com/hyperframes/v0.9.39";
+      flake = false;
+    };
   };
 
   outputs =

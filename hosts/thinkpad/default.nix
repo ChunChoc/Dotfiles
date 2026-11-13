@@ -14,6 +14,7 @@
     localsend = true;
     networkLab = true;
     printing = true;
+    hyperframes = true;
     gaming = {
       steam = true;
       minecraft = true;
