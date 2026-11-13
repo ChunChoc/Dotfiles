@@ -33,6 +33,7 @@ in
   config = lib.mkIf osConfig.myFeatures.hyperframes {
     home.packages = [
       hyperframes
+      (pkgs.callPackage ../../../pkgs/heygen { })
       # Las skills también llaman a ffmpeg/ffprobe directamente.
       pkgs.ffmpeg
     ];
