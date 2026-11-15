@@ -12,6 +12,11 @@
   # Los binarios (opencode, claude-code) los instala el feature development.
   config = lib.mkIf osConfig.myFeatures.development {
     xdg.configFile."opencode/opencode.json".source = ../dotfiles/ai/opencode/opencode.json;
+    # Herdr 0.9.1 instala un plugin V1 incompatible con OpenCode V2.
+    xdg.configFile."opencode/plugins/herdr-agent-state.js" = {
+      source = ../dotfiles/ai/opencode/herdr-agent-state.js;
+      force = true;
+    };
 
     # Servidor y navegador fijados por flake.lock; sin descargas de npm ni de Chromium.
     # El contexto aislado no reutiliza el perfil personal de Brave.
