@@ -22,6 +22,7 @@
     # gated con el mismo flag vía osConfig.
     environment.systemPackages = with pkgs; [
       #zed-editor
+      helix
       nil
       nixd
       vtsls
