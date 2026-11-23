@@ -2,65 +2,6 @@
 
 let
   defaultWallpaperName = "nix-magenta-blue-1920x1080.png";
-  defaultWallpaperPath = "%h/Pictures/Wallpapers/${defaultWallpaperName}";
-  applyDmsDefaults = pkgs.writeShellScript "dms-session-defaults" ''
-    set -eu
-
-    default_wallpaper="$1"
-    dms="${pkgs.dux-shell}/bin/dms"
-
-    current_wallpaper=""
-    for _ in 1 2 3 4 5; do
-      if current_wallpaper="$("$dms" ipc wallpaper get 2>/dev/null)"; then
-        break
-      fi
-
-      sleep 1
-    done
-
-    if [ -z "$current_wallpaper" ] || [ ! -f "$current_wallpaper" ]; then
-      "$dms" ipc wallpaper set "$default_wallpaper"
-    fi
-
-    "$dms" ipc theme dark >/dev/null 2>&1 || true
-  '';
-  applyDmsNightModeDefaults = pkgs.writeShellScript "dms-night-mode-defaults" ''
-    set -eu
-
-    session_json="''${XDG_STATE_HOME:-$HOME/.local/state}/DankMaterialShell/session.json"
-    tmp="$(mktemp)"
-    cleanup() {
-      rm -f "$tmp" "$tmp.input"
-    }
-    trap cleanup EXIT INT TERM
-
-    mkdir -p "$(dirname "$session_json")"
-
-    if [ -s "$session_json" ] && ${pkgs.jq}/bin/jq -e 'type == "object"' "$session_json" >/dev/null 2>&1; then
-      input="$session_json"
-    else
-      printf '{}' > "$tmp.input"
-      input="$tmp.input"
-    fi
-
-    ${pkgs.jq}/bin/jq '
-      .wallpaperTransition = "disc"
-      | .includedTransitions = ["disc"]
-      | .wallpaperCyclingInterval = 3600
-      | .nightModeEnabled = true
-      | .nightModeTemperature = 3700
-      | .nightModeHighTemperature = 6500
-      | .nightModeAutoEnabled = true
-      | .nightModeAutoMode = "time"
-      | .nightModeStartHour = 18
-      | .nightModeStartMinute = 0
-      | .nightModeEndHour = 6
-      | .nightModeEndMinute = 0
-      | .nightModeUseIPLocation = false
-    ' "$input" > "$tmp"
-
-    install -m 0644 "$tmp" "$session_json"
-  '';
   # Acento de DMS según el wallpaper. El tema `custom` es Catppuccin
   # (themes/catppuccin/theme.json, con los 14 acentos oficiales); este script
   # saca el color fuente del wallpaper con matugen, elige el acento Catppuccin
@@ -265,38 +206,6 @@ in
 {
   home.file."Pictures/Wallpapers/${defaultWallpaperName}".source =
     ../../wallpaper/nix-magenta-blue-1920x1080.png;
-
-  systemd.user.services.dms-night-mode-defaults = {
-    Unit = {
-      Description = "Apply DMS night mode defaults";
-      Before = [ "dms.service" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${applyDmsNightModeDefaults}";
-    };
-
-    Install.WantedBy = [ "graphical-session.target" ];
-  };
-
-  systemd.user.services.dms-session-defaults = {
-    Unit = {
-      Description = "Apply DMS session defaults";
-      After = [ "graphical-session.target" "dms.service" ];
-      Wants = [ "dms.service" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${applyDmsDefaults} ${defaultWallpaperPath}";
-    };
-
-    Install.WantedBy = [ "graphical-session.target" ];
-  };
-
 
   # Corre antes de DMS para que la copia del tema exista al arrancar, y cada
   # vez que cambia session.json (rotado horario, `dms ipc wallpaper set`…).

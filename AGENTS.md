@@ -16,11 +16,11 @@
 - Do not read or edit secrets: `.secrets`, `.env*`, SSH keys, GPG/PKI material, cloud credentials, or private key files.
 
 ## Niri and DMS
-- `modules/home/dotfiles/niri/config.kdl` is the Niri orchestrator; DMS-related Niri modules live in `modules/home/dotfiles/niri/dms/*.kdl`.
-- `niri/monitors.kdl` is generated from `monitorSettings`; `niri/dms/outputs.kdl` is currently generated from Home Manager too.
+- `modules/home/dotfiles/niri/config.kdl` is the declarative Niri orchestrator. `modules/home/programs/dms.nix` seeds writable DMS settings and `niri/dms/*.kdl` from the dotfiles, preserving GUI edits on later activations.
+- All monitor definitions live in writable `niri/dms/outputs.kdl`, seeded from `monitorSettings` and `externalOutputs`. The activation migrates legacy `niri/monitors.kdl` into it; do not add a competing static output definition that overrides GUI changes.
 - Niri accepts only one top-level `layout {}` node; do not add another active `layout {}` in `colors.kdl` or another include.
 - Theme direction is Catppuccin Mocha/Mauve with subtle glass/blur. Keep blur selective for shells/terminal surfaces; avoid global opacity/blur on browsers, editors, and content-heavy apps.
-- DMS defaults are applied by the Home Manager user service `dms-session-defaults`; it sets the default wallpaper only when the current one is missing and forces dark mode.
+- DMS settings/session defaults are seed-only. Do not reintroduce login services that overwrite theme, wallpaper, night mode or transition choices. The wallpaper-accent generator remains independent of the selected DMS theme.
 
 ## Commands
 - Build the active host before claiming system config works: `nix build '.#nixosConfigurations.thinkpad.config.system.build.toplevel'`.

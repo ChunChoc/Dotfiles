@@ -7,8 +7,9 @@
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input
 
-include "./monitors.kdl"
+// DMS gestiona todas las pantallas aquí; no añadir outputs fijos que anulen la GUI.
 include "./dms/outputs.kdl"
+include "./dms/cursor.kdl"
 include "./dms/layout.kdl"
 include "./dms/alttab.kdl"
 // Lo genera DMS (~/.config/niri/dms/colors.kdl) al aplicar el tema, con el
