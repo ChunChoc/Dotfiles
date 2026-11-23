@@ -86,93 +86,9 @@ in
   programs.dux-shell = {
     enable = true;
 
-    # DMS mide sus popups (notificaciones, centro de control, etc.) contra el
-    # *grosor* de la barra, no contra el borde real de las cápsulas. Con el
-    # fondo de la barra puesto en `transparency: 0` ese grosor es invisible: la
-    # barra dice ocupar 42 px cuando lo último que se ve son las cápsulas, que
-    # acaban en 36. Esos 6 px fantasma obligaban a elegir entre dos males —
-    # dejar el hueco bajo la barra en 14 px en vez de 8, o que las
-    # notificaciones no cayeran sobre la esquina de la ventana.
-    #
-    # El parche hace que la geometría de barras vecinas (`popupThickness` en
-    # Common/ShellLayout.qml, que suma `LayoutResolver.adjacentInfo()`) sea el
-    # borde inferior real de las cápsulas —`(grosorBarra + grosorWidget) / 2`,
-    # que es justo donde las centra la barra— en lugar del grosor completo.
-    # Con eso los popups se alinean con las cápsulas y el `struts { top -6 }` de
-    # niri/dms/layout.kdl puede subir las ventanas sin descuadrarlos.
-    #
-    # Solo toca QML, pero desde DMS 1.6 el shell va embebido en el binario Go
-    # (`make sync-shell` en preBuild), así que hay que parchear el fuente antes
-    # de compilar, no `$out`. Si un día DMS vuelve a cambiar esa línea,
-    # `--replace-fail` corta la compilación con un error claro (pasó con
-    # dux-shell 2.0, que movió la geometría de SettingsData a ShellLayout).
-    package = pkgs.dux-shell.overrideAttrs (prev: {
-      # Va antes del preBuild de nixpkgs, que termina con `make sync-shell`
-      # (la copia que se embebe). ../quickshell queda fuera del sourceRoot,
-      # así que hay que darle permiso de escritura a mano.
-      preBuild = ''
-        chmod u+w ../quickshell/Common/ShellLayout.qml
-        substituteInPlace ../quickshell/Common/ShellLayout.qml \
-          --replace-fail \
-            'popupThickness: Theme.barThickness(Resolver.option(config, "innerPadding", root.primaryBar, SettingsData.barInnerPaddingDefault), screen.scale),' \
-            'popupThickness: (Theme.barThickness(Resolver.option(config, "innerPadding", root.primaryBar, SettingsData.barInnerPaddingDefault), screen.scale) + Theme.barWidgetThickness(Resolver.option(config, "innerPadding", root.primaryBar, SettingsData.barInnerPaddingDefault), screen.scale)) / 2,'
-        # Segundo parche, misma idea: `getPopupTriggerPosition()` coloca los popups
-        # a `popupGap` del grosor completo de la barra (42), pero lo visible son
-        # las cápsulas de 30 centradas en ella (6..36). Se mide desde su borde,
-        # `(barThickness + barWidgetThickness) / 2`, igual que niri mide `gaps`
-        # desde ahí para las ventanas. Con `spacing 0` y `popupGapsManual 8` en
-        # settings.json el popup arranca en 36 + 8 = 44, el mismo `y` que la
-        # ventana de abajo, y a 8 px del borde lateral, como ella. En 2.0 el
-        # cálculo vive en `LayoutResolver.popupTrigger()` (`thickness + spacing +
-        # gap`); se le pasa el borde de las cápsulas como `thickness`. El
-        # `innerPadding` por defecto pasó de 4 a 2, igual que en DBarBody.qml; desde
-        # 2.1.1 sale del preset de densidad (`barInnerPaddingDefault`, 2 en el normal).
-        chmod u+w ../quickshell/Common/SettingsData.qml
-        substituteInPlace ../quickshell/Common/SettingsData.qml \
-          --replace-fail \
-            'return ShellLayout.popupTrigger(pos, screen, barThickness, widgetWidth, barSpacing, barPosition, barConfig);' \
-            'const capsuleEdge = (barThickness + Theme.barWidgetThickness(barConfig?.innerPadding ?? barInnerPaddingDefault, CompositorService.getScreenScale(screen))) / 2; return ShellLayout.popupTrigger(pos, screen, capsuleEdge, widgetWidth, barSpacing, barPosition, barConfig);'
-        # Tercer parche: la isla expandida usa el mismo fondo que los demás popups.
-        # Con la paleta `default` la isla pinta `surfaceContainerHigh` tanto compacta
-        # como expandida (DIslandSurface.qml), pero las tarjetas del dash
-        # (Overview/Card.qml) también son `surfaceContainerHigh`: quedan del mismo
-        # tono que el fondo y se pierde la jerarquía tonal de M3 que sí tienen el
-        # control center o la batería (fondo `surfaceContainer`, tarjetas un
-        # escalón arriba). Solo al expandir (`popupStyled`) se baja el fondo a
-        # `surfaceContainer` con `popupTransparency` (0.9 + blur, como cualquier popup:
-        # DMS solo pide blur a niri si la isla es translúcida); el pill compacto
-        # sigue opaco como las cápsulas. El `Behavior on color` anima el cambio.
-        chmod u+w ../quickshell/Modules/DIsland/DIslandSurface.qml
-        substituteInPlace ../quickshell/Modules/DIsland/DIslandSurface.qml \
-          --replace-fail \
-            'Theme.withAlpha(root.surfaceColor, root.islandOpacity)' \
-            '(root.popupStyled ? Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency) : Theme.withAlpha(root.surfaceColor, root.islandOpacity))'
-        # Desde dux-shell 2.0 la isla hereda la transparencia del *fondo* de la
-        # barra (`barTransparency`), que aquí es 0 a propósito: la isla compacta
-        # se volvía invisible y solo quedaba su contenido flotando. Se le da la
-        # de las cápsulas (`widgetTransparency`), que es lo que parece.
-        chmod u+w ../quickshell/Modules/DIsland/IslandBarHost.qml
-        substituteInPlace ../quickshell/Modules/DIsland/IslandBarHost.qml \
-          --replace-fail \
-            'transparency: SettingsData.barTransparency(root.barConfig)' \
-            'transparency: SettingsData.barWidgetTransparency(root.barConfig)'
-        # Cuarto parche: muelles con los tokens de Material 3 Expressive. DMS trae
-        # tres presets propios (Theme.qml `springSpecs`; desde 2.0 ya no van
-        # duplicados en Anims.qml): `default` [300, 24] para popups, modales, OSD
-        # y notificaciones, `fast` [220, 23] para dock y workspaces, y
-        # `expressive` [560, 37] para la isla y el overview (ω=24, ~200 ms). La
-        # diferencia de rigidez entre isla y popups es lo que se nota como
-        # animaciones distintas. Se sustituyen por los tokens M3 (damping =
-        # ratio·2·√stiffness, masa 1): `default` y `expressive` → default spatial
-        # 380/0.8; `fast` → fast spatial 800/0.6, el de componentes pequeños.
-        # Van a juego con el bloque `animations` de niri/config.kdl.
-        chmod u+w ../quickshell/Common/Theme.qml
-        substituteInPlace ../quickshell/Common/Theme.qml \
-          --replace-fail '"expressive": [560, 37],' '"expressive": [380, 31.2],' \
-          --replace-fail '"fast": [220, 23],' '"fast": [800, 33.9],' \
-          --replace-fail '"default": [300, 24]' '"default": [380, 31.2]'
-      '' + (prev.preBuild or "");
-    });
+    # M3 Expressive nativo de DMS 2.x, sin parches locales de geometría,
+    # superficies ni muelles. Las preferencias siguen siendo editables en la GUI.
+    package = pkgs.dux-shell;
   };
 
   # Planes de energía (ahorro / balanceado / rendimiento) del selector de DMS.
