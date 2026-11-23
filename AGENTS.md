@@ -21,6 +21,7 @@
 - Niri accepts only one top-level `layout {}` node; do not add another active `layout {}` in `colors.kdl` or another include.
 - Theme direction is Catppuccin Mocha/Mauve with subtle glass/blur. Keep blur selective for shells/terminal surfaces; avoid global opacity/blur on browsers, editors, and content-heavy apps.
 - DMS settings/session defaults are seed-only. Do not reintroduce login services that overwrite theme, wallpaper, night mode or transition choices. The wallpaper-accent generator remains independent of the selected DMS theme.
+- Use the canonical `dms/` config/state/cache paths; `DankMaterialShell` is only a legacy compatibility alias. Templates live in `modules/home/dotfiles/dms/`.
 
 ## Commands
 - Build the active host before claiming system config works: `nix build '.#nixosConfigurations.thinkpad.config.system.build.toplevel'`.

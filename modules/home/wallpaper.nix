@@ -10,12 +10,12 @@ let
   # y DMS la vigila (FileView watchChanges), así que recarga sin reiniciar.
   # Solo cambia el acento: superficies, texto y demás siguen siendo Mocha.
   # El mismo acento pinta las carpetas de Papirus (sync_folder_icons).
-  catppuccinThemeJson = ./dotfiles/DankMaterialShell/themes/catppuccin/theme.json;
+  catppuccinThemeJson = ./dotfiles/dms/themes/catppuccin/theme.json;
   applyWallpaperAccent = pkgs.writeShellScript "dms-wallpaper-accent" ''
     set -eu
 
     jq="${pkgs.jq}/bin/jq"
-    state_dir="''${XDG_STATE_HOME:-$HOME/.local/state}/DankMaterialShell"
+    state_dir="''${XDG_STATE_HOME:-$HOME/.local/state}/dms"
     session_json="$state_dir/session.json"
     theme_out="$state_dir/catppuccin-theme.json"
     stamp="$state_dir/catppuccin-theme.wallpaper"
@@ -138,8 +138,8 @@ let
   niriStartupWallpaper = pkgs.writeShellScript "niri-startup-wallpaper" ''
     set -eu
 
-    session_json="''${XDG_STATE_HOME:-$HOME/.local/state}/DankMaterialShell/session.json"
-    settings_json="''${XDG_CONFIG_HOME:-$HOME/.config}/DankMaterialShell/settings.json"
+    session_json="''${XDG_STATE_HOME:-$HOME/.local/state}/dms/session.json"
+    settings_json="''${XDG_CONFIG_HOME:-$HOME/.config}/dms/settings.json"
 
     dms_wallpaper_ready() {
       ${pkgs.niri}/bin/niri msg --json layers 2>/dev/null \
@@ -243,7 +243,7 @@ in
     };
 
     Path = {
-      PathModified = "%S/DankMaterialShell/session.json";
+      PathModified = "%S/dms/session.json";
       Unit = "dms-wallpaper-accent.service";
     };
 

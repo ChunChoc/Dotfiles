@@ -32,7 +32,7 @@ let
   # Son valores iniciales, no archivos que Home Manager mantenga enlazados.
   # Los cambios de barra, tema, pantallas, layout y atajos pertenecen a DMS.
   initialConfig = {
-    "DankMaterialShell/settings.json" = ../dotfiles/DankMaterialShell/settings.json;
+    "dms/settings.json" = ../dotfiles/dms/settings.json;
     "niri/dms/alttab.kdl" = ../dotfiles/niri/dms/alttab.kdl;
     "niri/dms/binds.kdl" = ../dotfiles/niri/dms/binds.kdl;
     "niri/dms/cursor.kdl" = ../dotfiles/niri/dms/cursor.kdl;
@@ -130,7 +130,24 @@ let
         ''seed_file "$config_home"/${lib.escapeShellArg name} ${lib.escapeShellArg "${source}"}''
       ) initialConfig
     )}
-    seed_file "$state_home/DankMaterialShell/session.json" "${initialSession}"
+    seed_file "$state_home/dms/session.json" "${initialSession}"
+
+    # Migrar solo nuestra antigua ruta del tema, sin reimponer preferencias.
+    # Los enlaces personales fuera de la store no se modifican.
+    settings="$config_home/dms/settings.json"
+    old_theme="$state_home/DankMaterialShell/catppuccin-theme.json"
+    new_theme="$state_home/dms/catppuccin-theme.json"
+    if [ ! -L "$settings" ] && ${pkgs.jq}/bin/jq -e --arg old "$old_theme" \
+      '.customThemeFile == $old' "$settings" >/dev/null 2>&1; then
+      tmp="$(mktemp "$settings.XXXXXX")"
+      if ${pkgs.jq}/bin/jq --arg theme "$new_theme" '.customThemeFile = $theme' "$settings" > "$tmp" \
+        && chmod --reference="$settings" "$tmp" && mv -T "$tmp" "$settings"; then
+        :
+      else
+        rm -f "$tmp"
+        exit 1
+      fi
+    fi
   '';
 in
 {

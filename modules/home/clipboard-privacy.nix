@@ -5,7 +5,7 @@ let
   # Por qué existe esto
   # --------------------------------------------------------
   # El historial del portapapeles de DMS vive en
-  # ~/.cache/DankMaterialShell/clipboard/db, en texto plano. El disco está
+  # ~/.cache/dms/clipboard/db, en texto plano. El disco está
   # cifrado con LUKS, así que apagada la máquina no hay problema; el riesgo es
   # con la sesión abierta, donde cualquier proceso corriendo como este usuario
   # lo puede leer. Lo que se busca es acortar cuánto tiempo existe cada copia.
