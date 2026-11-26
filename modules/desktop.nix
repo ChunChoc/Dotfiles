@@ -83,6 +83,10 @@ in
 {
   # Niri y DMS
   programs.niri.enable = true;
+  # Gestor de archivos en prueba. El módulo instala Dux Files y registra
+  # D-Bus/polkit; sin daemon residente, para probar también el arranque en frío.
+  # Se conserva useNautilus y el portal GNOME para los diálogos abrir/guardar.
+  programs.dux-files.enable = true;
   programs.dux-shell = {
     enable = true;
 

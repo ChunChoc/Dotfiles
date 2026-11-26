@@ -1,6 +1,12 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
+  # Dar prioridad por usuario al proveedor FileManager1 de Dux, sin quitar
+  # Nautilus del portal GNOME. El MIME de carpetas no decide este D-Bus:
+  # sin esto, "mostrar en carpeta" podría seguir activando Nautilus.
+  xdg.dataFile."dbus-1/services/org.freedesktop.FileManager1.service".source =
+    "${pkgs.dux-files}/share/dbus-1/services/dev.duxlabs.files.FileManager1.service";
+
   # Programas por defecto
   xdg.mimeApps = {
     enable = true;
@@ -10,8 +16,8 @@
 
       # Imágenes -> imv
       "image/jpeg" = [ "imv.desktop" ];
-      "image/png"  = [ "imv.desktop" ];
-      "image/gif"  = [ "imv.desktop" ];
+      "image/png" = [ "imv.desktop" ];
+      "image/gif" = [ "imv.desktop" ];
       "image/webp" = [ "imv.desktop" ];
 
       # Videos -> mpv
@@ -19,13 +25,8 @@
       "video/x-matroska" = [ "mpv.desktop" ]; # Archivos .mkv
       "video/webm" = [ "mpv.desktop" ];
 
-      # Carpetas -> Nautilus. Es lo que se abre desde "mostrar en carpeta" de
-      # otras apps.
-      #
-      # Declararlo es redundante hoy (Nautilus ya es el único candidato), pero
-      # se deja explícito para que el handler no dependa del orden en que
-      # aparezcan los .desktop si algún día se instala otro gestor.
-      "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
+      # Carpetas -> Dux Files. Los diálogos abrir/guardar siguen en GNOME.
+      "inode/directory" = [ "dev.duxlabs.files.desktop" ];
     };
   };
 }
