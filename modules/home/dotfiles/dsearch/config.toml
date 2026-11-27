@@ -1,0 +1,16 @@
+# Empezar por nombres/rutas, sin copiar el contenido al índice.
+index_path = "~/.cache/dsearch/index"
+index_all_files = true
+text_extensions = []
+index_xattr_tags = false
+http_enabled = false
+
+[[index_paths]]
+path = "~"
+max_depth = 6
+exclude_hidden = true
+extract_exif = false
+extract_xattr_tags = false
+watch = true
+merge_default_exclude_dirs = true
+exclude_dirs = ["secrets", "credentials"]
