@@ -1,6 +1,8 @@
 { ... }:
 
 {
+  xdg.configFile."fish/themes/dms.theme".source = ../dotfiles/fish/themes/dms.theme;
+
   programs.starship = {
     enable = true;
     enableFishIntegration = true;
@@ -36,7 +38,7 @@
         fd --hidden --exclude .git | fzf
       '';
 
-       vf = ''
+      vf = ''
          set file (ff)
         test -n "$file"; and nvim "$file"
       '';
@@ -66,7 +68,7 @@
 
     interactiveShellInit = ''
        set -g fish_greeting
-       fish_config theme choose catppuccin-mocha --color-theme=dark
+       fish_config theme choose dms
 
       # OJO: secrets.env NO se carga aquí a propósito. Exportar las API keys
       # en cada shell las regala a todo proceso hijo (cualquier paquete npm

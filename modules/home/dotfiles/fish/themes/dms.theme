@@ -1,0 +1,38 @@
+# name: 'DMS terminal palette'
+# Colores ANSI: Alacritty los resuelve con la paleta dinámica de DMS.
+# Sin valores RGB ni variantes fijas para modo claro/oscuro.
+fish_color_normal --reset
+fish_color_command blue
+fish_color_builtin blue
+fish_color_function blue
+fish_color_keyword magenta
+fish_color_quote green
+fish_color_redirection cyan
+fish_color_end magenta
+fish_color_error red --bold
+fish_color_param --reset
+fish_color_option cyan
+fish_color_comment brblack --italics
+fish_color_selection --background=brblack
+fish_color_operator magenta
+fish_color_escape yellow
+fish_color_autosuggestion brblack
+fish_color_cwd cyan
+fish_color_cwd_root red
+fish_color_valid_path --underline
+fish_color_history_current --bold
+fish_color_search_match --background=brblack
+fish_color_match cyan --bold
+fish_color_user green
+fish_color_host blue
+fish_color_host_remote cyan
+fish_color_status red
+fish_color_cancel red --reverse
+fish_pager_color_prefix cyan --bold --underline
+fish_pager_color_completion --reset
+fish_pager_color_description brblack
+fish_pager_color_progress cyan --reverse
+fish_pager_color_selected_background --background=brblack
+fish_pager_color_selected_prefix cyan --bold --underline
+fish_pager_color_selected_completion --reset
+fish_pager_color_selected_description --reset
