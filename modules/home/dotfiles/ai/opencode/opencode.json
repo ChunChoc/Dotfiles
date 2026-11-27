@@ -14,11 +14,13 @@
       },
       "playwright": {
         "type": "local",
-        "command": ["/home/chunchoc/.local/bin/playwright-mcp"]
+        "command": ["/home/chunchoc/.local/bin/playwright-mcp"],
+        "disabled": true
       },
       "hyperframes": {
         "type": "remote",
-        "url": "https://mcp.heygen.com/mcp/hyperframes/"
+        "url": "https://mcp.heygen.com/mcp/hyperframes/",
+        "disabled": true
       }
     }
   },

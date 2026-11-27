@@ -110,11 +110,6 @@ in
     package = pkgs.dux-shell;
   };
 
-  programs.dux-search = {
-    enable = true;
-    systemd.target = "graphical-session.target";
-  };
-
   # Planes de energía (ahorro / balanceado / rendimiento) del selector de DMS.
   # Antes llegaba implícito: el módulo dms-shell de nixpkgs lo activaba con
   # mkDefault, y en el nixpkgs del 2026-09-22 dejó de hacerlo. DMS se quedó sin
