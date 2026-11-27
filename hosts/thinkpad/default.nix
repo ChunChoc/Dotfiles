@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -55,6 +55,9 @@
   # suspend-then-hibernate: tras 1 h suspendida, hiberna sola (RAM al
   # swapfile cifrado y apagado total; las llaves salen de la RAM).
   systemd.sleep.settings.Sleep.HibernateDelaySec = "60min";
+
+  # VA-API para decodificar vídeo en la GPU Intel UHD 620.
+  hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
 
   # Enable BlueZ for the built-in Bluetooth adapter.
   hardware.bluetooth = {
