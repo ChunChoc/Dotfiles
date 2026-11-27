@@ -16,16 +16,13 @@
       # La terminal es Ghostty y la instala programs/ghostty.nix (necesita el
       # módulo para la unit de systemd y la activación por D-Bus)
       # Dux Files lo instala programs.dux-files en modules/desktop.nix, con
-      # D-Bus y polkit. Nautilus sigue en el closure del portal GNOME de niri;
-      # no se eliminan sus preferencias ni el tema GTK durante la prueba.
+      # D-Bus y polkit. El tema GTK se conserva para las demás aplicaciones.
       # Dux sigue colores y tipografía de DMS en vivo con sus defaults "auto".
       #brave
       brave-origin
-      mullvad-browser
       mpv
       imv
       zathura
-      file-roller
       #appflowy
       # La música la manejan MPD + rmpc (programs/mpd.nix), antes tauon
 

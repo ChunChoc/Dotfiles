@@ -82,7 +82,10 @@ in
 
 {
   # Niri y DMS
-  programs.niri.enable = true;
+  programs.niri = {
+    enable = true;
+    useNautilus = false;
+  };
   # El servicio mantiene la interfaz cargada, oculta y sin ventanas al iniciar
   # sesión. --keep-running oculta la última ventana en vez de salir: Mod+E
   # reutiliza la instancia, sin el arranque en frío ni keepalives artificiales.
@@ -93,7 +96,9 @@ in
     systemd.enable = true;
     portal.enable = true;
   };
-  xdg.portal.config.niri."org.freedesktop.impl.portal.FileChooser" = [ "dfiles" ];
+  # Al desactivar el gestor de GNOME, niri propone GTK como selector.
+  # Mantener explícitamente Dux por encima de ese fallback.
+  xdg.portal.config.niri."org.freedesktop.impl.portal.FileChooser" = lib.mkForce [ "dfiles" ];
   # Conservar el PATH de la sesión para xdg-open, terminal y apps del usuario.
   # El PATH mínimo que NixOS añade a los units taparía el entorno importado.
   systemd.user.services.dfiles.enableDefaultPath = false;
@@ -167,10 +172,8 @@ in
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
 
-  # Almacenamiento extraíble. udisks2 hace el montaje y gvfs es la capa que lo
-  # expone a las apps GTK: sin él, Nautilus no monta los USB al enchufarlos ni
-  # tiene papelera ni "otras ubicaciones" (smb://, sftp://), y eso último
-  # también lo usan los diálogos de guardar/abrir.
+  # Almacenamiento extraíble. udisks2 hace el montaje y gvfs lo expone a Dux
+  # Files y las apps GTK, junto con papelera y ubicaciones smb:// y sftp://.
   #
   # Sin gvfs siempre queda la vía manual: `udisksctl mount -b /dev/sdX`.
   services.udisks2.enable = true;

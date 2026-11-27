@@ -132,31 +132,6 @@ let
     )}
     seed_file "$state_home/dms/session.json" "${initialSession}"
 
-    # Migración única del atajo heredado: no reemplazar el archivo editable ni
-    # volver a imponer Dux si después se cambia desde la GUI.
-    binds="$config_home/niri/dms/binds.kdl"
-    migration="$state_home/dms/migrations/dux-files-bind-v1"
-    if [ ! -e "$migration" ] && [ ! -L "$binds" ]; then
-      if ${pkgs.gnugrep}/bin/grep -qF \
-        'Mod+E hotkey-overlay-title="Open Files" { spawn "nautilus"; }' "$binds"; then
-        cp -p --no-clobber "$binds" "$binds.before-dux-files"
-        tmp="$(mktemp "$binds.XXXXXX")"
-        if ${pkgs.gnused}/bin/sed \
-          -e 's/Mod+E hotkey-overlay-title="Open Files" { spawn "nautilus"; }/Mod+E hotkey-overlay-title="Open Files" { spawn "dfiles"; }/' \
-          -e '\|^    // El primer Mod+E de la sesión tarda ~1.5 s\. No tiene arreglo; ver la nota$|d' \
-          -e '\|^    // sobre la precarga más abajo en config\.kdl\.$|d' \
-          "$binds" > "$tmp" \
-          && chmod --reference="$binds" "$tmp" && mv -T "$tmp" "$binds"; then
-          :
-        else
-          rm -f "$tmp"
-          exit 1
-        fi
-      fi
-      mkdir -p "$(dirname "$migration")"
-      touch "$migration"
-    fi
-
     # Migrar solo nuestra antigua ruta del tema, sin reimponer preferencias.
     # Los enlaces personales fuera de la store no se modifican.
     settings="$config_home/dms/settings.json"
