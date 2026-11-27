@@ -1,9 +1,6 @@
-// Los colores (mauve) son solo de respaldo: en sesión los pisa dms/colors.kdl,
-// que DMS genera con el acento del wallpaper.
+// DMS establece los colores en dms/colors.kdl.
 recent-windows {
     highlight {
         corner-radius 20
-        active-color "#cba6f7"
-        urgent-color "#f2b8b5"
     }
 }

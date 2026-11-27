@@ -9,7 +9,7 @@
     // exporta MPD_HOST/MPD_PORT, así que esto es redundante a propósito: rmpc
     // sigue funcionando aunque lo lances desde un entorno sin esas variables.
     address: "127.0.0.1:6600",
-    theme: "catppuccin-mocha",
+    theme: "dms",
 
     // Cambiar de pestaña con el mismo acorde que en herdr (dotfiles/herdr/
     // config.toml: next_tab/previous_tab), para no tener que recordar dos
@@ -60,7 +60,7 @@
     // los nombres son los de cava y no los de rmpc. La entrada tiene que
     // coincidir con el audio_output "fifo" de programs/mpd.nix: mismo path y
     // mismo formato 44100:16:2, si no, no dibuja nada.
-    // Los colores NO van aquí, van en el tema (themes/catppuccin-mocha.ron).
+    // Los colores los genera DMS en themes/dms.ron.
     cava: (
         framerate: 60,
         autosens: true,

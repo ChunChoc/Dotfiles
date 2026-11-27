@@ -74,58 +74,20 @@ for _, char in ipairs(vim.fn.split(art.shadow, "\\zs")) do
   shadow[char] = true
 end
 
--- Los cuatro tonos que recorre el logo, en variante Catppuccin Mocha: del azul
--- de la punta al verde del final, pasando por el cian de en medio.
-local stops = {
-  "#89b4fa", -- blue
-  "#74c7ec", -- sapphire
-  "#94e2d5", -- teal
-  "#a6e3a1", -- green
-}
+-- Tramos del logo en ANSI: Alacritty cambia sus colores con DMS, incluso
+-- mientras el dashboard está abierto.
+local stops = { 4, 12, 6, 14, 2 }
 
--- Contra qué se apaga la sombra (solo la usa `ansi_shadow`).
-local shadow_base = "#181825" -- mantle
-local shadow_mix = 0.6
-
-local function to_rgb(hex)
-  return tonumber(hex:sub(2, 3), 16), tonumber(hex:sub(4, 5), 16), tonumber(hex:sub(6, 7), 16)
-end
-
-local function blend(from, to, t)
-  local fr, fg, fb = to_rgb(from)
-  local tr, tg, tb = to_rgb(to)
-  return string.format(
-    "#%02x%02x%02x",
-    math.floor(fr + (tr - fr) * t + 0.5),
-    math.floor(fg + (tg - fg) * t + 0.5),
-    math.floor(fb + (tb - fb) * t + 0.5)
-  )
-end
-
--- Color del degradado en la posición t ∈ [0,1]: busca entre qué dos paradas
--- cae y las interpola.
-local function ramp(t)
-  local pos = t * (#stops - 1)
-  local i = math.min(math.floor(pos) + 1, #stops - 1)
-  return blend(stops[i], stops[i + 1], pos - (i - 1))
-end
-
--- Un grupo de resaltado por columna (y otro para su sombra). Se redefinen en
--- cada pintado en vez de una sola vez al arrancar porque cargar un colorscheme
--- borra los grupos: si se definieran antes, el banner saldría sin color la
--- primera vez. Es un puñado de `nvim_set_hl` una vez por dashboard, no se nota.
+-- Se redefinen al pintar porque cargar un colorscheme borra los grupos.
 local function highlights()
-  local hl = {}
-  for col = 1, width do
-    local color = ramp((col - 1) / (width - 1))
-    hl[col] = {
-      solid = ("NeovimLogo%02d"):format(col),
-      shade = ("NeovimLogoShadow%02d"):format(col),
-    }
-    vim.api.nvim_set_hl(0, hl[col].solid, { fg = color })
-    vim.api.nvim_set_hl(0, hl[col].shade, { fg = blend(color, shadow_base, shadow_mix) })
+  local groups = {}
+  for index, color in ipairs(stops) do
+    local group = ("NeovimLogo%02d"):format(index)
+    vim.api.nvim_set_hl(0, group, { ctermfg = color })
+    groups[index] = group
   end
-  return hl
+  vim.api.nvim_set_hl(0, "NeovimLogoShadow", { ctermfg = 8 })
+  return groups
 end
 
 ---@param ctx { width: number }
@@ -164,9 +126,10 @@ local function header(_, ctx)
       if char == " " then
         push(char, nil)
       elseif shadow[char] then
-        push(char, hl[col].shade)
+        push(char, "NeovimLogoShadow")
       else
-        push(char, hl[col].solid)
+        local band = math.floor((col - 1) * #hl / width) + 1
+        push(char, hl[band])
       end
     end
   end
@@ -181,7 +144,7 @@ return {
       dashboard = {
         -- El texto plano se queda aquí porque es lo que recibe la función de
         -- formato de abajo: Snacks solo pinta el campo `header` si existe, y
-        -- si fuera una tabla se saltaría el formato y con él el degradado.
+          -- si fuera una tabla se saltaría el formato y con él los colores.
         preset = {
           header = table.concat(art.lines, "\n"),
         },

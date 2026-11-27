@@ -24,7 +24,7 @@ in
     };
 
     # Editores, LSP de Nix y agentes AI a nivel sistema. Su configuración
-    # de usuario (Zed, Claude, OpenCode, skills) vive en modules/home/programs
+    # de usuario (Claude, OpenCode, skills) vive en modules/home/programs
     # gated con el mismo flag vía osConfig.
     environment.systemPackages = with pkgs; [
       nil

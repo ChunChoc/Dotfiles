@@ -1,5 +1,6 @@
 -- Temas integrados en modo ANSI: seguir la paleta de DMS/Alacritty.
 return {
+  { "catppuccin/nvim", name = "catppuccin", enabled = false },
   {
     "LazyVim/LazyVim",
     opts = {

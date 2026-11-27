@@ -12,11 +12,11 @@
     ./programs/fzf.nix
     ./programs/bat.nix
     ./programs/dms.nix
+    ./programs/dms-client-themes.nix
     ./programs/niri-session.nix
     ./programs/ai.nix
     ./programs/hyperframes.nix
     ./programs/claude.nix
-    ./programs/zed.nix
     ./programs/neovim.nix
     ./programs/lazygit.nix
     ./programs/alacritty.nix

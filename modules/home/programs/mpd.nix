@@ -178,6 +178,10 @@ in
 
   xdg.configFile = {
     "rmpc/config.ron".source = ../dotfiles/rmpc/config.ron;
-    "rmpc/themes/catppuccin-mocha.ron".source = ../dotfiles/rmpc/themes/catppuccin-mocha.ron;
+    # RMPC busca en themes/ primero. Usa el tema de fábrica si DMS todavía
+    # no ha generado la copia dinámica (p. ej. antes del primer login gráfico).
+    "rmpc/dms.ron".source = pkgs.runCommand "rmpc-fallback-theme.ron" { } ''
+      ${pkgs.rmpc}/bin/rmpc theme > "$out"
+    '';
   };
 }

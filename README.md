@@ -185,9 +185,9 @@ myFeatures = {
 - Compositor: Niri
 - Shell/bar: DankMaterialShell
 - Login: greetd + dms-greeter (sesion `niri-dms`)
-- Tema: Catppuccin Mocha Mauve
-- Terminal: Ghostty
-- Editor: Neovim (LazyVim) + Zed
+- Tema: paleta dinámica de DMS, generada a partir del fondo de pantalla
+- Terminal: Alacritty
+- Editor: Neovim (LazyVim)
 - Shell: Fish + Starship
 - Audio: PipeWire
 
