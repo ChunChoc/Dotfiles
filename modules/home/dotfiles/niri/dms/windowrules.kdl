@@ -74,15 +74,10 @@ window-rule {
     open-maximized true
 }
 
-// Desenfoque detrás de la terminal, para acompañar al background-opacity 0.9
-// de Ghostty (modules/home/programs/ghostty.nix).
-//
-// Va aquí y no en Ghostty a propósito: su `background-blur` solo funciona en
-// KDE Plasma. Poniéndolo como window-rule lo aplica niri con el mismo dual
-// kawase que usa DMS, y hereda los ajustes globales de `blur` (passes 3,
-// offset 3, noise 0.02, saturation 1.5) en vez de definir números aparte.
+// Desenfoque para acompañar la opacidad 0.95 de Alacritty.
+// Lo aplica niri y hereda el blur global, sin depender del protocolo de KWin.
 window-rule {
-    match app-id=r#"^com\.mitchellh\.ghostty$"#
+    match app-id=r#"^Alacritty$"#
 
     background-effect {
         blur true

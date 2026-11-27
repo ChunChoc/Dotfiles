@@ -13,8 +13,7 @@
     with pkgs;
     [
       # GUI Utils
-      # La terminal es Ghostty y la instala programs/ghostty.nix (necesita el
-      # módulo para la unit de systemd y la activación por D-Bus)
+      # La terminal es Alacritty y la instala programs/alacritty.nix.
       # Dux Files lo instala programs.dux-files en modules/desktop.nix, con
       # D-Bus y polkit. El tema GTK se conserva para las demás aplicaciones.
       # Dux sigue colores y tipografía de DMS en vivo con sus defaults "auto".
@@ -40,14 +39,6 @@
 
       # System Utils
       xwayland-satellite
-      # `gapplication`, el helper de glib con el que Mod+Return le pide una
-      # ventana al daemon de Ghostty por D-Bus (niri/dms/binds.kdl, el porqué
-      # está en programs/ghostty.nix). Hasta la generación 285 glib llegaba al
-      # PATH de rebote, metido en environment.systemPackages por un módulo de
-      # nixpkgs; la actualización del 2026-09-22 dejó de hacerlo y el bind
-      # murió con `error spawning "gapplication": NotFound`. Declarándolo aquí
-      # ya no depende de la suerte.
-      glib
     ]
     ++ lib.optionals osConfig.myFeatures.development [
       gh

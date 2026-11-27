@@ -9,7 +9,7 @@ let
   #
   # Eso basta para clientes Wayland de verdad (Signal, LibreOffice), que piden
   # `image/png` directamente. Pero la terminal es un tubo de texto: el
-  # Ctrl+Shift+V de Ghostty pide `text/plain`, no encuentra nada, y no pega
+  # Ctrl+Shift+V de la terminal pide `text/plain`, no encuentra nada, y no pega
   # nada. Por eso las capturas no entraban en Claude ni en opencode.
   #
   # El rodeo que funcionaba a mano era abrir el portapapeles de DMS y

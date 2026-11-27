@@ -19,7 +19,7 @@
     ./programs/zed.nix
     ./programs/neovim.nix
     ./programs/lazygit.nix
-    ./programs/ghostty.nix
+    ./programs/alacritty.nix
     ./programs/mpd.nix
     ./programs/cava.nix
     ./mime.nix

@@ -26,14 +26,9 @@ let
   # solo hace de puente hacia un IME; sin ninguno corriendo la tecla muerta se
   # descarta y la vocal llega pelada (´ + a daba "a" en vez de "á").
   #
-  # Comprobado tecleando con un teclado virtual y leyendo los bytes del pty:
-  #   Ghostty tal cual .................. 61 61      -> "aa"
-  #   foot (compone con xkbcommon) ...... 61 c3 a1   -> "aá"
-  #   Ghostty con esta variable ......... 61 c3 a1   -> "aá"
-  #
   # gtk-im-context-simple compone en el propio cliente. El problema se detectó
-  # en Ghostty, pero se pone a nivel de escritorio porque afecta a cualquier
-  # app GTK bajo este compositor.
+  # en un cliente GTK, pero afecta a cualquier app GTK bajo este compositor.
+  # Se conserva para esas aplicaciones; Alacritty no depende de GTK.
   #
   # Efecto secundario: desactiva los IME (fcitx, ibus). No usas ninguno; si
   # algún día ocupas escritura china o japonesa, esto es lo primero que quitar.
@@ -54,9 +49,8 @@ in
   # home.sessionVariables escribe hm-session-vars.sh, que systemd no lee. Los
   # units de usuario se alimentan de ~/.config/environment.d, y ahí solo
   # escribe systemd.user.sessionVariables. Por eso el módulo de entrada va
-  # declarado en los dos sitios: si faltara aquí, el daemon de Ghostty
-  # (app-com.mitchellh.ghostty.service) se quedaría sin él, que es justo el
-  # proceso que crea las ventanas.
+  # declarado en los dos sitios para que las aplicaciones GTK iniciadas como
+  # servicios de usuario también compongan las teclas muertas correctamente.
   systemd.user.sessionVariables = gtkImModule;
 
   # Configuración del puntero (Cursor)
@@ -94,7 +88,7 @@ in
     #
     # Antes era JetBrainsMono Nerd Font: una monoespaciada de programar haciendo
     # de fuente de interfaz. Se queda solo donde hay código, que es la terminal
-    # (programs/ghostty.nix, con su propia configuración de fuente y ajena a
+    # (programs/alacritty.nix, con su propia configuración de fuente y ajena a
     # esto) y el `monospace-font-name` de aquí abajo.
     #
     # Roboto Flex está instalada a nivel de sistema en core/fonts.nix, que es

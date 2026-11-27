@@ -21,7 +21,7 @@
       enable = true;
       # Sin esto los genéricos caen en DejaVu: Electron (Obsidian), el
       # contenido web, Zed y cualquier app sin fuente propia salían en DejaVu
-      # Sans mientras DMS y GTK usaban Roboto Flex. La mono es la de Ghostty.
+      # Sans mientras DMS y GTK usaban Roboto Flex. La mono es la de la terminal.
       #
       # La fuente del Pixel (Android 16, M3 Expressive) es Google Sans Flex,
       # libre (OFL) y en google/fonts desde el 2026-09-04. Cuando el snapshot

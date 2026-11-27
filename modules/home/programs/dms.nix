@@ -47,6 +47,7 @@ let
   initialSession = pkgs.writeText "dms-initial-session.json" (
     builtins.toJSON {
       wallpaperPath = "${config.home.homeDirectory}/Pictures/Wallpapers/nix-magenta-blue-1920x1080.png";
+      terminalOverride = "alacritty";
       isLightMode = false;
       wallpaperTransition = "disc";
       includedTransitions = [ "disc" ];
@@ -131,6 +132,50 @@ let
       ) initialConfig
     )}
     seed_file "$state_home/dms/session.json" "${initialSession}"
+
+    # Actualizar una sola vez nuestros antiguos atajos y la regla de blur,
+    # conservando el resto de los archivos que edita la GUI de DMS.
+    migration="$state_home/dms/migrations/alacritty-v1"
+    if [ ! -e "$migration" ]; then
+      migrate_terminal_file() {
+        local target="$1" tmp
+        shift
+        [ -f "$target" ] && [ ! -L "$target" ] || return 0
+        tmp="$(mktemp "$target.XXXXXX")"
+        if ${pkgs.gnused}/bin/sed "$@" "$target" > "$tmp" \
+          && chmod --reference="$target" "$tmp" && mv -T "$tmp" "$target"; then
+          :
+        else
+          rm -f "$tmp"
+          return 1
+        fi
+      }
+
+      migrate_terminal_file "$config_home/niri/dms/binds.kdl" \
+        -e 's/spawn "gapplication" "launch" "com.mitchellh.ghostty";/spawn "alacritty";/' \
+        -e '\|^    // Por activación D-Bus contra el daemon de Ghostty: lanzar el binario$|d' \
+        -e '\|^    // directo tarda ~900 ms en abrir la ventana, así tarda ~120 ms\.$|d'
+      migrate_terminal_file "$config_home/niri/dms/windowrules.kdl" \
+        -e 's/com\\\\\.mitchellh\\\\\.ghostty/Alacritty/g' \
+        -e 's/com\\\.mitchellh\\\.ghostty/Alacritty/g'
+
+      # DMS ya abierto puede no tener el nuevo $TERMINAL en su entorno.
+      # Elegir Alacritty sin cambiar una preferencia explícita por otra terminal.
+      session="$state_home/dms/session.json"
+      if [ ! -L "$session" ] && ${pkgs.jq}/bin/jq -e \
+        '(.terminalOverride // "") == "" or .terminalOverride == "ghostty"' "$session" >/dev/null; then
+        tmp="$(mktemp "$session.XXXXXX")"
+        if ${pkgs.jq}/bin/jq '.terminalOverride = "alacritty"' "$session" > "$tmp" \
+          && chmod --reference="$session" "$tmp" && mv -T "$tmp" "$session"; then
+          :
+        else
+          rm -f "$tmp"
+          exit 1
+        fi
+      fi
+      mkdir -p "$(dirname "$migration")"
+      touch "$migration"
+    fi
 
     # Migrar solo nuestra antigua ruta del tema, sin reimponer preferencias.
     # Los enlaces personales fuera de la store no se modifican.

@@ -6,6 +6,8 @@
   "registryThemeVariants": {},
   "matugenScheme": "scheme-tonal-spot",
   "runUserMatugenTemplates": true,
+  "matugenTemplateGhostty": false,
+  "matugenTemplateAlacritty": false,
   "matugenTargetMonitor": "",
   "popupTransparency": 1,
   "dockTransparency": 0.9,

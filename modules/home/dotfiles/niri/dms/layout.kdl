@@ -18,7 +18,7 @@ layout {
     center-focused-column "never"
 
     // Cuando una columna es la única de la pantalla, niri la centra en vez de
-    // pegarla al borde izquierdo. Es lo que hace que Ghostty (0.5 de ancho)
+    // pegarla al borde izquierdo. Es lo que hace que la terminal (0.5 de ancho)
     // abra centrado, como si presionaras Mod+C.
     always-center-single-column true
 

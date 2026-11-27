@@ -5,10 +5,8 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // === Application Launchers ===
-    // Por activación D-Bus contra el daemon de Ghostty: lanzar el binario
-    // directo tarda ~900 ms en abrir la ventana, así tarda ~120 ms.
     Mod+Return hotkey-overlay-title="Open Terminal" {
-        spawn "gapplication" "launch" "com.mitchellh.ghostty";
+        spawn "alacritty";
     }
     Mod+Space hotkey-overlay-title="Application Launcher" {
         spawn "dms" "ipc" "call" "spotlight" "toggle";
