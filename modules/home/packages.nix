@@ -16,7 +16,6 @@
       # Dux Files lo instala programs.dux-files en modules/desktop.nix, con
       # D-Bus y polkit. El tema GTK se conserva para las demás aplicaciones.
       # Dux sigue colores y tipografía de DMS en vivo con sus defaults "auto".
-      #brave
       brave-origin
       mpv
       imv
@@ -26,6 +25,8 @@
 
       # CLI Utils
       git
+      cmatrix
+      fastfetch
       wget
       curl
       tree
