@@ -83,10 +83,17 @@ in
 {
   # Niri y DMS
   programs.niri.enable = true;
-  # Gestor de archivos en prueba. El módulo instala Dux Files y registra
-  # D-Bus/polkit; sin daemon residente, para probar también el arranque en frío.
+  # El servicio mantiene la interfaz cargada, oculta y sin ventanas al iniciar
+  # sesión. --keep-running oculta la última ventana en vez de salir: Mod+E
+  # reutiliza la instancia, sin el arranque en frío ni keepalives artificiales.
   # Se conserva useNautilus y el portal GNOME para los diálogos abrir/guardar.
-  programs.dux-files.enable = true;
+  programs.dux-files = {
+    enable = true;
+    systemd.enable = true;
+  };
+  # Conservar el PATH de la sesión para xdg-open, terminal y apps del usuario.
+  # El PATH mínimo que NixOS añade a los units taparía el entorno importado.
+  systemd.user.services.dfiles.enableDefaultPath = false;
   programs.dux-shell = {
     enable = true;
 
