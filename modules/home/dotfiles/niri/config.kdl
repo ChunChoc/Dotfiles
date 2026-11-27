@@ -21,7 +21,14 @@ include "./dms/alttab.kdl"
 include optional=true "./dms/colors.kdl"
 include "./dms/windowrules.kdl"
 include "./dms/wpblur.kdl"
-include "./dms/effects.kdl"
+
+// Un único wallpaper fijo, también en el overview. DMS lo desenfoca allí
+// con "Blur on overview"; no hace falta duplicarlo por workspace.
+// Esta regla va fuera de los archivos que DMS regenera desde su GUI.
+layer-rule {
+    match namespace="^quickshell$" layer="background"
+    place-within-backdrop true
+}
 
 // Dux Files: ventanas de carpetas y selectores abrir/guardar flotantes.
 // Fuera del fragmento editable de DMS para que la GUI no borre esta regla.

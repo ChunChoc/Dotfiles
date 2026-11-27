@@ -21,7 +21,8 @@
 - Niri accepts only one top-level `layout {}` node; do not add another active `layout {}` in `colors.kdl` or another include.
 - DMS and terminal colors follow DMS's native wallpaper-derived palette with subtle glass/blur. Keep blur selective for shells/terminal surfaces; avoid global opacity/blur on browsers, editors, and content-heavy apps.
 - Prefer DMS 2.x's native Material 3 Expressive implementation; do not restore the old QML patches for popup geometry, island surfaces/opacity, or spring presets without a confirmed need.
-- DMS background blur is disabled pending an upstream fix for jagged bar/island edges. Do not add experimental blur-mask patches.
+- DMS background blur uses its native protocol requests with subtle surface transparency; do not force shell blur or non-xray effects through legacy layer rules. Jagged bar/island edges remain an upstream issue; the user currently prefers to keep blur enabled. Do not add experimental blur-mask patches.
+- Keep the `^quickshell$` background wallpaper in Niri's backdrop through the static orchestrator, outside DMS-generated files, so it stays fullscreen instead of repeating per workspace. DMS's `blurWallpaperOnOverview` handles overview blur; the duplicate `blurredWallpaperLayer` is not needed for this setup.
 - DMS settings/session defaults are seed-only. Do not reintroduce login services that overwrite theme, wallpaper, night mode or transition choices, or the removed Catppuccin wallpaper-accent generator.
 - Use the canonical `dms/` config/state/cache paths; `DankMaterialShell` is only a legacy compatibility alias. Templates live in `modules/home/dotfiles/dms/`.
 

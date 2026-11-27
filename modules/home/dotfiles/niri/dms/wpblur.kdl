@@ -1,11 +1,4 @@
 layer-rule {
-    match namespace="^wallpaper$"
-    match layer="background"
-    place-within-backdrop true
-}
-
-layer-rule {
-    match namespace="^quickshell$"
-    match layer="background"
+    match namespace="dms:blurwallpaper"
     place-within-backdrop true
 }

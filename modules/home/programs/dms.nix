@@ -38,7 +38,6 @@ let
     "niri/dms/alttab.kdl" = ../dotfiles/niri/dms/alttab.kdl;
     "niri/dms/binds.kdl" = ../dotfiles/niri/dms/binds.kdl;
     "niri/dms/cursor.kdl" = ../dotfiles/niri/dms/cursor.kdl;
-    "niri/dms/effects.kdl" = ../dotfiles/niri/dms/effects.kdl;
     "niri/dms/layout.kdl" = ../dotfiles/niri/dms/layout.kdl;
     "niri/dms/windowrules.kdl" = ../dotfiles/niri/dms/windowrules.kdl;
     "niri/dms/wpblur.kdl" = ../dotfiles/niri/dms/wpblur.kdl;
