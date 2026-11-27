@@ -26,11 +26,9 @@ local arts = {
   -- El logo angular, el que se parece de verdad al de Neovim (incluida la
   -- banderita, que aquí cae encima de la i).
   --
-  -- OJO: además de █ usa glifos Powerline de la zona de uso privado de Unicode
-  -- (U+E0B8, U+E0BA, U+E0BC y U+E0BE: los triángulos inclinados). Solo existen
-  -- en una Nerd Font. La terminal ya usa JetBrainsMono Nerd Font
-  -- (programs/ghostty.nix), así que se ve; con otra fuente saldrían cajas
-  -- vacías y el rótulo quedaría ilegible.
+  -- Los bordes usan triángulos Powerline extendidos de la Nerd Font.
+  -- Conservar sus diagonales originales: sustituirlos por sextantes produce
+  -- dientes de sierra visibles en lugar de corregir el renderizado.
   sharp = {
     width = 71,
     -- Sin sombra: aquí los triángulos son el borde inclinado de la letra, no

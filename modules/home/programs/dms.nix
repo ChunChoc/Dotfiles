@@ -33,6 +33,8 @@ let
   # Los cambios de barra, tema, pantallas, layout y atajos pertenecen a DMS.
   initialConfig = {
     "dms/settings.json" = ../dotfiles/dms/settings.json;
+    # DMS actualiza colorScheme/iconTheme sin sobrescribir fuentes ni estilo.
+    "qtengine/config.json" = ../dotfiles/qtengine/config.json;
     "niri/dms/alttab.kdl" = ../dotfiles/niri/dms/alttab.kdl;
     "niri/dms/binds.kdl" = ../dotfiles/niri/dms/binds.kdl;
     "niri/dms/cursor.kdl" = ../dotfiles/niri/dms/cursor.kdl;

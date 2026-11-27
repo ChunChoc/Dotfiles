@@ -6,23 +6,6 @@
 }:
 
 let
-  pythonForCatppuccinGtk = pkgs.python313.override {
-    packageOverrides = _: super: {
-      catppuccin = super.catppuccin.overridePythonAttrs (_: {
-        doCheck = false;
-        pythonImportsCheck = [ ];
-      });
-    };
-  };
-
-  catppuccinGtk = pkgs.catppuccin-gtk.override {
-    python3 = pythonForCatppuccinGtk;
-    accents = [ "mauve" ];
-    size = "standard";
-    tweaks = [ "rimless" ];
-    variant = "mocha";
-  };
-
   # Teclas muertas (el acento del layout latam) en aplicaciones GTK.
   #
   # GTK bajo Wayland elige por defecto el contexto de entrada "wayland", que
@@ -59,6 +42,18 @@ in
   # servicios de usuario también compongan las teclas muertas correctamente.
   systemd.user.sessionVariables = gtkImModule;
 
+  # DMS crea sus copias editables de adw-gtk3 y actualiza los colores nativos.
+  # No fijar gtk-theme ni color-scheme: esas preferencias pertenecen a DMS.
+  home.packages = [ pkgs.adw-gtk3 ];
+
+  qt = {
+    enable = true;
+    platformTheme = {
+      name = "qtengine";
+      package = pkgs.qtengine;
+    };
+  };
+
   # Configuración del puntero (Cursor)
   home.pointerCursor = {
     enable = true;
@@ -69,13 +64,9 @@ in
     size = 24;
   };
 
-  # Tema GTK (Catppuccin)
+  # Tipografía/iconos declarativos; paleta y modo claro/oscuro de DMS.
   gtk = {
     enable = true;
-    theme = {
-      name = "catppuccin-mocha-mauve-standard+rimless";
-      package = catppuccinGtk;
-    };
     iconTheme = {
       # Conservar los iconos existentes. Su sustitución por los iconos nativos
       # de DMS queda pendiente; ya no se actualiza el acento por wallpaper.
@@ -107,16 +98,14 @@ in
       name = "Roboto Flex";
       size = 11;
     };
-    gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
-    gtk4.theme = config.gtk.theme;
-    gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+    # DMS reconoce este opt-in aunque Home Manager enlace gtk.css a la store.
+    # GTK3 recibe la paleta desde las copias adw-gtk3 gestionadas por DMS.
+    gtk4.extraCss = ''@import url("dank-colors.css");'';
   };
 
   # Ajustes para aplicaciones GNOME/GTK
   dconf.settings = {
     "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-      gtk-theme = "catppuccin-mocha-mauve-standard+rimless";
       icon-theme = "Papirus-Dark-Accent";
 
       # El `font-name` NO se pone aquí: lo escribe home-manager a partir de
@@ -130,19 +119,6 @@ in
       # código, así que se queda JetBrains Mono igual que la terminal.
       monospace-font-name = "JetBrainsMono Nerd Font 11";
     };
-  };
-
-  # libadwaita ignora `gtk-theme-name`: las apps GTK4 modernas solo respetan un
-  # gtk.css propio del usuario. Sin esto, LibreOffice, los diálogos de archivo y
-  # cualquier otra app GTK4 saldrían con el Adwaita de serie en vez de
-  # Catppuccin. Esto aplica a todo GTK4, no solo al gestor de archivos.
-  xdg.configFile = {
-    "gtk-4.0/assets".source =
-      "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
-    "gtk-4.0/gtk.css".source =
-      "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
-    "gtk-4.0/gtk-dark.css".source =
-      "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
   };
 
   # Conservar el overlay actual de Papirus, sin cambiar los enlaces de tamaño

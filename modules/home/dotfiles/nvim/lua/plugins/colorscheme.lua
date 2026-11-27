@@ -2,7 +2,16 @@
 return {
   {
     "LazyVim/LazyVim",
-    opts = { colorscheme = "default" },
+    opts = {
+      colorscheme = function()
+        vim.cmd.colorscheme("default")
+        -- Sin inversión en la barra vacía del dashboard. Lualine mantiene
+        -- sus propios grupos al entrar en un archivo.
+        for _, group in ipairs({ "StatusLine", "StatusLineNC" }) do
+          vim.api.nvim_set_hl(0, group, { link = "Normal" })
+        end
+      end,
+    },
   },
   {
     "nvim-lualine/lualine.nvim",
