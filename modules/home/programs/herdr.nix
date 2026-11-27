@@ -1,10 +1,16 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 
 {
+  home.packages = [ pkgs.herdr ];
+
   xdg.configFile."herdr/config.toml".source = ../dotfiles/herdr/config.toml;
 
-  # Herdr consulta la paleta del terminal al recibir SIGWINCH, incluso si
-  # no cambió el tamaño. No reiniciar el servidor ni las sesiones.
+  # Herdr >= 0.9.5 consulta la paleta con SIGWINCH, incluso sin cambiar el
+  # tamaño. No reiniciar el servidor ni las sesiones.
   systemd.user.paths.herdr-terminal-theme = {
     Unit.Description = "Watch DMS terminal colors for Herdr";
     Path = {
