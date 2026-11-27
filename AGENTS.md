@@ -19,10 +19,10 @@
 - `modules/home/dotfiles/niri/config.kdl` is the declarative Niri orchestrator. `modules/home/programs/dms.nix` seeds writable DMS settings and `niri/dms/*.kdl` from the dotfiles, preserving GUI edits on later activations.
 - All monitor definitions live in writable `niri/dms/outputs.kdl`, seeded from `monitorSettings` and `externalOutputs`. The activation migrates legacy `niri/monitors.kdl` into it; do not add a competing static output definition that overrides GUI changes.
 - Niri accepts only one top-level `layout {}` node; do not add another active `layout {}` in `colors.kdl` or another include.
-- Theme direction is Catppuccin Mocha/Mauve with subtle glass/blur. Keep blur selective for shells/terminal surfaces; avoid global opacity/blur on browsers, editors, and content-heavy apps.
+- DMS and terminal colors follow DMS's native wallpaper-derived palette with subtle glass/blur. Keep blur selective for shells/terminal surfaces; avoid global opacity/blur on browsers, editors, and content-heavy apps.
 - Prefer DMS 2.x's native Material 3 Expressive implementation; do not restore the old QML patches for popup geometry, island surfaces/opacity, or spring presets without a confirmed need.
 - DMS background blur is disabled pending an upstream fix for jagged bar/island edges. Do not add experimental blur-mask patches.
-- DMS settings/session defaults are seed-only. Do not reintroduce login services that overwrite theme, wallpaper, night mode or transition choices. The wallpaper-accent generator remains independent of the selected DMS theme.
+- DMS settings/session defaults are seed-only. Do not reintroduce login services that overwrite theme, wallpaper, night mode or transition choices, or the removed Catppuccin wallpaper-accent generator.
 - Use the canonical `dms/` config/state/cache paths; `DankMaterialShell` is only a legacy compatibility alias. Templates live in `modules/home/dotfiles/dms/`.
 
 ## Commands

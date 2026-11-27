@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   pythonForCatppuccinGtk = pkgs.python313.override {
@@ -43,7 +48,8 @@ in
     GDK_BACKEND = "wayland";
     QT_QPA_PLATFORM = "wayland";
     GTK_CSD = "0";
-  } // gtkImModule;
+  }
+  // gtkImModule;
 
   # Las de arriba solo llegan a lo que arranca desde el shell o desde niri:
   # home.sessionVariables escribe hm-session-vars.sh, que systemd no lee. Los
@@ -71,10 +77,8 @@ in
       package = catppuccinGtk;
     };
     iconTheme = {
-      # Papirus-Dark con las carpetas del acento del wallpaper (ver el
-      # index.theme de abajo). El paquete aporta los SVG de los 14 acentos;
-      # `accent = "mauve"` solo es el color que se ve si el tema de usuario
-      # aún no se generó.
+      # Conservar los iconos existentes. Su sustitución por los iconos nativos
+      # de DMS queda pendiente; ya no se actualiza el acento por wallpaper.
       name = "Papirus-Dark-Accent";
       package = pkgs.catppuccin-papirus-folders.override {
         flavor = "mocha";
@@ -133,20 +137,25 @@ in
   # cualquier otra app GTK4 saldrían con el Adwaita de serie en vez de
   # Catppuccin. Esto aplica a todo GTK4, no solo al gestor de archivos.
   xdg.configFile = {
-    "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
-    "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
-    "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
+    "gtk-4.0/assets".source =
+      "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
+    "gtk-4.0/gtk.css".source =
+      "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
+    "gtk-4.0/gtk-dark.css".source =
+      "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
   };
 
-
-  # Tema de iconos de usuario que solo sobrescribe las carpetas: los enlaces
-  # los genera `sync_folder_icons` en wallpaper.nix con el acento del
-  # wallpaper; todo lo demás se hereda de Papirus-Dark. Los directorios copian
-  # el formato de Papirus-Dark/index.theme. Mientras no haya enlaces (primer
-  # arranque) se hereda todo y se ven las carpetas mauve, nunca iconos rotos.
+  # Conservar el overlay actual de Papirus, sin cambiar los enlaces de tamaño
+  # ni el último acento elegido. La gestión de iconos con DMS queda pendiente.
   xdg.dataFile."icons/Papirus-Dark-Accent/index.theme".text =
     let
-      sizes = [ 22 24 32 48 64 ];
+      sizes = [
+        22
+        24
+        32
+        48
+        64
+      ];
       dir = s: "${toString s}x${toString s}/places";
     in
     ''
@@ -164,26 +173,22 @@ in
       Type=Fixed
     '') sizes;
 
-  # Enlaces de carpeta de los 14 acentos, hechos una sola vez al compilar. El
-  # paquete trae los SVG de todos, pero sus `folder*.svg` solo apuntan a
-  # mauve (el `accent` del override). Al cambiar de wallpaper,
-  # `sync_folder_icons` (wallpaper.nix) reapunta los 5 directorios de tamaño
-  # del tema hacia uno de estos: instantáneo. Los destinos están en el store y
-  # este derivado los referencia, así que el GC no los borra mientras la
-  # generación de HM exista. Los tamaños son los mismos del index.theme.
+  # Mantener disponibles los destinos del overlay existente hasta sustituir
+  # Papirus. Esto no ejecuta ningún generador ni cambia colores al iniciar.
   xdg.dataFile."icons/Papirus-Dark-Accent/accents".source =
-    pkgs.runCommand "papirus-folder-accents" { } ''
-      src=${config.gtk.iconTheme.package}/share/icons/Papirus
-      for accent in rosewater flamingo pink mauve red maroon peach yellow green teal sky sapphire blue lavender; do
-        for size in 22 24 32 48 64; do
-          dir="$src/''${size}x''${size}/places"
-          out_dir="$out/$accent/''${size}x''${size}/places"
-          mkdir -p "$out_dir"
-          find "$dir/" -maxdepth 1 -type l -lname '*cat-mocha-mauve*' -printf '%f\t%l\n' |
-            while IFS=$'\t' read -r name target; do
-              ln -s "$dir/''${target//cat-mocha-mauve/cat-mocha-$accent}" "$out_dir/$name"
-            done
+    pkgs.runCommand "papirus-folder-accents" { }
+      ''
+        src=${config.gtk.iconTheme.package}/share/icons/Papirus
+        for accent in rosewater flamingo pink mauve red maroon peach yellow green teal sky sapphire blue lavender; do
+          for size in 22 24 32 48 64; do
+            dir="$src/''${size}x''${size}/places"
+            out_dir="$out/$accent/''${size}x''${size}/places"
+            mkdir -p "$out_dir"
+            find "$dir/" -maxdepth 1 -type l -lname '*cat-mocha-mauve*' -printf '%f\t%l\n' |
+              while IFS=$'\t' read -r name target; do
+                ln -s "$dir/''${target//cat-mocha-mauve/cat-mocha-$accent}" "$out_dir/$name"
+              done
+          done
         done
-      done
-    '';
+      '';
 }

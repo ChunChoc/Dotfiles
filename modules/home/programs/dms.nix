@@ -193,22 +193,6 @@ let
       fi
     fi
 
-    # Migrar solo nuestra antigua ruta del tema, sin reimponer preferencias.
-    # Los enlaces personales fuera de la store no se modifican.
-    settings="$config_home/dms/settings.json"
-    old_theme="$state_home/DankMaterialShell/catppuccin-theme.json"
-    new_theme="$state_home/dms/catppuccin-theme.json"
-    if [ ! -L "$settings" ] && ${pkgs.jq}/bin/jq -e --arg old "$old_theme" \
-      '.customThemeFile == $old' "$settings" >/dev/null 2>&1; then
-      tmp="$(mktemp "$settings.XXXXXX")"
-      if ${pkgs.jq}/bin/jq --arg theme "$new_theme" '.customThemeFile = $theme' "$settings" > "$tmp" \
-        && chmod --reference="$settings" "$tmp" && mv -T "$tmp" "$settings"; then
-        :
-      else
-        rm -f "$tmp"
-        exit 1
-      fi
-    fi
   '';
 in
 {

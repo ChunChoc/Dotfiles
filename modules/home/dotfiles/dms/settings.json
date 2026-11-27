@@ -1,8 +1,8 @@
 {
-  "currentThemeName": "custom",
+  "currentThemeName": "dynamic",
   "interfaceStyle": "expressive",
-  "currentThemeCategory": "registry",
-  "customThemeFile": "/home/chunchoc/.local/state/dms/catppuccin-theme.json",
+  "currentThemeCategory": "dynamic",
+  "customThemeFile": "",
   "registryThemeVariants": {},
   "matugenScheme": "scheme-tonal-spot",
   "runUserMatugenTemplates": true,
