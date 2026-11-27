@@ -40,6 +40,7 @@
     # Archivos estáticos (source)
     "starship.toml".source = ./dotfiles/starship/starship.toml;
     "fastfetch/config.jsonc".source = ./dotfiles/fastfetch/config.jsonc;
+    "helix/config.toml".source = ./dotfiles/helix/config.toml;
     # DMS y sus fragmentos de Niri son mutables; programs/dms.nix solo los
     # inicializa si faltan. La GUI conserva sus cambios entre activaciones.
     "niri/config.kdl".source = ./dotfiles/niri/config.kdl;

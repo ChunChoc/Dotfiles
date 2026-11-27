@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  # Lazygit con tema Catppuccin Mocha (mauve) y delta como pager para
+  # Lazygit con la paleta ANSI del terminal y delta como pager para
   # tener resaltado de sintaxis en los diffs. Se usa tanto standalone
   # como embebido en Neovim (<leader>gg).
   programs.lazygit = {
@@ -10,17 +10,23 @@
       gui = {
         nerdFontsVersion = "3";
         theme = {
-          activeBorderColor = [ "#cba6f7" "bold" ];
-          inactiveBorderColor = [ "#a6adc8" ];
-          optionsTextColor = [ "#89b4fa" ];
-          selectedLineBgColor = [ "#313244" ];
-          cherryPickedCommitBgColor = [ "#45475a" ];
-          cherryPickedCommitFgColor = [ "#cba6f7" ];
-          unstagedChangesColor = [ "#f38ba8" ];
-          defaultFgColor = [ "#cdd6f4" ];
-          searchingActiveBorderColor = [ "#f9e2af" ];
+          activeBorderColor = [
+            "magenta"
+            "bold"
+          ];
+          inactiveBorderColor = [ "default" ];
+          optionsTextColor = [ "blue" ];
+          selectedLineBgColor = [
+            "default"
+            "reverse"
+          ];
+          cherryPickedCommitBgColor = [ "blue" ];
+          cherryPickedCommitFgColor = [ "black" ];
+          unstagedChangesColor = [ "red" ];
+          defaultFgColor = [ "default" ];
+          searchingActiveBorderColor = [ "yellow" ];
           # Antes gui.authorColors; lazygit 0.66 lo pasó a gui.theme.
-          authorColors."*" = "#b4befe";
+          authorColors."*" = "cyan";
         };
       };
 
@@ -31,7 +37,7 @@
       git.diffRenderers = [
         {
           colorArg = "always";
-          command = "${pkgs.delta}/bin/delta --dark --paging=never";
+          command = "${pkgs.delta}/bin/delta --paging=never --syntax-theme=ansi --minus-style='syntax normal' --plus-style='syntax normal' --minus-emph-style='red bold normal' --plus-emph-style='green bold normal'";
         }
       ];
     };

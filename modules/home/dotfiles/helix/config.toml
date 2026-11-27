@@ -1,0 +1,2 @@
+# Tema integrado: sintaxis e interfaz usan la paleta ANSI del terminal.
+theme = "base16_transparent"

@@ -41,7 +41,7 @@ require("lazy").setup({
     lazy = false,
     version = false,
   },
-  install = { colorscheme = { "catppuccin", "habamax" } },
+  install = { colorscheme = { "default" } },
   -- Sin auto-chequeo de updates: las versiones las fija lazy-lock.json
   -- y se actualizan a propósito con :Lazy update (commiteando el lock)
   checker = { enabled = false },

@@ -56,11 +56,6 @@
       "type": "shell"
     },
     {
-      "key": " uptime",
-      "keyColor": "light_yellow",
-      "type": "uptime"
-    },
-    {
       "format": "{name}",
       "key": " cpu",
       "keyColor": "cyan",
@@ -77,12 +72,6 @@
       "key": " ram",
       "keyColor": "light_blue",
       "type": "memory"
-    },
-    {
-      "format": "{name} {size}",
-      "key": " font",
-      "keyColor": "yellow",
-      "type": "terminalfont"
     },
     {
       "key": " color",
