@@ -42,6 +42,48 @@
       force = true;
     };
 
+    systemd.user.paths.opencode-terminal-theme = {
+      Unit.Description = "Watch DMS terminal colors for OpenCode";
+      Path = {
+        PathChanged = "${config.xdg.configHome}/alacritty/dank-theme.toml";
+        Unit = "opencode-terminal-theme.service";
+      };
+      Install.WantedBy = [ "default.target" ];
+    };
+
+    systemd.user.services.opencode-terminal-theme = {
+      Unit = {
+        Description = "Refresh OpenCode from the terminal palette";
+        # Esperar la recarga de Alacritty y la consulta de Herdr antes de
+        # pedirle a OpenCode que consulte los colores dentro de sus paneles.
+        Wants = [ "herdr-terminal-theme.service" ];
+        After = [ "herdr-terminal-theme.service" ];
+      };
+      Service = {
+        Type = "oneshot";
+        ExecStart = pkgs.writeShellScript "opencode-refresh-terminal-theme" ''
+          set -eu
+          signal=$(kill -l USR2)
+          for pid in $(${pkgs.procps}/bin/pgrep -u "$UID" -f '(^|/)\.?opencode(-wrapped)?([[:space:]]|$)' || true); do
+            case "$(${pkgs.coreutils}/bin/readlink "/proc/$pid/fd/0" || true)" in
+              /dev/pts/*)
+                # Solo TUIs que ya instalaron el handler nativo. Excluir el
+                # servidor y las invocaciones CLI sin handler (USR2 las mataría).
+                [ -r "/proc/$pid/status" ] || continue
+                while read -r key mask rest; do
+                  [ "$key" = "SigCgt:" ] || continue
+                  if (( (16#$mask & (1 << (signal - 1))) != 0 )); then
+                    kill -USR2 "$pid" 2>/dev/null || true
+                  fi
+                  break
+                done < "/proc/$pid/status" 2>/dev/null || true
+                ;;
+            esac
+          done
+        '';
+      };
+    };
+
     # Servidor y navegador fijados por flake.lock; sin descargas de npm ni de Chromium.
     # El contexto aislado no reutiliza el perfil personal de Brave.
     home.file.".local/bin/playwright-mcp" = {
