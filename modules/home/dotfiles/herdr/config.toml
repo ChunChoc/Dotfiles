@@ -11,7 +11,9 @@ sidebar_start_collapsed = true
 sidebar_collapsed_mode = "compact"
 
 [theme]
-name = "catppuccin"
+# Heredar la paleta que DMS genera para Alacritty.
+name = "terminal"
+# No elegir un tema predefinido distinto al cambiar entre claro y oscuro.
 auto_switch = false
 
 [keys]

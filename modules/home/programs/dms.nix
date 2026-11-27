@@ -177,6 +177,22 @@ let
       touch "$migration"
     fi
 
+    # Habilitar una sola vez el tema nativo de Alacritty en instalaciones
+    # existentes. Después, la preferencia vuelve a pertenecer a la GUI.
+    migration="$state_home/dms/migrations/alacritty-dynamic-theme-v1"
+    settings="$config_home/dms/settings.json"
+    if [ ! -e "$migration" ] && [ ! -L "$settings" ]; then
+      tmp="$(mktemp "$settings.XXXXXX")"
+      if ${pkgs.jq}/bin/jq '.matugenTemplateAlacritty = true' "$settings" > "$tmp" \
+        && chmod --reference="$settings" "$tmp" && mv -T "$tmp" "$settings"; then
+        mkdir -p "$(dirname "$migration")"
+        touch "$migration"
+      else
+        rm -f "$tmp"
+        exit 1
+      fi
+    fi
+
     # Migrar solo nuestra antigua ruta del tema, sin reimponer preferencias.
     # Los enlaces personales fuera de la store no se modifican.
     settings="$config_home/dms/settings.json"

@@ -20,6 +20,7 @@
     ./programs/neovim.nix
     ./programs/lazygit.nix
     ./programs/alacritty.nix
+    ./programs/herdr.nix
     ./programs/mpd.nix
     ./programs/cava.nix
     ./mime.nix
@@ -37,7 +38,6 @@
   # --------------------------------------------------------
   xdg.configFile = {
     # Archivos estáticos (source)
-    "herdr/config.toml".source = ./dotfiles/herdr/config.toml;
     "starship.toml".source = ./dotfiles/starship/starship.toml;
     # DMS y sus fragmentos de Niri son mutables; programs/dms.nix solo los
     # inicializa si faltan. La GUI conserva sus cambios entre activaciones.

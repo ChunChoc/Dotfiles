@@ -7,7 +7,7 @@
   "matugenScheme": "scheme-tonal-spot",
   "runUserMatugenTemplates": true,
   "matugenTemplateGhostty": false,
-  "matugenTemplateAlacritty": false,
+  "matugenTemplateAlacritty": true,
   "matugenTargetMonitor": "",
   "popupTransparency": 1,
   "dockTransparency": 0.9,
