@@ -20,13 +20,12 @@
       mpv
       imv
       zathura
-      #appflowy
-      # La música la manejan MPD + rmpc (programs/mpd.nix), antes tauon
 
       # CLI Utils
       git
       cmatrix
       fastfetch
+      helix
       wget
       curl
       tree

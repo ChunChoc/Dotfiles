@@ -75,7 +75,7 @@
       # malicioso podría leerlas). Los wrappers MCP (claude.nix) cargan el
       # archivo por sí mismos justo antes de usarlas.
 
-      pokeget random --hide-name
+      fastfetch
     '';
   };
 }
