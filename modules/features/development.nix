@@ -1,10 +1,16 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
 }:
 
+let
+  opencodePackage = pkgs.callPackage ../../pkgs/opencode {
+    upstream = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode2;
+  };
+in
 {
   config = lib.mkIf config.myFeatures.development {
     # Let editor-downloaded language servers run on NixOS when they expect
@@ -24,7 +30,7 @@
       nil
       nixd
       vtsls
-      opencode
+      opencodePackage
       claude-code
       # Entornos de desarrollo por proyecto (devenv.nix): paquetes, servicios
       # (Postgres, Mailpit...) y procesos con `devenv up`, integrado con direnv.

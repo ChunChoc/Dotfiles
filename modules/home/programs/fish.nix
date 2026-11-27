@@ -59,9 +59,10 @@
 
       # Sin `cd`: se trabaja sobre ~/Dotfiles con `--flake` y `git -C`, así el
       # shell termina en el mismo directorio desde donde llamaste el comando.
+      # Incluye llm-agents (OpenCode); no aplicar si falló la actualización.
       upgrade = ''
-        nix flake update --flake ~/Dotfiles
-        git -C ~/Dotfiles add flake.lock
+        nix flake update --flake ~/Dotfiles; or return
+        git -C ~/Dotfiles add flake.lock; or return
         run0 --background= nixos-rebuild switch --flake ~/Dotfiles#(hostname)
       '';
     };

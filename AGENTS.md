@@ -37,6 +37,7 @@
 - `hardware-configuration.nix` is machine-generated per host; new hosts get theirs at install time.
 - `modules/home/programs/ai.nix` (gated by the development feature) installs OpenCode config from `modules/home/dotfiles/ai/opencode/opencode.json` and shared agent skills from pinned flake inputs; only edit it when changing the user's AI tooling.
 - `pkgs/` holds local derivations not in nixpkgs, loaded with `pkgs.callPackage`. `pkgs/hyperframes` (CLI + agent skills, gated by `myFeatures.hyperframes` in `modules/home/programs/hyperframes.nix`) pins the CLI version to the `hyperframes` flake input tag; bump both together per `pkgs/hyperframes/README.md`.
+- OpenCode alone uses the pinned `llm-agents` input's V2 package, adapted in `pkgs/opencode` to retain the `opencode` command, shell completions, and disabled self-updates. Do not add third-party cache keys automatically or migrate Claude Code off nixpkgs. `upgrade` updates this input along with the others; review major-version or packaging changes before accepting them.
 - `update` and `upgrade` are Fish functions, not standalone scripts. They assume the repo is at `~/Dotfiles`.
 - Home Manager uses `backupFileExtension = "backup"`; collisions may produce `.backup` files rather than overwriting silently.
 - Do not commit build symlinks like `result`; they are artifacts from `nix build`.

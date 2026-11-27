@@ -5,6 +5,12 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # Solo OpenCode V2: recetas más recientes, fijadas en flake.lock.
+    # No habilitar cachés ni claves de confianza de terceros automáticamente.
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     anthropic-skills = {
       url = "github:anthropics/skills";
       flake = false;
@@ -27,7 +33,11 @@
     let
       # Función helper para crear configuraciones de host
       mkHost =
-        { hostname, monitorSettings, externalOutputs ? [ ] }:
+        {
+          hostname,
+          monitorSettings,
+          externalOutputs ? [ ],
+        }:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
 
