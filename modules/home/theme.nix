@@ -102,9 +102,9 @@ in
     #
     # Esta opción no escribe en un solo sitio: home-manager la vuelca en el
     # settings.ini de GTK3 y GTK4 y, además, en el font-name de dconf
-    # (modules/misc/gtk/gtk3.nix:162). Hacen falta los dos, porque el diálogo de
-    # Brave no lo dibuja Brave sino xdg-desktop-portal-gnome, que es un proceso
-    # aparte y de los que leen la configuración por gsettings.
+    # (modules/misc/gtk/gtk3.nix:162). Hacen falta los dos para las apps GTK y
+    # los procesos de GNOME que leen la configuración por gsettings. El
+    # selector de archivos ahora es Dux Files y sigue la tipografía de DMS.
     font = {
       name = "Roboto Flex";
       size = 11;

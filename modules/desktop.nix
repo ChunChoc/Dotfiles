@@ -86,11 +86,14 @@ in
   # El servicio mantiene la interfaz cargada, oculta y sin ventanas al iniciar
   # sesión. --keep-running oculta la última ventana en vez de salir: Mod+E
   # reutiliza la instancia, sin el arranque en frío ni keepalives artificiales.
-  # Se conserva useNautilus y el portal GNOME para los diálogos abrir/guardar.
+  # GNOME se conserva para los demás portales (p. ej. compartir pantalla),
+  # pero los diálogos abrir/guardar los atiende Dux Files.
   programs.dux-files = {
     enable = true;
     systemd.enable = true;
+    portal.enable = true;
   };
+  xdg.portal.config.niri."org.freedesktop.impl.portal.FileChooser" = [ "dfiles" ];
   # Conservar el PATH de la sesión para xdg-open, terminal y apps del usuario.
   # El PATH mínimo que NixOS añade a los units taparía el entorno importado.
   systemd.user.services.dfiles.enableDefaultPath = false;

@@ -25,7 +25,8 @@
       "video/x-matroska" = [ "mpv.desktop" ]; # Archivos .mkv
       "video/webm" = [ "mpv.desktop" ];
 
-      # Carpetas -> Dux Files. Los diálogos abrir/guardar siguen en GNOME.
+      # Carpetas -> Dux Files. El selector abrir/guardar se elige por separado
+      # mediante xdg.portal.config.niri en modules/desktop.nix.
       "inode/directory" = [ "dev.duxlabs.files.desktop" ];
     };
   };

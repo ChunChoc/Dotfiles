@@ -23,6 +23,14 @@ include "./dms/windowrules.kdl"
 include "./dms/wpblur.kdl"
 include "./dms/effects.kdl"
 
+// Dux Files: ventanas de carpetas y selectores abrir/guardar flotantes.
+// Fuera del fragmento editable de DMS para que la GUI no borre esta regla.
+window-rule {
+    match app-id=r#"^dev\.duxlabs\.files$"#
+    open-floating true
+    open-maximized false
+}
+
 prefer-no-csd
 
 input {
