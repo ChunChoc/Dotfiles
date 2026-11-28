@@ -29,7 +29,7 @@
       wget
       curl
       tree
-      htop
+      dux-gop
       eza
       fd
       pokeget-rs

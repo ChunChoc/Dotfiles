@@ -30,12 +30,21 @@ layer-rule {
     place-within-backdrop true
 }
 
-// Dux Files: ventanas de carpetas y selectores abrir/guardar flotantes.
+// Dux Files: ancho cercano a media pantalla, con espacio para la lista.
 // Fuera del fragmento editable de DMS para que la GUI no borre esta regla.
 window-rule {
     match app-id=r#"^dev\.duxlabs\.files$"#
     open-floating true
     open-maximized false
+    default-column-width { proportion 0.55; }
+    default-window-height { proportion 0.76; }
+}
+
+// El monitor de DMS necesita más ancho para la tabla y sus columnas.
+window-rule {
+    match app-id=r#"^dev\.duxlabs\.shell$"# title=r#"^(System Monitor|Monitor del sistema)$"#
+    default-column-width { proportion 0.78; }
+    default-window-height { proportion 0.82; }
 }
 
 prefer-no-csd
