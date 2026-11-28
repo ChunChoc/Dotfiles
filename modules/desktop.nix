@@ -194,6 +194,10 @@ in
     alsa.support32Bit = true;
     pulse.enable = true;
 
+    # El timbre de X11 conecta a DISPLAY al arrancar PipeWire y adelanta
+    # el inicio de Xwayland, incluso si todas las aplicaciones son Wayland.
+    extraConfig.pipewire."10-disable-x11-bell"."context.properties"."module.x11.bell" = false;
+
     # El grafo corre a 48 kHz (lo que quieren las llamadas y el escritorio), pero
     # la biblioteca de MPD es FLAC 16/44.1: a rate fijo cada canción pasaría por
     # un remuestreo 44.1 -> 48 innecesario. Con allowed-rates PipeWire conmuta el
