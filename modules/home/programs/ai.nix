@@ -41,6 +41,8 @@
       source = ../dotfiles/ai/opencode/herdr-agent-state.js;
       force = true;
     };
+    xdg.configFile."opencode/plugins/paste-style/tui.ts".source =
+      ../dotfiles/ai/opencode/paste-style.ts;
 
     systemd.user.paths.opencode-terminal-theme = {
       Unit.Description = "Watch DMS terminal colors for OpenCode";
