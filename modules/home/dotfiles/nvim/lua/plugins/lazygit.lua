@@ -1,6 +1,4 @@
--- Snacks autogenera un tema para lazygit desde el colorscheme y pisa la
--- config del usuario; lo desactivamos para que respete la paleta ANSI
--- declarado en ~/.config/lazygit/config.yml (Home Manager).
+-- Usar el tema DMS generado para Lazygit también en la ventana de Snacks.
 return {
   {
     "folke/snacks.nvim",

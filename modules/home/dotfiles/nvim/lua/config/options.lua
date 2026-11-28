@@ -1,7 +1,7 @@
 -- Opciones extra sobre los defaults de LazyVim
 -- https://www.lazyvim.org/configuration/general#options
 
--- Usar los colores ANSI del terminal en lugar de RGB fijos.
+-- Inicio de respaldo; el tema habilita RGB cuando lee una paleta de DMS.
 vim.opt.termguicolors = false
 
 -- Monorepos: la raíz es el repo, no donde se ancle el LSP.

@@ -33,7 +33,7 @@ in
     Install.WantedBy = [ "default.target" ];
   };
   systemd.user.services.dms-client-themes = {
-    Unit.Description = "Refresh RMPC, Cava and Claude Code themes from DMS";
+    Unit.Description = "Refresh RMPC, Cava, Claude Code and Lazygit themes from DMS";
     Service = {
       Type = "oneshot";
       ExecStart = command;
