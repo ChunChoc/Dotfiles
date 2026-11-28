@@ -11,6 +11,9 @@ let
   greeterCursorPath = "${pkgs.bibata-cursors}/share/icons";
 
   dmsGreeterCfg = config.services.displayManager.dux-greeter;
+  dmsGreeterSourceHome = config.users.users.chunchoc.home;
+  dmsGreeterSnapshotDir = "dms-greeter-snapshot";
+  dmsGreeterSessionFile = "/run/${dmsGreeterSnapshotDir}/session.json";
   dmsGreeterCompositorConfig = pkgs.writeText "dmsgreeter-compositor-config" dmsGreeterCfg.compositor.customConfig;
   dmsGreeterStart = pkgs.writeShellScriptBin "dms-greeter-start-with-cursor" ''
     export PATH="$PATH:${
@@ -148,7 +151,66 @@ in
         }
       '';
     };
-    configHome = config.users.users.chunchoc.home;
+    configFiles = [
+      "${dmsGreeterSourceHome}/.config/dms/settings.json"
+      dmsGreeterSessionFile
+      "${dmsGreeterSourceHome}/.cache/dms/dms-colors.json"
+    ];
+  };
+
+  systemd.services.greetd = {
+    serviceConfig = {
+      RuntimeDirectory = dmsGreeterSnapshotDir;
+      RuntimeDirectoryMode = "0700";
+    };
+
+    # El greeter sólo muestra imágenes. Antes de que NixOS copie los fondos,
+    # sustituir cada vídeo por el fotograma que genera DMS para ese mismo vídeo.
+    preStart = lib.mkBefore ''
+      ${lib.getExe pkgs.python3} - ${
+        lib.escapeShellArgs [
+          dmsGreeterSourceHome
+          dmsGreeterSessionFile
+          "${../wallpaper/nix-magenta-blue-1920x1080.png}"
+        ]
+      } <<'PY'
+      import hashlib
+      import json
+      import sys
+      from pathlib import Path
+
+      home, snapshot, fallback = map(Path, sys.argv[1:])
+      posters = home / ".cache/dms/video-wallpaper"
+      video_extensions = {".mp4", ".webm", ".mkv", ".mov", ".m4v", ".avi"}
+
+      def wallpaper_image(value):
+          if not isinstance(value, str) or Path(value).suffix.lower() not in video_extensions:
+              return value
+          digest = hashlib.md5(value.encode("utf-8")).hexdigest()
+          poster = posters / (digest + ".jpg")
+          return str(poster if poster.is_file() else fallback)
+
+      try:
+          session = json.loads((home / ".local/state/dms/session.json").read_text(encoding="utf-8"))
+      except (OSError, ValueError):
+          session = {}
+      if not isinstance(session, dict):
+          session = {}
+
+      session.setdefault("wallpaperPath", str(fallback))
+      for suffix in ("", "Light", "Dark"):
+          wallpaper_key = "wallpaperPath" + suffix
+          if wallpaper_key in session:
+              session[wallpaper_key] = wallpaper_image(session[wallpaper_key])
+
+          monitors = session.get("monitorWallpapers" + suffix)
+          if isinstance(monitors, dict):
+              for monitor, wallpaper in monitors.items():
+                  monitors[monitor] = wallpaper_image(wallpaper)
+
+      snapshot.write_text(json.dumps(session), encoding="utf-8")
+      PY
+    '';
   };
 
   services.displayManager = {
